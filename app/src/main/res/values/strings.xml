@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">DuAnTN</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="lblSelectLanguage">Select language</string>
+    <string name="LblVietNam">Việt Nam</string>
+    <string name="LblJapan">Japan</string>
+    <string name="LblEnglish">English</string>
+    <string name="LblChina">China</string>
+    <string name="LblKorea">Korea</string>
+    <string name="LblFrance">France</string>
 </resources>

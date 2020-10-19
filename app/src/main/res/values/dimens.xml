@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<dimen name="tsTvSelectLanguage">30sp</dimen>
+    <dimen name="mLLanguage">20dp</dimen>
+    <dimen name="paddingTvLanguage">20dp</dimen>
+    <dimen name="tsTvLanguage">16sp</dimen>
+    <dimen name="mTRcLanguage">30dp</dimen>
+    <dimen name="paddingRcLanguage">10dp</dimen>
+</resources>
