@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
 public class BaseActivity extends AppCompatActivity {
-    public void showToast(int msg) {
+    public void showToast(String msg) {
         try {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {

@@ -5,6 +5,10 @@ import android.widget.ImageView;
 public class ClassSelectLanguage {
     private int imgFlag;
     private int tvLanguage;
+    private int check;
+
+    public ClassSelectLanguage() {
+    }
 
     public ClassSelectLanguage(int imgFlag, int tvLanguage) {
         this.imgFlag = imgFlag;
@@ -25,5 +29,13 @@ public class ClassSelectLanguage {
 
     public void setTvLanguage(int tvLanguage) {
         this.tvLanguage = tvLanguage;
+    }
+
+    public int getCheck() {
+        return check;
+    }
+
+    public void setCheck(int check) {
+        this.check = check;
     }
 }

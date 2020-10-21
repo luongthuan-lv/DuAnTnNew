@@ -34,22 +34,35 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder  (@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_language, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        final ClassSelectLanguage selectLanguage = new ClassSelectLanguage();
         holder.imgFlag.setImageResource(classSelectLanguages.get(position).getImgFlag());
         holder.tvLanguage.setText(classSelectLanguages.get(position).getTvLanguage());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectLanguage.setCheck(0);
+         if (classSelectLanguages.get(position).getCheck() == 0){
+             selectLanguage.setCheck(0);
+             classSelectLanguages.get(position).setCheck(1);
 
+         }
+                if (classSelectLanguages.get(position).getCheck() == 0){
+                    holder.checkSelect.setVisibility(View.VISIBLE);
+                }else {
+                    holder.checkSelect.setVisibility(View.GONE);
+                }
             }
+
         });
+
     }
 
     @Override
