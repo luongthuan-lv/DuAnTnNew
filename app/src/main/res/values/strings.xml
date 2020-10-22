@@ -10,4 +10,6 @@
     <string name="LblChina">China</string>
     <string name="LblKorea">Korea</string>
     <string name="LblFrance">France</string>
+    <string name="title_activity_act_maps">Map</string>
+    <string name="loading">Loading</string>
 </resources>

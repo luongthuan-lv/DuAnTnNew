@@ -1,6 +1,7 @@
 package com.example.duantn.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
@@ -8,7 +9,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.example.duantn.R;
+
 public class BaseActivity extends AppCompatActivity {
+    private ProgressDialog mProgressDialog;
     public void showToast(String msg) {
         try {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -77,5 +81,21 @@ public class BaseActivity extends AppCompatActivity {
         return (int) (sizeDesign * getScaleValue());
     }
 
-    //
+    private void initDialogLoading() {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setTitle(R.string.loading);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+    }
+
+    protected void showDialogLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.show();
+        }
+    }
+
+    protected void dismissDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
 }
