@@ -6,4 +6,5 @@
     <dimen name="tsTvLanguage">16sp</dimen>
     <dimen name="mTRcLanguage">30dp</dimen>
     <dimen name="paddingRcLanguage">10dp</dimen>
+    <dimen name="fontSize_title_login">40sp</dimen>
 </resources>
