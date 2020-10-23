@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name=".activities.DemoActivity"></activity>
+        <activity android:name=".activities.MainActivity2"></activity>
+        <activity android:name=".activities.DemoActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -30,8 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SelectLanguageActivity"></activity>
-        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.SelectLanguageActivity" />
+        <activity android:name=".activities.MainActivity" />
     </application>
 
 </manifest>
