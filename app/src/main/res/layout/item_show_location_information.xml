@@ -4,5 +4,3 @@
     android:layout_width="match_parent"
     android:id="@+id/clItemLanguage"
     android:layout_height="50dp">
-
-</androidx.constraintlayout.widget.ConstraintLayout>
