@@ -28,13 +28,25 @@
         app:layout_constraintTop_toTopOf="@+id/glV33" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:padding="@dimen/paddingRcLanguage"
-        android:layout_marginTop="@dimen/mTRcLanguage"
-        android:background="@drawable/bg_cl_language"
         android:id="@+id/rcLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mTRcLanguage"
+        android:background="@drawable/bg_cl_language"
+        android:padding="@dimen/paddingRcLanguage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSelectLanguage" />
+
+    <ImageView
+        android:src="@drawable/small_logo"
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
