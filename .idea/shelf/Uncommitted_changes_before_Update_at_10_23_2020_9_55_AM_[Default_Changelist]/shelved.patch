@@ -1,0 +1,40 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">DuAnTN</string>\r\n    <string name=\"title_activity_fullscreen\">FullscreenActivity</string>\r\n    <string name=\"dummy_button\">Dummy Button</string>\r\n    <string name=\"dummy_content\">DUMMY\\nCONTENT</string>\r\n    <string name=\"lblSelectLanguage\">Select language</string>\r\n    <string name=\"LblVietNam\">Việt Nam</string>\r\n    <string name=\"LblJapan\">Japan</string>\r\n    <string name=\"LblEnglish\">English</string>\r\n    <string name=\"LblChina\">China</string>\r\n    <string name=\"LblKorea\">Korea</string>\r\n    <string name=\"LblFrance\">France</string>\r\n    <string name=\"loading\">Loading</string>\r\n    <string name=\"title1_login\">Travel Like</string>\r\n    <string name=\"title2_login\">You Never</string>\r\n    <string name=\"ducanhadd\">Losdsaaaaaaaat</string>\r\n    <string name=\"ducanhadd2\">Losdsaaat</string>\r\n    <string name=\"ducanhadd7\">Lodsast</string>\r\n    <string name=\"ducanhadd3\">Lodsast</string>\r\n    <string name=\"ducanhadd4\">Lodsasast</string>\r\n    <string name=\"ducanhadd5\">Lost</string>\r\n    <string name=\"ducanhadd6\">Ldsaodsast</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 1011f0c14029689997d3f951533fc9dbb14102c2)
++++ app/src/main/res/values/strings.xml	(date 1603421747333)
+@@ -20,4 +20,8 @@
+     <string name="ducanhadd4">Lodsasast</string>
+     <string name="ducanhadd5">Lost</string>
+     <string name="ducanhadd6">Ldsaodsast</string>
++    <string name="cuong3">Lodsast</string>
++    <string name="cuong4">Lodsasast</string>
++    <string name="cuong">Lost</string>
++    <string name="cuong6">Ldsaodsast</string>
+ </resources>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 1011f0c14029689997d3f951533fc9dbb14102c2)
++++ .idea/gradle.xml	(date 1603421550476)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+diff --git app/src/main/res/layout/item_show_location_information.xml app/src/main/res/layout/item_show_location_information.xml
+new file mode 100644
+diff --git .idea/compiler.xml .idea/compiler.xml
+new file mode 100644
