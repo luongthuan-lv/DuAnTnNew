@@ -17,10 +17,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name=".activities.MainTest"></activity>
-        <activity android:name=".activities.MainActivity3" />
-        <activity android:name=".activities.MainActivity2" />
-        <activity android:name=".activities.DemoActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

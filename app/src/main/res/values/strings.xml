@@ -30,18 +30,11 @@
     <string name="themlan24">themlan2</string>
     <string name="themlan242">themlan2</string>
     <string name="themlan222">themlan2</string>
-    <string name="cuong1">Lodsast</string>
-    <string name="cuong2">Lodsasast</string>
-    <string name="cuong9">Lost</string>
 
+    <string name="them">ducanhthem</string>
+    <string name="them2">ducanhthem2</string>
+    <string name="them3">ducanhthem3</string>
+    <string name="them4">ducanhthem4</string>
 
-    <string name="themlan2dssss34">ducanh</string>
-    <string name="themlan2dsasa4">ducanh</string>
-    <string name="themlan2dsa42">ducanh</string>
-    <string name="themlan2dsa22">ducanh</string>
-    <string name="cuong44">ducanh</string>
-    <string name="cuong55">ducanh</string>
-    <string name="cuong66">ducanh</string>
-    <string name="cuong77">ducanh</string>
 
 </resources>
