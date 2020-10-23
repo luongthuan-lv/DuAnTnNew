@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHolder>   {
+public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHolder> {
     private ArrayList<ClassSelectLanguage> classSelectLanguages;
     private Context mContext;
 
@@ -31,10 +32,9 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
     }
 
 
-
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder  (@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_language, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         return holder;
@@ -42,25 +42,29 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        final ClassSelectLanguage selectLanguage = new ClassSelectLanguage();
         holder.imgFlag.setImageResource(classSelectLanguages.get(position).getImgFlag());
         holder.tvLanguage.setText(classSelectLanguages.get(position).getTvLanguage());
+
+        if (classSelectLanguages.get(position).getCheck()==0) {
+            holder.checkSelect.setVisibility(View.GONE);
+        } else {
+            holder.checkSelect.setVisibility(View.VISIBLE);
+        }
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectLanguage.setCheck(0);
-         if (classSelectLanguages.get(position).getCheck() == 0){
-             selectLanguage.setCheck(0);
-             classSelectLanguages.get(position).setCheck(1);
 
-         }
-                if (classSelectLanguages.get(position).getCheck() == 0){
-                    holder.checkSelect.setVisibility(View.VISIBLE);
-                }else {
-                    holder.checkSelect.setVisibility(View.GONE);
+                for(int i=0;i<classSelectLanguages.size();i++){
+                    if(i==position){
+                        classSelectLanguages.get(position).setCheck(1);
+                    } else {
+                        classSelectLanguages.get(i).setCheck(0);
+                    }
                 }
+                notifyDataSetChanged();
             }
-
         });
 
     }
@@ -69,7 +73,6 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
     public int getItemCount() {
         return classSelectLanguages.size();
     }
-
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

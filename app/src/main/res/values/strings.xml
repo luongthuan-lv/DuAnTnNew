@@ -14,4 +14,5 @@
     <string name="title1_login">Travel Like</string>
     <string name="title2_login">You Never</string>
     <string name="title3_login">Lost</string>
+    <string name="label1_btn_login">Sign in width Google</string>
 </resources>

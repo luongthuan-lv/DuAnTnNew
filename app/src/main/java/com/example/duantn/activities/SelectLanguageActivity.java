@@ -54,8 +54,6 @@ public class SelectLanguageActivity extends BaseActivity implements View.OnClick
         rcLanguage.setLayoutManager(linearLayoutManager);
         rcLanguage.setAdapter(adapterLanguage);
 
-
-
     }
 
     @Override
