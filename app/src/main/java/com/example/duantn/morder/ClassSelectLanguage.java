@@ -1,6 +1,5 @@
 package com.example.duantn.morder;
 
-import android.widget.ImageView;
 
 public class ClassSelectLanguage {
     private int imgFlag;
