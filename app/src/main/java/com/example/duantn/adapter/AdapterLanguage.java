@@ -1,6 +1,7 @@
 package com.example.duantn.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.duantn.R;
+import com.example.duantn.activities.TourListActivity;
 import com.example.duantn.morder.ClassSelectLanguage;
 
 import java.util.ArrayList;
@@ -64,6 +66,11 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
                     }
                 }
                 notifyDataSetChanged();
+
+                Intent intent = new Intent(mContext, TourListActivity.class);
+                mContext.startActivity(intent);
+
+
             }
         });
 
