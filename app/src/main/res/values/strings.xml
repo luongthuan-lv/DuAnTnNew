@@ -4,12 +4,12 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="lblSelectLanguage">Select language</string>
-    <string name="LblVietNam">Việt Nam</string>
-    <string name="LblJapan">Japan</string>
+    <string name="LblVietNam">Tiếng Việt</string>
+    <string name="LblJapan">日本語</string>
     <string name="LblEnglish">English</string>
-    <string name="LblChina">China</string>
-    <string name="LblKorea">Korea</string>
-    <string name="LblFrance">France</string>
+    <string name="LblChina">中文</string>
+    <string name="LblKorea">한국어</string>
+    <string name="LblFrance">Français</string>
     <string name="loading">Loading</string>
     <string name="title1_login">Travel Like</string>
     <string name="title2_login">You Never</string>
