@@ -13,7 +13,7 @@
     <dimen name="padding_btn_V">10dp</dimen>
     <dimen name="fontSize_title_tour_list">40sp</dimen>
     <dimen name="height_edt_search">50dp</dimen>
-    <dimen name="textSize_edt_search">30sp</dimen>
+    <dimen name="textSize_edt_search">20sp</dimen>
     <dimen name="paddingH_edt_search">10dp</dimen>
     <dimen name="width_title_tour">170dp</dimen>
     <dimen name="fontSize_title_tour">36sp</dimen>

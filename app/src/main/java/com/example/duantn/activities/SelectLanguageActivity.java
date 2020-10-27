@@ -49,13 +49,44 @@ public class SelectLanguageActivity extends BaseActivity implements View.OnClick
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.france, R.string.LblFrance));
 
 
-        adapterLanguage = new AdapterLanguage(this, selectLanguageArrayList);
+        adapterLanguage = new AdapterLanguage(this, selectLanguageArrayList, new AdapterLanguage.OnClickItemListener() {
+            @Override
+            public void onClicked(int position) {
+                clickLanguageItem(position);
+            }
+
+            @Override
+            public void onSwitched(boolean isChecked) {
+
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rcLanguage.setLayoutManager(linearLayoutManager);
         rcLanguage.setAdapter(adapterLanguage);
 
     }
-
+private void clickLanguageItem(int position){
+        switch (position){
+            case 0:
+                nextActivity(TourListActivity.class);
+                break;
+            case 1:
+                nextActivity(TourListActivity.class);
+                break;
+            case 2:
+                nextActivity(TourListActivity.class);
+                break;
+            case 3:
+                nextActivity(TourListActivity.class);
+                break;
+            case 4:
+                nextActivity(TourListActivity.class);
+                break;
+            case 5:
+                nextActivity(TourListActivity.class);
+                break;
+        }
+}
     @Override
     public void onClick(View v) {
 

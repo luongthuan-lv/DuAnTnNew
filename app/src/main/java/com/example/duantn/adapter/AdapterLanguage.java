@@ -28,11 +28,17 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
     private ArrayList<ClassSelectLanguage> classSelectLanguages;
     private Context mContext;
 
-    public AdapterLanguage(Context mContext, ArrayList<ClassSelectLanguage> classSelectLanguages) {
+
+    public interface OnClickItemListener {
+        void onClicked(int position);
+        void onSwitched(boolean isChecked);
+    }
+    private OnClickItemListener onClickItemListener;
+    public AdapterLanguage(Context mContext, ArrayList<ClassSelectLanguage> classSelectLanguages, OnClickItemListener onClickItemListener) {
         this.mContext = mContext;
         this.classSelectLanguages = classSelectLanguages;
+        this.onClickItemListener = onClickItemListener;
     }
-
 
     @NonNull
     @Override
@@ -66,10 +72,8 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
                     }
                 }
                 notifyDataSetChanged();
-
-                Intent intent = new Intent(mContext, TourListActivity.class);
-                mContext.startActivity(intent);
-
+                if (onClickItemListener != null)
+                    onClickItemListener.onClicked(position);
 
             }
         });
