@@ -1,19 +1,34 @@
 package com.example.duantn.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.duantn.adapter.AdapterLanguage;
+import com.example.duantn.morder.ClassSelectLanguage;
+import com.example.duantn.morder.KeyLangguage;
+import com.example.duantn.sql.LanguageDAO;
+import com.example.duantn.sql.MySqliteOpenHelper;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.example.duantn.R;
@@ -40,13 +55,23 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private CallbackManager callbackManager;
     private LoginManager loginManager;
     private Button btn_facebook;
     private Button btn_google;
+    private MySqliteOpenHelper mySqliteOpenHelper;
+    private LanguageDAO languageDAO;
+    private List<KeyLangguage> keyLangguageList;
+    private KeyLangguage keyLangguage;
+    private ArrayList<ClassSelectLanguage> selectLanguageArrayList;
+    private AdapterLanguage adapterLanguage;
+    private int position_selected_language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +84,131 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.btn_google).setOnClickListener(this);
         btn_facebook = findViewById(R.id.btn_facebook);
         findViewById(R.id.btn_facebook).setOnClickListener(this);
+        findViewById(R.id.img_change_language).setOnClickListener(this);
 
         btn_google.getLayoutParams().width = getSizeWithScale(298);
         btn_google.getLayoutParams().height = getSizeWithScale(60);
         btn_facebook.getLayoutParams().width = getSizeWithScale(298);
         btn_facebook.getLayoutParams().height = getSizeWithScale(60);
+
+        mySqliteOpenHelper = new MySqliteOpenHelper(this);
+        mySqliteOpenHelper.createDataBase();
+        keyLangguage = new KeyLangguage();
+        languageDAO = new LanguageDAO(this);
+        keyLangguageList = languageDAO.getAll();
+        ganNgonngu(keyLangguageList.get(0).getValue());
+
+
+    }
+
+
+    private void changeLanguage(String key) {
+        keyLangguage.setPk("pk");
+        keyLangguage.setValue(key);
+        languageDAO.update(keyLangguage);
+        keyLangguageList = languageDAO.getAll();
+        ganNgonngu(keyLangguageList.get(0).getValue());
+    }
+
+    private void ganNgonngu(String language) {
+        Locale locale = new Locale(language);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getBaseContext().getResources().updateConfiguration(
+                configuration, getBaseContext().getResources().getDisplayMetrics()
+        );
+    }
+
+
+    private void createAlertDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.dialog_change_langue, null);
+
+        RecyclerView rvLanguage;
+
+        rvLanguage = alertLayout.findViewById(R.id.rvLanguage);
+
+        rvLanguage.getLayoutParams().width = getSizeWithScale(289);
+
+        selectLanguageArrayList = new ArrayList<>();
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.vietnam, R.string.LblVietNam));
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.japan, R.string.LblJapan));
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.american, R.string.LblEnglish));
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.china, R.string.LblChina));
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.korea, R.string.LblKorea));
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.france, R.string.LblFrance));
+
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        alert.setCancelable(true);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+
+        adapterLanguage = new AdapterLanguage(this, selectLanguageArrayList, position_selected_language, new AdapterLanguage.OnClickItemListener() {
+            @Override
+            public void onClicked(int position) {
+                clickLanguageItem(position,dialog);
+            }
+
+            @Override
+            public void onSwitched(boolean isChecked) {
+
+            }
+        });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rvLanguage.setLayoutManager(linearLayoutManager);
+        rvLanguage.setAdapter(adapterLanguage);
+
+    }
+
+    private void clickLanguageItem(int position,AlertDialog dialog ) {
+        switch (position) {
+            case 0:
+                changeLanguage("vi");
+                dialog.dismiss();
+                break;
+            case 1:
+                changeLanguage("ja");
+                dialog.dismiss();
+                break;
+            case 2:
+                changeLanguage("");
+                dialog.dismiss();
+                break;
+            case 3:
+                changeLanguage("zh");
+                dialog.dismiss();
+                break;
+            case 4:
+                changeLanguage("ko");
+                dialog.dismiss();
+                break;
+            case 5:
+                changeLanguage("fr");
+                dialog.dismiss();
+                break;
+        }
+
+    }
+
+    private void checkNN(){
+        if (keyLangguageList.get(0).getValue().equals("vi")) {
+            position_selected_language = 0;
+        } else if (keyLangguageList.get(0).getValue().equals("ja")) {
+            position_selected_language = 1;
+        }else if (keyLangguageList.get(0).getValue().equals("zh")) {
+            position_selected_language = 3;
+        } else if (keyLangguageList.get(0).getValue().equals("ko")) {
+            position_selected_language = 4;
+        } else if (keyLangguageList.get(0).getValue().equals("fr")) {
+            position_selected_language = 5;
+        } else {
+            position_selected_language = 2;
+        }
     }
 
     @Override
@@ -94,7 +239,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         getFbInfo();
-                        nextActivity(SelectLanguageActivity.class);
+                        nextActivity(TourListActivity.class);
 
                     }
 
@@ -111,26 +256,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                 });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_google:
-                nextActivity(SelectLanguageActivity.class);
+                nextActivity(TourListActivity.class);
                 break;
             case R.id.btn_facebook:
                 printHashKey();
                 initDialogLoading();
                 loginWithFacebook();
-
+                break;
+            case R.id.img_change_language:
+                checkNN();
+                createAlertDialog();
                 break;
         }
     }
 
+
     private void getFbInfo() {
-        if (AccessToken.getCurrentAccessToken() == null){
+        if (AccessToken.getCurrentAccessToken() == null) {
             showDialogLoading();
-        }
-        else {
+        } else {
 
             dismissDialog();
             GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
@@ -146,7 +295,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 Log.i("Login: ", name);
                                 Log.i("ID: ", id);
                                 Log.i("email: ", link);
-                                Log.i("imageURL: ",imageURL.toString());
+                                Log.i("imageURL: ", imageURL.toString());
 
                                 Toast.makeText(LoginActivity.this, "Name: " + me.optString("name"), Toast.LENGTH_SHORT).show();
                                 Toast.makeText(LoginActivity.this, "ID: " + me.optString("id"), Toast.LENGTH_SHORT).show();
@@ -159,6 +308,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             request.executeAsync();
         }
     }
+
     public URL extractFacebookIcon(String id) {
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()

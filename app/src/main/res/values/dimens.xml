@@ -4,7 +4,6 @@
     <dimen name="mLLanguage">20dp</dimen>
     <dimen name="paddingTvLanguage">20dp</dimen>
     <dimen name="tsTvLanguage">16sp</dimen>
-    <dimen name="mTRcLanguage">30dp</dimen>
     <dimen name="paddingRcLanguage">10dp</dimen>
     <dimen name="fontSize_title_login">40sp</dimen>
     <dimen name="marginTop_imgLogo_login">15dp</dimen>

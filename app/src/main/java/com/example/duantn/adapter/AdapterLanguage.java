@@ -27,6 +27,8 @@ import static android.content.ContentValues.TAG;
 public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHolder> {
     private ArrayList<ClassSelectLanguage> classSelectLanguages;
     private Context mContext;
+    private int position_selected_language;
+    private boolean click = false;
 
 
     public interface OnClickItemListener {
@@ -34,10 +36,11 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
         void onSwitched(boolean isChecked);
     }
     private OnClickItemListener onClickItemListener;
-    public AdapterLanguage(Context mContext, ArrayList<ClassSelectLanguage> classSelectLanguages, OnClickItemListener onClickItemListener) {
+    public AdapterLanguage(Context mContext, ArrayList<ClassSelectLanguage> classSelectLanguages,int position_selected_language, OnClickItemListener onClickItemListener) {
         this.mContext = mContext;
         this.classSelectLanguages = classSelectLanguages;
         this.onClickItemListener = onClickItemListener;
+        this.position_selected_language=position_selected_language;
     }
 
     @NonNull
@@ -53,6 +56,10 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
         holder.imgFlag.setImageResource(classSelectLanguages.get(position).getImgFlag());
         holder.tvLanguage.setText(classSelectLanguages.get(position).getTvLanguage());
 
+        if(!click){
+            classSelectLanguages.get(position_selected_language).setCheck(1);
+        }
+
         if (classSelectLanguages.get(position).getCheck()==0) {
             holder.checkSelect.setVisibility(View.GONE);
         } else {
@@ -63,7 +70,7 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                click=true;
                 for(int i=0;i<classSelectLanguages.size();i++){
                     if(i==position){
                         classSelectLanguages.get(position).setCheck(1);

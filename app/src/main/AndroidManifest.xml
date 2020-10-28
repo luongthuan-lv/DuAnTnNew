@@ -37,8 +37,6 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SelectLanguageActivity">
-        </activity>
         <activity android:name=".activities.MainActivity" />
     </application>
 

@@ -73,13 +73,13 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_start:
-                displayAlertDialog();
+                createAlertDialog();
                 break;
         }
 
     }
 
-    private void displayAlertDialog(){
+    private void createAlertDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog,null);
 
