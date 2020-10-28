@@ -1,5 +1,6 @@
 package com.example.duantn.activities;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.DisplayMetrics;
@@ -10,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.duantn.R;
 
 public class BaseActivity extends AppCompatActivity {
-    private ProgressDialog mProgressDialog;
+    private Dialog mProgressDialog;
     public void showToast(String msg) {
         try {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -79,21 +80,34 @@ public class BaseActivity extends AppCompatActivity {
         return (int) (sizeDesign * getScaleValue());
     }
 
-    private void initDialogLoading() {
-        mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setTitle(R.string.loading);
-        mProgressDialog.setCanceledOnTouchOutside(false);
+    public void initDialogLoading() {
+        mProgressDialog = new Dialog(this, R.style.dialogNotice);
+        mProgressDialog.setContentView(R.layout.dialog_progress);
     }
 
-    protected void showDialogLoading() {
+    public void showDialogLoading() {
         if (mProgressDialog != null) {
             mProgressDialog.show();
         }
     }
 
-    protected void dismissDialog() {
+    public void dismissDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
     }
+//    public void showProgress(boolean cancelAble) {
+//        try {
+//            if (dialogProgress == null) {
+//                dialogProgress = new Dialog(this, R.style.dialogNotice);
+//                dialogProgress.setContentView(R.layout.dialog_progress);
+//            }
+//
+//            dialogProgress.setCancelable(cancelAble);
+//            dialogProgress.show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }

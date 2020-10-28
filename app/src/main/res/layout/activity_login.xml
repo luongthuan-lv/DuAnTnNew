@@ -90,92 +90,34 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.008" />
 
+<LinearLayout
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="@id/glV82"
+    app:layout_constraintStart_toStartOf="@id/glV18"
+    app:layout_constraintTop_toBottomOf="@id/textView3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        app:cardBackgroundColor="@color/color_bg_btn_google"
-        android:id="@+id/layout_google"
-        android:layout_width="@dimen/none_widh_heght"
+
+    <Button
+
+        android:id="@+id/btn_google"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/glV82"
-        app:layout_constraintStart_toStartOf="@id/glV18"
-        app:layout_constraintTop_toBottomOf="@id/textView3"
-        app:layout_constraintVertical_bias="0.07">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_btn_login"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/height_btn_login"
-                android:layout_height="@dimen/height_btn_login"
-                android:background="@color/colorWhite"
-                android:src="@drawable/icongoogle" />
-
-            <Button
-                android:id="@+id/btn_google"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_bg_btn_google"
-                android:fontFamily="@font/roboto_medium"
-                android:paddingLeft="@dimen/padding_btn_H"
-                android:paddingTop="@dimen/padding_btn_V"
-                android:paddingRight="@dimen/padding_btn_H"
-                android:paddingBottom="@dimen/padding_btn_V"
-                android:text="@string/label1_btn_login"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        android:background="@drawable/login_with_google"
+        android:fontFamily="@font/roboto_medium"
+        android:textAllCaps="false" />
 
 
-    <androidx.cardview.widget.CardView
-        app:cardBackgroundColor="@color/color_bg_btn_facebook"
-        android:layout_width="@dimen/none_widh_heght"
+    <Button
+        android:id="@+id/btn_facebook"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/glV82"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@id/glV18"
-        app:layout_constraintTop_toBottomOf="@id/layout_google"
-        app:layout_constraintVertical_bias="0.18">
+        android:background="@drawable/login_with_facebook"
+        android:fontFamily="@font/roboto_medium" />
 
-        <RelativeLayout
-            android:id="@+id/layout_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_btn_login">
-
-            <ImageView
-                android:background="@color/colorWhite"
-                android:id="@+id/img_logo_fb"
-                android:layout_width="@dimen/height_btn_login"
-                android:layout_height="@dimen/height_btn_login"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/iconfacebook" />
-
-            <Button
-                android:id="@+id/btn_facebook"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/img_logo_fb"
-                android:background="@color/color_bg_btn_facebook"
-                android:fontFamily="@font/roboto_medium"
-                android:paddingLeft="@dimen/padding_btn_H"
-                android:paddingTop="@dimen/padding_btn_V"
-                android:paddingRight="@dimen/padding_btn_H"
-                android:paddingBottom="@dimen/padding_btn_V"
-                android:text="@string/label2_btn_login"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite" />
-
-
-        </RelativeLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-
+</LinearLayout>
     <TextView
         android:layout_width="@dimen/width_bottom_title"
         android:layout_height="wrap_content"

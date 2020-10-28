@@ -3,12 +3,6 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="loading" translatable="false">Loading</string>
-    <string name="title1_login" translatable="false">Travel Like</string>
-    <string name="title2_login" translatable="false">You Never</string>
-    <string name="title3_login" translatable="false">Lost</string>
-    <string name="title_tour_list" translatable="false">TourIntro</string>
-
     <string name="lblSelectLanguage">Select language</string>
     <string name="LblVietNam">Tiếng Việt</string>
     <string name="LblJapan">日本語</string>
@@ -16,7 +10,26 @@
     <string name="LblChina">中文</string>
     <string name="LblKorea">한국어</string>
     <string name="LblFrance">Français</string>
-    <string name="label1_btn_login">Sign in with Google</string>
+    <string name="loading">Loading</string>
+    <string name="title1_login">Travel Like</string>
+    <string name="title2_login">You Never</string>
+    <string name="title3_login">Lost</string>
+    <string name="label1_btn_login">Sign in width Google</string>
+    <string name="title_tour_list">TourIntro</string>
+
+    //FACEBOOK
+
+
+    <string name="name" translatable="false">name</string>
+    <string name="id" translatable="false">id</string>
+    <string name="email" translatable="false">email</string>
+    <string name="link" translatable="false">link</string>
+    <string name="fields" translatable="false">fields</string>
+    <string name="fields_name" translatable="false">id,name,link,email</string>
+    <string name="data" translatable="false">data</string>
+    <string name="facebook_app_id" translatable="false">383267972718761</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>
+//
     <string name="label2_btn_login">Sign in with Facebook</string>
     <string name="label1_btn_get_started">Get Started</string>
     <string name="title_alert">Would you like to hear the entire trip schedule?</string>
