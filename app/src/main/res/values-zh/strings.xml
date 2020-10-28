@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DuAnTN</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
@@ -9,18 +10,18 @@
     <string name="title3_login" translatable="false">Lost</string>
     <string name="title_tour_list" translatable="false">TourIntro</string>
 
-    <string name="lblSelectLanguage">Select language</string>
+    <string name="lblSelectLanguage">选择一种语言</string>
     <string name="LblVietNam">Tiếng Việt</string>
     <string name="LblJapan">日本語</string>
     <string name="LblEnglish">English</string>
     <string name="LblChina">中文</string>
     <string name="LblKorea">한국어</string>
     <string name="LblFrance">Français</string>
-    <string name="label1_btn_login">Sign in with Google</string>
-    <string name="label2_btn_login">Sign in with Facebook</string>
-    <string name="label1_btn_get_started">Get Started</string>
-    <string name="title_alert">Would you like to hear the entire trip schedule?</string>
-    <string name="content_alert">We will announce all the historical information that you will go through, hoping you will have a better experience.</string>
-    <string name="label_btn_OK">Ok</string>
-    <string name="label_btn_Cancel">Cancel</string>
+    <string name="label1_btn_login">使用Google登录</string>
+    <string name="label2_btn_login">用Facebook登录</string>
+    <string name="label1_btn_get_started">开始吧</string>
+    <string name="title_alert">您想听听整个行程吗？</string>
+    <string name="content_alert">我们将公布您将要经历的所有历史信息，希望您会有更好的体验。</string>
+    <string name="label_btn_OK">好的</string>
+    <string name="label_btn_Cancel">取消</string>
 </resources>

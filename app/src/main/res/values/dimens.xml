@@ -9,7 +9,7 @@
     <dimen name="fontSize_title_login">40sp</dimen>
     <dimen name="marginTop_imgLogo_login">15dp</dimen>
     <dimen name="height_btn_login">40dp</dimen>
-    <dimen name="padding_btn_H">45dp</dimen>
+    <dimen name="padding_btn_H">30dp</dimen>
     <dimen name="padding_btn_V">10dp</dimen>
     <dimen name="fontSize_title_tour_list">40sp</dimen>
     <dimen name="height_edt_search">50dp</dimen>
@@ -28,4 +28,8 @@
     <dimen name="radius_introduce_tourintr">20dp</dimen>
     <dimen name="padding_introduce_tourintr">10dp</dimen>
     <dimen name="radius_rating">10dp</dimen>
+    <dimen name="textSize_title_alert">20sp</dimen>
+    <dimen name="textSize_content_alert">16sp</dimen>
+    <dimen name="radius_alert">20dp</dimen>
+    <dimen name="marginTop_ht_alert">30dp</dimen>
 </resources>

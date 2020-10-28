@@ -23,11 +23,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_google:
-                showToast("Google");
                 nextActivity(SelectLanguageActivity.class);
                 break;
             case R.id.btn_facebook:
-                showToast("Facebook");
                 nextActivity(SelectLanguageActivity.class);
                 break;
         }

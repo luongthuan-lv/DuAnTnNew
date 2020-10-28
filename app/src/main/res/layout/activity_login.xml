@@ -147,11 +147,11 @@
             android:layout_height="@dimen/height_btn_login">
 
             <ImageView
+                android:background="@color/colorWhite"
                 android:id="@+id/img_logo_fb"
                 android:layout_width="@dimen/height_btn_login"
                 android:layout_height="@dimen/height_btn_login"
                 android:layout_alignParentRight="true"
-                android:background="@color/colorWhite"
                 android:src="@drawable/iconfacebook" />
 
             <Button
@@ -165,7 +165,7 @@
                 android:paddingTop="@dimen/padding_btn_V"
                 android:paddingRight="@dimen/padding_btn_H"
                 android:paddingBottom="@dimen/padding_btn_V"
-                android:text="@string/label1_btn_login"
+                android:text="@string/label2_btn_login"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite" />
 

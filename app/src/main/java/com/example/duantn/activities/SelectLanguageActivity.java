@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.example.duantn.adapter.AdapterLanguage;
 import com.example.duantn.morder.ClassSelectLanguage;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SelectLanguageActivity extends BaseActivity implements View.OnClickListener {
 
@@ -68,21 +71,27 @@ public class SelectLanguageActivity extends BaseActivity implements View.OnClick
 private void clickLanguageItem(int position){
         switch (position){
             case 0:
+                ganNgonngu("vi");
                 nextActivity(TourListActivity.class);
                 break;
             case 1:
+                ganNgonngu("ja");
                 nextActivity(TourListActivity.class);
                 break;
             case 2:
+                ganNgonngu("");
                 nextActivity(TourListActivity.class);
                 break;
             case 3:
+                ganNgonngu("zh");
                 nextActivity(TourListActivity.class);
                 break;
             case 4:
+                ganNgonngu("ko");
                 nextActivity(TourListActivity.class);
                 break;
             case 5:
+                ganNgonngu("fr");
                 nextActivity(TourListActivity.class);
                 break;
         }
@@ -91,4 +100,15 @@ private void clickLanguageItem(int position){
     public void onClick(View v) {
 
     }
+
+
+    private void ganNgonngu(String language){
+        Locale locale = new Locale(language);
+        Configuration configuration = new Configuration();
+        configuration.locale=locale;
+        getBaseContext().getResources().updateConfiguration(
+                configuration,getBaseContext().getResources().getDisplayMetrics()
+        );
+    }
+
 }

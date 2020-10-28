@@ -1,7 +1,11 @@
 package com.example.duantn.activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -69,9 +73,40 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_start:
-                showToast("Get start");
+                displayAlertDialog();
                 break;
         }
+
+    }
+
+    private void displayAlertDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog,null);
+
+        Button btn_OK,btnCancel;
+        btn_OK= alertLayout.findViewById(R.id.btn_OK);
+        btnCancel = alertLayout.findViewById(R.id.btn_Cacncel);
+
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        alert.setCancelable(true);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        btn_OK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
     }
 }

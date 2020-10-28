@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DuAnTN</string>
+    <string name="title_activity_fullscreen" translatable="false">FullscreenActivity</string>
+    <string name="dummy_button" translatable="false">Dummy Button</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
+    <string name="loading">Loading</string>
+    <string name="title1_login">Travel Like</string>
+    <string name="title2_login">You Never</string>
+    <string name="title3_login">Lost</string>
+    <string name="title_tour_list">TourIntro</string>
+
+    <string name="lblSelectLanguage">Chọn ngôn ngữ</string>
+    <string name="LblVietNam">Tiếng Việt</string>
+    <string name="LblJapan">日本語</string>
+    <string name="LblEnglish">English</string>
+    <string name="LblChina">中文</string>
+    <string name="LblKorea">한국어</string>
+    <string name="LblFrance">Français</string>
+    <string name="label1_btn_login">Đăng nhập với Google</string>
+    <string name="label2_btn_login">Đăng nhập với Facebook</string>
+    <string name="label1_btn_get_started">Bắt đầu</string>
+    <string name="title_alert">Bạn có muốn nghe toàn bộ lịch trình chuyến đi không?</string>
+    <string name="content_alert">Chúng tôi sẽ thông báo toàn bộ thông tin địa điểm,lịch sử mà quý khách sẽ đi qua, hi vọng quý khách sẽ có một trải nghiệm tốt hơn.</string>
+    <string name="label_btn_OK">Đồng ý</string>
+    <string name="label_btn_Cancel">Hủy</string>
+</resources>
