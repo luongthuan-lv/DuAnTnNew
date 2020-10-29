@@ -16,8 +16,8 @@
     <string name="LblChina">中文</string>
     <string name="LblKorea">한국어</string>
     <string name="LblFrance">Français</string>
-    <string name="label1_btn_login">Đăng nhập với Google</string>
-    <string name="label2_btn_login">Đăng nhập với Facebook</string>
+
+
     <string name="label1_btn_get_started">Bắt đầu</string>
     <string name="title_alert">Bạn có muốn nghe toàn bộ lịch trình chuyến đi không?</string>
     <string name="content_alert">Chúng tôi sẽ thông báo toàn bộ thông tin địa điểm,lịch sử mà quý khách sẽ đi qua, hi vọng quý khách sẽ có một trải nghiệm tốt hơn.</string>

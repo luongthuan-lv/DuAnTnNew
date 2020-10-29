@@ -16,8 +16,8 @@
     <string name="LblChina">中文</string>
     <string name="LblKorea">한국어</string>
     <string name="LblFrance">Français</string>
-    <string name="label1_btn_login">Googleでサインイン</string>
-    <string name="label2_btn_login">Facebookでサインイン</string>
+
+
     <string name="label1_btn_get_started">ベギン</string>
     <string name="title_alert">旅行スケジュール全体を聞きたいですか？</string>
     <string name="content_alert">より良い体験ができることを願って、あなたが経験するすべての歴史的情報を発表します。</string>

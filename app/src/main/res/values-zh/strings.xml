@@ -16,8 +16,8 @@
     <string name="LblChina">中文</string>
     <string name="LblKorea">한국어</string>
     <string name="LblFrance">Français</string>
-    <string name="label1_btn_login">使用Google登录</string>
-    <string name="label2_btn_login">用Facebook登录</string>
+
+
     <string name="label1_btn_get_started">开始吧</string>
     <string name="title_alert">您想听听整个行程吗？</string>
     <string name="content_alert">我们将公布您将要经历的所有历史信息，希望您会有更好的体验。</string>
