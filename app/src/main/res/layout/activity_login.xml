@@ -8,11 +8,11 @@
     tools:context=".activities.LoginActivity">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glV85"
+        android:id="@+id/glV87"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.87" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glH7"
@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="@id/glH7"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/glV85"
+        app:layout_constraintStart_toStartOf="@id/glV87"
         android:layout_width="@dimen/none_widh_heght"
         android:layout_height="@dimen/none_widh_heght"
         android:src="@drawable/icon_change_language"/>
@@ -70,7 +70,7 @@
         android:src="@drawable/logofinal"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/glH5" />
 
@@ -126,7 +126,6 @@
         app:layout_constraintStart_toStartOf="@id/glV18"
         app:layout_constraintTop_toBottomOf="@id/textView3">
 
-
         <Button
 
             android:id="@+id/btn_google"
@@ -135,7 +134,6 @@
             android:background="@drawable/login_with_google"
             android:fontFamily="@font/roboto_medium"
             android:textAllCaps="false" />
-
 
         <Button
             android:id="@+id/btn_facebook"
