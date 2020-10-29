@@ -72,6 +72,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ArrayList<ClassSelectLanguage> selectLanguageArrayList;
     private AdapterLanguage adapterLanguage;
     private int position_selected_language;
+    private ImageView img_change_language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.btn_google).setOnClickListener(this);
         btn_facebook = findViewById(R.id.btn_facebook);
         findViewById(R.id.btn_facebook).setOnClickListener(this);
-        findViewById(R.id.img_change_language).setOnClickListener(this);
+        img_change_language = findViewById(R.id.img_change_language);
+        img_change_language.setOnClickListener(this);
 
         btn_google.getLayoutParams().width = getSizeWithScale(298);
         btn_google.getLayoutParams().height = getSizeWithScale(60);
@@ -97,7 +99,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         languageDAO = new LanguageDAO(this);
         keyLangguageList = languageDAO.getAll();
         ganNgonngu(keyLangguageList.get(0).getValue());
-
+        checkFlag();
 
     }
 
@@ -108,6 +110,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         languageDAO.update(keyLangguage);
         keyLangguageList = languageDAO.getAll();
         ganNgonngu(keyLangguageList.get(0).getValue());
+        checkFlag();
+
     }
 
     private void ganNgonngu(String language) {
@@ -193,6 +197,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
 
+    }
+
+    private void checkFlag(){
+        if (keyLangguageList.get(0).getValue().equals("vi")) {
+            img_change_language.setImageResource(R.drawable.vietnam);
+        } else if (keyLangguageList.get(0).getValue().equals("ja")) {
+            img_change_language.setImageResource(R.drawable.japan);
+        }else if (keyLangguageList.get(0).getValue().equals("zh")) {
+            img_change_language.setImageResource(R.drawable.china);
+        } else if (keyLangguageList.get(0).getValue().equals("ko")) {
+            img_change_language.setImageResource(R.drawable.korea);
+        } else if (keyLangguageList.get(0).getValue().equals("fr")) {
+            img_change_language.setImageResource(R.drawable.france);
+        } else {
+            img_change_language.setImageResource(R.drawable.american);
+        }
     }
 
     private void checkNN(){
