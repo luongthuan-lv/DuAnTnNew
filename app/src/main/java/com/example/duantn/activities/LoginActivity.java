@@ -87,7 +87,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.btn_facebook).setOnClickListener(this);
         img_change_language = findViewById(R.id.img_change_language);
         img_change_language.setOnClickListener(this);
-
         btn_google.getLayoutParams().width = getSizeWithScale(298);
         btn_google.getLayoutParams().height = getSizeWithScale(60);
         btn_facebook.getLayoutParams().width = getSizeWithScale(298);
@@ -100,6 +99,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         keyLangguageList = languageDAO.getAll();
         ganNgonngu(keyLangguageList.get(0).getValue());
         checkFlag();
+
 
     }
 
