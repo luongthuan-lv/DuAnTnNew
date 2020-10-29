@@ -10,7 +10,6 @@
     <string name="title3_login" translatable="false">Lost</string>
     <string name="title_tour_list" translatable="false">TourIntro</string>
 
-    <string name="lblSelectLanguage">言語を選択する</string>
     <string name="LblVietNam">Tiếng Việt</string>
     <string name="LblJapan">日本語</string>
     <string name="LblEnglish">English</string>
