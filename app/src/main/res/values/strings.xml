@@ -14,7 +14,6 @@
     <string name="title1_login">Travel Like</string>
     <string name="title2_login">You Never</string>
     <string name="title3_login">Lost</string>
-    <string name="label1_btn_login">Sign in width Google</string>
     <string name="title_tour_list">TourIntro</string>
 
     //FACEBOOK
@@ -30,7 +29,8 @@
     <string name="facebook_app_id" translatable="false">383267972718761</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>
 //
-    <string name="label2_btn_login">Sign in with Facebook</string>
+    <string name="label1_btn_login">Sign in width Google</string>
+    <string name="label2_btn_login">Login with Facebook</string>
     <string name="label1_btn_get_started">Get Started</string>
     <string name="title_alert">Would you like to hear the entire trip schedule?</string>
     <string name="content_alert">We will announce all the historical information that you will go through, hoping you will have a better experience.</string>
