@@ -6,10 +6,12 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -36,13 +38,13 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         viewPager2 = findViewById(R.id.viewPager2);
         edt_search = findViewById(R.id.edt_search);
         btnSearch = findViewById(R.id.btnSearch);
+        findViewById(R.id.layout).setOnClickListener(this);
         findViewById(R.id.btnSearch).setOnClickListener(this);
         edt_search.getLayoutParams().width = getSizeWithScale(245);
         edt_search.getLayoutParams().height = getSizeWithScale(40);
 
         btnSearch.getLayoutParams().width = getSizeWithScale(45);
         btnSearch.getLayoutParams().height = getSizeWithScale(45);
-
 
 
         tourList = new ArrayList<>();
@@ -85,10 +87,23 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnSearch:
                 tourAdapter.getFilter().filter(edt_search.getText().toString());
+                closeKeyboard();
+                break;
+            case R.id.layout:
+                closeKeyboard();
                 break;
         }
+    }
+
+    private void closeKeyboard() {
+
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
