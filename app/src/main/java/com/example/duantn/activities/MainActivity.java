@@ -192,6 +192,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         googleMap.addMarker(new MarkerOptions().position(latLng));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
         googleMap.addMarker(markerOptions);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

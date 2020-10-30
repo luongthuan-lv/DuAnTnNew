@@ -23,20 +23,6 @@
         app:layout_constraintGuide_percent="0.95"/>
 
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glV15"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.15"/>
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glV85"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85"/>
 
     <TextView
         android:id="@+id/tv_Title"
@@ -53,19 +39,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.05" />
 
-    <EditText
-        android:id="@+id/edt_search"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_edit_search"
-        android:drawableRight="@drawable/icon_search"
-        android:paddingLeft="@dimen/paddingH_edt_search"
-        android:paddingRight="@dimen/paddingH_edt_search"
-        android:textColor="@color/black_overlay"
-        android:textSize="@dimen/textSize_edt_search"
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/viewPager2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_Title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_Title"
+        android:layout_width="match_parent"
+        app:layout_constraintVertical_bias="0.4"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="@dimen/none_widh_heght"
+            android:layout_height="@dimen/none_widh_heght"
+            android:background="@drawable/bg_edit_search"
+            android:paddingLeft="@dimen/paddingH_edt_search"
+            android:paddingRight="@dimen/paddingH_edt_search"
+            android:textColor="@color/black_overlay"
+            android:textSize="@dimen/textSize_edt_search" />
+        <ImageButton
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_btn_search"
+            android:id="@+id/btnSearch"
+            android:layout_width="@dimen/none_widh_heght"
+            android:layout_height="@dimen/none_widh_heght"
+            android:src="@drawable/icon_search"/>
+
+    </LinearLayout>
+
+
 
 
     <androidx.viewpager2.widget.ViewPager2

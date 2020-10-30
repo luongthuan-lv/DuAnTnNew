@@ -12,4 +12,5 @@
     <color name="color_bg_btn_google">#3B83FF</color>
     <color name="color_bg_btn_facebook">#0144B8</color>
     <color name="colorBlack">#000000</color>
+    <color name="color_btn_alertDialog">#673AB7</color>
 </resources>

@@ -1,6 +1,8 @@
 package com.example.duantn.activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -80,34 +82,25 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     }
 
     private void createAlertDialog(){
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.layout_custom_dialog,null);
 
-        Button btn_OK,btnCancel;
-        btn_OK= alertLayout.findViewById(R.id.btn_OK);
-        btnCancel = alertLayout.findViewById(R.id.btn_Cacncel);
-
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setView(alertLayout);
-        alert.setCancelable(true);
-        final AlertDialog dialog = alert.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-
-        btn_OK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              nextActivity(MainActivity.class);
-              dialog.dismiss();
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(getResources().getString(R.string.title_alert));
+        b.setMessage(getResources().getString(R.string.content_alert));
+        b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                nextActivity(MainActivity.class);
             }
         });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        b.setNegativeButton(getResources().getString(R.string.label_btn_Cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }
         });
+        AlertDialog al = b.create();
+        al.show();
+        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
+        al.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
+
 
     }
 }

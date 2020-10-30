@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
@@ -19,13 +20,14 @@ import com.example.duantn.morder.Tour;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TourListActivity extends BaseActivity {
+public class TourListActivity extends BaseActivity implements View.OnClickListener {
 
 
     private ViewPager2 viewPager2;
     private List<Tour> tourList;
     private TourAdapter tourAdapter;
     private EditText edt_search;
+    private ImageView btnSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,13 @@ public class TourListActivity extends BaseActivity {
         setContentView(R.layout.activity_tour_list);
         viewPager2 = findViewById(R.id.viewPager2);
         edt_search = findViewById(R.id.edt_search);
+        btnSearch = findViewById(R.id.btnSearch);
+        findViewById(R.id.btnSearch).setOnClickListener(this);
         edt_search.getLayoutParams().width = getSizeWithScale(245);
-        edt_search.getLayoutParams().height = getSizeWithScale(42);
+        edt_search.getLayoutParams().height = getSizeWithScale(40);
+
+        btnSearch.getLayoutParams().width = getSizeWithScale(45);
+        btnSearch.getLayoutParams().height = getSizeWithScale(45);
 
 
 
@@ -47,10 +54,8 @@ public class TourListActivity extends BaseActivity {
         tourList.add(new Tour(R.drawable.main_background, 5, "Ha Noi City Tour", "Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố."));
 
         setAdapter();
-
         setViewPager2();
 
-        setEdt_search();
 
     }
 
@@ -77,24 +82,13 @@ public class TourListActivity extends BaseActivity {
         viewPager2.setPageTransformer(compositePageTransformer);
     }
 
-    private void setEdt_search() {
-        edt_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnSearch:
                 tourAdapter.getFilter().filter(edt_search.getText().toString());
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        
+                break;
+        }
     }
 }
