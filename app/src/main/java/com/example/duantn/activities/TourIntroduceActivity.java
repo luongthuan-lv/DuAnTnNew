@@ -99,6 +99,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
               nextActivity(MainActivity.class);
+              dialog.dismiss();
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
