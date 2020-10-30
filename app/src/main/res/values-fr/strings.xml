@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DuAnTN</string>
+    <string name="app_name">TourIntro</string>
+    // khong dich
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -8,16 +9,16 @@
     <string name="title1_login" translatable="false">Travel Like</string>
     <string name="title2_login" translatable="false">You Never</string>
     <string name="title3_login" translatable="false">Lost</string>
-    <string name="title_tour_list" translatable="false">TourIntro</string>
+    <string name="LblVietNam" translatable="false">Tiếng Việt</string>
+    <string name="LblJapan" translatable="false">日本語</string>
+    <string name="LblEnglish" translatable="false">English</string>
+    <string name="LblChina" translatable="false">中文</string>
+    <string name="LblKorea" translatable="false">한국어</string>
+    <string name="LblFrance" translatable="false">Français</string>
+    <string name="google_client_id" translatable="false">229845774338-4ogbuk4ncm45cgt6mjin2pmgfcdrlhjn.apps.googleusercontent.com</string>
 
-    <string name="LblVietNam">Tiếng Việt</string>
-    <string name="LblJapan">日本語</string>
-    <string name="LblEnglish">English</string>
-    <string name="LblChina">中文</string>
-    <string name="LblKorea">한국어</string>
-    <string name="LblFrance">Français</string>
 
-
+    // can dich
     <string name="label1_btn_get_started">Commencer</string>
     <string name="title_alert">Souhaitez-vous connaître l\'horaire complet du voyage?</string>
     <string name="content_alert">Nous annoncerons toutes les informations historiques que vous passerez en revue, en espérant que vous aurez une meilleure expérience.</string>

@@ -1,22 +1,16 @@
 package com.example.duantn.activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
@@ -101,17 +95,6 @@ public class TourListActivity extends BaseActivity {
 
             }
         });
-
-        edt_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(edt_search.getWindowToken(), 0);
-                }
-            }
-        });
-
-
+        
     }
 }

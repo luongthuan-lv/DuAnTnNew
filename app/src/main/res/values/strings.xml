@@ -1,22 +1,22 @@
 <resources>
-    <string name="app_name">TourIntro</string>
+    <string name="app_name" translatable="false">TourIntro</string>
+    // khong dich
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="LblVietNam">Tiếng Việt</string>
-    <string name="LblJapan">日本語</string>
-    <string name="LblEnglish">English</string>
-    <string name="LblChina">中文</string>
-    <string name="LblKorea">한국어</string>
-    <string name="LblFrance">Français</string>
+    <string name="LblVietNam" translatable="false">Tiếng Việt</string>
+    <string name="LblJapan" translatable="false">日本語</string>
+    <string name="LblEnglish" translatable="false">English</string>
+    <string name="LblChina" translatable="false">中文</string>
+    <string name="LblKorea" translatable="false">한국어</string>
+    <string name="LblFrance" translatable="false">Français</string>
     <string name="loading">Loading</string>
     <string name="title1_login">Travel Like</string>
     <string name="title2_login">You Never</string>
     <string name="title3_login">Lost</string>
-    <string name="title_tour_list">TourIntro</string>
+    <string name="google_client_id">229845774338-4ogbuk4ncm45cgt6mjin2pmgfcdrlhjn.apps.googleusercontent.com</string>
 
     //FACEBOOK
-
 
     <string name="name" translatable="false">name</string>
     <string name="id" translatable="false">id</string>
@@ -28,11 +28,11 @@
     <string name="data" translatable="false">data</string>
     <string name="facebook_app_id" translatable="false">383267972718761</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>
-//
+
+    // can dich
     <string name="label1_btn_get_started">Get Started</string>
     <string name="title_alert">Would you like to hear the entire trip schedule?</string>
     <string name="content_alert">We will announce all the historical information that you will go through, hoping you will have a better experience.</string>
     <string name="label_btn_OK">Ok</string>
     <string name="label_btn_Cancel">Cancel</string>
-    <string name="google_client_id">229845774338-4ogbuk4ncm45cgt6mjin2pmgfcdrlhjn.apps.googleusercontent.com</string>
 </resources>
