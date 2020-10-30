@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DuAnTN</string>
+    <string name="app_name">TourIntro</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -22,6 +22,7 @@
     <string name="id" translatable="false">id</string>
     <string name="email" translatable="false">email</string>
     <string name="link" translatable="false">link</string>
+    <string name="gender" translatable="false">gender</string>
     <string name="fields" translatable="false">fields</string>
     <string name="fields_name" translatable="false">id,name,link,email</string>
     <string name="data" translatable="false">data</string>
@@ -33,4 +34,5 @@
     <string name="content_alert">We will announce all the historical information that you will go through, hoping you will have a better experience.</string>
     <string name="label_btn_OK">Ok</string>
     <string name="label_btn_Cancel">Cancel</string>
+    <string name="google_client_id">229845774338-4ogbuk4ncm45cgt6mjin2pmgfcdrlhjn.apps.googleusercontent.com</string>
 </resources>

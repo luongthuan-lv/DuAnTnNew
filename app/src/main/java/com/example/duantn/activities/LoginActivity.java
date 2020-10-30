@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +49,22 @@ import com.facebook.login.BuildConfig;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,11 +77,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private CallbackManager callbackManager;
     private LoginManager loginManager;
     private Button btn_facebook;
     private Button btn_google;
+    static int RC_SIGN_IN = 1;
+    private GoogleSignInClient googleSignInClient;
+    private FirebaseAuth firebaseAuth;
+    private static final int RC_LOGIN_GG = 1;
+    private static final int RC_LOGIN_FB = 2;
     private MySqliteOpenHelper mySqliteOpenHelper;
     private LanguageDAO languageDAO;
     private List<KeyLangguage> keyLangguageList;
@@ -80,11 +102,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_login);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-        facebookLogin();
+        callbackFacebook();
+
         btn_google = findViewById(R.id.btn_google);
         findViewById(R.id.btn_google).setOnClickListener(this);
         btn_facebook = findViewById(R.id.btn_facebook);
         findViewById(R.id.btn_facebook).setOnClickListener(this);
+        findViewById(R.id.img_change_language).setOnClickListener(this);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+        firebaseAuth = FirebaseAuth.getInstance();
         img_change_language = findViewById(R.id.img_change_language);
         img_change_language.setOnClickListener(this);
         btn_google.getLayoutParams().width = getSizeWithScale(298);
@@ -231,23 +261,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // add this line
-        callbackManager.onActivityResult(requestCode, resultCode, data);
 
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void loginWithFacebook() {
-        loginManager.logInWithReadPermissions(
-                LoginActivity.this,
-                Arrays.asList(
-                        "email",
-                        "public_profile"));
-    }
 
-    public void facebookLogin() {
+            loginManager.logInWithReadPermissions(
+                    LoginActivity.this,
+                    Arrays.asList(
+                            "email",
+                            "public_profile"));
+        }
+
+
+    public void callbackFacebook() {
 
         loginManager = LoginManager.getInstance();
         callbackManager = CallbackManager.Factory.create();
@@ -311,14 +344,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 String id = me.optString(getString(R.string.id));
                                 String email = me.optString(getString(R.string.email));
                                 String link = me.optString(getString(R.string.link));
+                                String gender = me.optString(getString(R.string.gender));
                                 URL imageURL = extractFacebookIcon(id);
                                 Log.i("Login: ", name);
                                 Log.i("ID: ", id);
-                                Log.i("email: ", link);
+                                Log.i("email: ", email);
                                 Log.i("imageURL: ", imageURL.toString());
-
-                                Toast.makeText(LoginActivity.this, "Name: " + me.optString("name"), Toast.LENGTH_SHORT).show();
-                                Toast.makeText(LoginActivity.this, "ID: " + me.optString("id"), Toast.LENGTH_SHORT).show();
+                                Log.i("link: ", link);
+                                Log.i("gender: ", gender);
+                                showToast(name);
                             }
                         }
                     });
@@ -358,5 +392,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Log.e("TAG", "printHashKey()", e);
         }
     }
+
+
+    private void callBackFacebook(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
 }
+
 
