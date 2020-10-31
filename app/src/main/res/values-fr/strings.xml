@@ -25,4 +25,5 @@
     <string name="label_btn_OK">D\'accord</string>
     <string name="label_btn_Cancel">Annuler</string>
     <string name="search_error">Impossible de trouver le voyage que vous avez entré, veuillez rechercher à nouveau</string>
+    <string name="hint_edtSearch">Chercher...</string>
 </resources>

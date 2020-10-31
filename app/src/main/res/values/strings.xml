@@ -36,4 +36,5 @@
     <string name="label_btn_OK">Ok</string>
     <string name="label_btn_Cancel">Cancel</string>
     <string name="search_error">Cannot find the travel you entered, please search again!</string>
+    <string name="hint_edtSearch">Search...</string>
 </resources>

@@ -51,6 +51,7 @@
         app:layout_constraintVertical_bias="0.4"
         android:layout_height="wrap_content">
         <EditText
+            android:hint="@string/hint_edtSearch"
             android:id="@+id/edt_search"
             android:layout_width="@dimen/none_widh_heght"
             android:layout_height="@dimen/none_widh_heght"

@@ -25,4 +25,5 @@
     <string name="label_btn_OK">Đồng ý</string>
     <string name="label_btn_Cancel">Hủy</string>
     <string name="search_error">Không thể tìm thấy chuyến đi bạn đã nhập, vui lòng tìm kiếm lại!</string>
+    <string name="hint_edtSearch">Tìm kiếm..</string>
 </resources>
