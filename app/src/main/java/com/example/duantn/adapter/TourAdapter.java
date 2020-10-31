@@ -10,6 +10,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,8 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
     private List<Tour> tourList;
     private Context context;
     private List<Tour> tourList2;
+    public static int result;
+
 
     public TourAdapter(List<Tour> tourList, Context context) {
         this.tourList = tourList;
@@ -80,15 +83,17 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
             if (constraint == null || constraint.length() == 0) {
                 tours.addAll(tourList2);
             } else {
-                String fillterParent = constraint.toString().toLowerCase().trim();
-                for (Tour item : tourList2) {
-                    if (item.getTitle().toLowerCase().contains(fillterParent)) {
-                        tours.add(item);
-                    }
+                    String fillterParent = constraint.toString().toLowerCase().trim();
+                    for (Tour item : tourList2) {
+                        if (item.getTitle().toLowerCase().contains(fillterParent)) {
+                            tours.add(item);
+                        }
                 }
             }
             FilterResults results = new FilterResults();
             results.values = tours;
+            result  = tours.size();
+
             return results;
         }
 
@@ -96,6 +101,9 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
         protected void publishResults(CharSequence constraint, FilterResults results) {
             tourList.clear();
             tourList.addAll((List) results.values);
+
+
+
             notifyDataSetChanged();
         }
     };

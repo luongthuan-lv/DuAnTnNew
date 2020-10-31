@@ -24,4 +24,5 @@
     <string name="content_alert">Nous annoncerons toutes les informations historiques que vous passerez en revue, en espérant que vous aurez une meilleure expérience.</string>
     <string name="label_btn_OK">D\'accord</string>
     <string name="label_btn_Cancel">Annuler</string>
+    <string name="search_error">Impossible de trouver le voyage que vous avez entré, veuillez rechercher à nouveau</string>
 </resources>

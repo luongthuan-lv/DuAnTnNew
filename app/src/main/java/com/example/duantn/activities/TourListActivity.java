@@ -6,10 +6,10 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -84,26 +84,46 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         viewPager2.setPageTransformer(compositePageTransformer);
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSearch:
                 tourAdapter.getFilter().filter(edt_search.getText().toString());
                 closeKeyboard();
+
+                if(TourAdapter.result==0){
+                    createAlertDialog();
+                }
+
                 break;
             case R.id.layout:
                 closeKeyboard();
                 break;
         }
     }
-
     private void closeKeyboard() {
-
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
 
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
+    private void createAlertDialog(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(getResources().getString(R.string.search_error));
+        b.setCancelable(false);
+        b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                tourAdapter.getFilter().filter("");
+                edt_search.setText("");
+            }
+        });
+        AlertDialog al = b.create();
+        al.show();
+        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
+    }
+
+
 }

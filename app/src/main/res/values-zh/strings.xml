@@ -24,4 +24,5 @@
     <string name="content_alert">我们将公布您将要经历的所有历史信息，希望您会有更好的体验。</string>
     <string name="label_btn_OK">好的</string>
     <string name="label_btn_Cancel">取消</string>
+    <string name="search_error">找不到您输入的旅行，请再次搜索！</string>
 </resources>

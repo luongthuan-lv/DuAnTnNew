@@ -24,4 +24,5 @@
     <string name="content_alert">より良い体験ができることを願って、あなたが経験するすべての歴史的情報を発表します。</string>
     <string name="label_btn_OK">同意する</string>
     <string name="label_btn_Cancel">キャンセル</string>
+    <string name="search_error">入力した旅行が見つかりません。もう一度検索してください。</string>
 </resources>

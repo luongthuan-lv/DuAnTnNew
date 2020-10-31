@@ -35,4 +35,5 @@
     <string name="content_alert">We will announce all the historical information that you will go through, hoping you will have a better experience.</string>
     <string name="label_btn_OK">Ok</string>
     <string name="label_btn_Cancel">Cancel</string>
+    <string name="search_error">Cannot find the travel you entered, please search again!</string>
 </resources>
