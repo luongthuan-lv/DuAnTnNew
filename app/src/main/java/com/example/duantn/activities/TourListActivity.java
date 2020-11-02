@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
+import com.facebook.login.LoginManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +119,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 dialog.dismiss();
                 tourAdapter.getFilter().filter("");
                 edt_search.setText("");
+
             }
         });
         AlertDialog al = b.create();
@@ -125,5 +127,12 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+        LoginManager.getInstance().logOut();
+    }
 
-}
+    }
+
