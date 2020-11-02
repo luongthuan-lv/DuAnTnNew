@@ -60,7 +60,7 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
             classSelectLanguages.get(position_selected_language).setCheck(1);
         }
 
-        if (classSelectLanguages.get(position).getCheck()==0) {
+        if (classSelectLanguages.get(position).getCheck() == 0) {
             holder.checkSelect.setVisibility(View.GONE);
         } else {
             holder.checkSelect.setVisibility(View.VISIBLE);

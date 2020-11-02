@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -21,17 +19,13 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.duantn.R;
-import com.example.duantn.adapter.AdapterLanguage;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
-import com.example.duantn.adapter.TourAdapter;
-import com.example.duantn.morder.ClassSelectLanguage;
 import com.example.duantn.morder.ClassShowInformation;
-import com.example.duantn.morder.Tour;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,23 +38,18 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
+ public class MainActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private LocationManager locationManager;
-    private double latitude, longitude;
     private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private static final int REQUEST_LOCATION = 1;
     private static final int REQUEST_CODE = 101;
     private FloatingActionButton btnMyLocation;
     private ArrayList<ClassShowInformation> showInformationArrayList;
@@ -78,6 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnMyLocation = findViewById(R.id.add_fab);
+        initDialogLoading();
         showDialogLoading();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -129,10 +119,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void transformPage(@NonNull View page, float position) {
                 float r = 1 - Math.abs(position);
                 page.setScaleY(0.80f + r * 0.2f);
+//                Log.e("TAG", "transformPage: "+ page );
 
             }
         });
         viewPager.setPageTransformer(compositePageTransformer);
+
     }
 
     private void OnGPS() {
@@ -175,10 +167,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
     }
 
-
-
     @Override
     public void onMapReady(final GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if (btnMyLocation.getVisibility() == View.VISIBLE && viewPager.getVisibility() == View.VISIBLE){
+                    btnMyLocation.setVisibility(View.GONE);
+                    viewPager.setVisibility(View.GONE);
+                }else {
+                    btnMyLocation.setVisibility(View.VISIBLE);
+                    viewPager.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
@@ -186,20 +189,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         final LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        final MarkerOptions markerOptions = new MarkerOptions().position(latLng);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 2000));
-        googleMap.addMarker(new MarkerOptions().position(latLng));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-        googleMap.addMarker(markerOptions);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        final MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.check_icon));
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        mGoogleMap.addMarker(markerOptions);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                googleMap.addMarker(new MarkerOptions().position(latLng));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-                googleMap.stopAnimation();
-                googleMap.addMarker(markerOptions);
+                mGoogleMap.addMarker(new MarkerOptions().position(latLng));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+                mGoogleMap.stopAnimation();
+                mGoogleMap.addMarker(markerOptions);
             }
         });
 
@@ -215,44 +218,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             final Marker maker = googleMap.addMarker(option);
             maker.showInfoWindow();
             latLngs.add(position);
-
-
-
         }
         polylineOptions.addAll(latLngs);
-        line = googleMap.addPolygon(polylineOptions);
+        line = mGoogleMap.addPolygon(polylineOptions);
         line.setStrokeColor(Color.BLUE);
         line.setStrokeWidth(10);
         line.setGeodesic(true);
 
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-//                tvInformation.setText(marker.getSnippet());
-//                if (tvInformation.getText().toString().equals("")){
-//                    cvInformation.setVisibility(View.GONE);
-//                }else cvInformation.setVisibility(View.VISIBLE);
-
+                String indexMarker = String.valueOf(marker.getId().charAt(1));
+                int positionMarker = Integer.parseInt(indexMarker);
+                Log.e("TAG", "onMarkerClick: "+ indexMarker );
+                viewPager.setCurrentItem(positionMarker - 1);
                 return false;
             }
         });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    fetchLocation();
-                }
-                break;
-        }
-    }
 
     @Override
     public void onClick(View v) {
 
     }
-
 
 }

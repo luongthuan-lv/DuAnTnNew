@@ -49,7 +49,13 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
     }
 
     @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
     public int getItemCount() {
+
         return classShowInformationList.size();
     }
 

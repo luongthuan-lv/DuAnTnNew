@@ -291,7 +291,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.btn_facebook:
                 printHashKey();
-                initDialogLoading();
                 loginWithFacebook();
                 break;
             case R.id.img_change_language:
