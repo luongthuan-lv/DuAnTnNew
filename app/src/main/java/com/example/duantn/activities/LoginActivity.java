@@ -1,6 +1,8 @@
 package com.example.duantn.activities;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -21,7 +23,6 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.duantn.adapter.AdapterLanguage;
 import com.example.duantn.morder.ClassSelectLanguage;
 import com.example.duantn.morder.KeyLangguage;
@@ -101,8 +102,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         btn_google.setText(getResources().getString(R.string.label_btn_sign_in_with_google));
         btn_facebook.setText(getResources().getString(R.string.label_btn_login_in_with_Facebook));
 
-
-
     }
 
     private void setNgonngu(){
@@ -136,13 +135,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void createAlertDialog() {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.dialog_change_langue, null);
-
         RecyclerView rvLanguage;
-
         rvLanguage = alertLayout.findViewById(R.id.rvLanguage);
-
         rvLanguage.getLayoutParams().width = getSizeWithScale(289);
-
         selectLanguageArrayList = new ArrayList<>();
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.vietnam, R.string.LblVietNam));
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.japan, R.string.LblJapan));
@@ -150,16 +145,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.china, R.string.LblChina));
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.korea, R.string.LblKorea));
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.france, R.string.LblFrance));
-
-
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         alert.setCancelable(true);
         final AlertDialog dialog = alert.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
-
-
         adapterLanguage = new AdapterLanguage(this, selectLanguageArrayList, position_selected_language, new AdapterLanguage.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
@@ -171,11 +162,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             }
         });
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rvLanguage.setLayoutManager(linearLayoutManager);
         rvLanguage.setAdapter(adapterLanguage);
-
     }
 
     private void clickLanguageItem(int position, AlertDialog dialog) {

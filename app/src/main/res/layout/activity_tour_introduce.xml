@@ -51,8 +51,8 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <FrameLayout
-        android:layout_width="@dimen/none_widh_heght"
-        android:layout_height="@dimen/none_widh_heght"
+        android:layout_width="@dimen/none_width_height"
+        android:layout_height="@dimen/none_width_height"
         app:layout_constraintBottom_toBottomOf="@id/glH95"
         app:layout_constraintEnd_toEndOf="@id/glV93"
         app:layout_constraintStart_toStartOf="@+id/glV7"
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/playfair_display_bold_italic"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/fontSize_title_tour"
+                android:textSize="@dimen/textSize_title_tour"
                 app:layout_constraintStart_toEndOf="@id/glV10"
                 app:layout_constraintTop_toTopOf="@id/glH_h10" />
 

@@ -28,4 +28,7 @@
     <string name="label_btn_Cancel">取消</string>
     <string name="search_error">找不到您输入的旅行，请再次搜索！</string>
     <string name="hint_edtSearch">搜索...</string>
+    <string name="hint_edt_note">注意</string>
+    <string name="label_btn_Submit">提交</string>
+    <string name="title_dialog_rating">为了提高我们的服务质量，请告诉我们您的经验。</string>
 </resources>

@@ -19,8 +19,8 @@
 
 
     // can dich
-    <string name="label_btn_sign_in_with_google">connectez-vous avec Google</string>
-    <string name="label_btn_login_in_with_Facebook">Se connecter avec Facebook</string>
+    <string name="label_btn_sign_in_with_google">Connectez-vous avec Google</string>
+    <string name="label_btn_login_in_with_Facebook">Connecter avec Facebook</string>
     <string name="label1_btn_get_started">Commencer</string>
     <string name="title_alert">Souhaitez-vous connaître l\'horaire complet du voyage?</string>
     <string name="content_alert">Nous annoncerons toutes les informations historiques que vous passerez en revue, en espérant que vous aurez une meilleure expérience.</string>
@@ -28,4 +28,7 @@
     <string name="label_btn_Cancel">Annuler</string>
     <string name="search_error">Impossible de trouver le voyage que vous avez entré, veuillez rechercher à nouveau</string>
     <string name="hint_edtSearch">Chercher...</string>
+    <string name="hint_edt_note">Remarque</string>
+    <string name="label_btn_Submit">Soumettre</string>
+    <string name="title_dialog_rating">Afin d\'améliorer la qualité de notre service, merci de nous faire part de votre expérience.</string>
 </resources>

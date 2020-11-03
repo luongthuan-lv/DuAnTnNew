@@ -28,4 +28,7 @@
     <string name="label_btn_Cancel">キャンセル</string>
     <string name="search_error">入力した旅行が見つかりません。もう一度検索してください。</string>
     <string name="hint_edtSearch">探す...</string>
+    <string name="hint_edt_note">注意</string>
+    <string name="label_btn_Submit">送信</string>
+    <string name="title_dialog_rating">私たちのサービスの質を向上させるために、あなたの経験を教えてください。</string>
 </resources>

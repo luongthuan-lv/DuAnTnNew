@@ -16,16 +16,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.duantn.R;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
+import com.example.duantn.morder.ClassSelectLanguage;
 import com.example.duantn.morder.ClassShowInformation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -44,6 +49,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
  public class MainActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
 
@@ -61,6 +68,8 @@ import java.util.ArrayList;
     private PolygonOptions polylineOptions;
     private ViewPager2 viewPager;
     private AdapterSlideShowInformation slideShowInformation;
+    private  List<ImageView> imageViewList;
+    private int rating;
 
 
     @Override
@@ -100,8 +109,56 @@ import java.util.ArrayList;
 //        tvInformation = findViewById(R.id.tvInformation);
 
 
-
     }
+    private void createDialogRating(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.dialog_rating, null);
+        ImageView img_star1,img_star2,img_star3,img_star4,img_star5;
+        EditText edt_note;
+        img_star1 = alertLayout.findViewById(R.id.img_star1);
+        img_star2 = alertLayout.findViewById(R.id.img_star2);
+        img_star3 = alertLayout.findViewById(R.id.img_star3);
+        img_star4 = alertLayout.findViewById(R.id.img_star4);
+        img_star5 = alertLayout.findViewById(R.id.img_star5);
+        edt_note = alertLayout.findViewById(R.id.edt_note);
+       imageViewList  = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
+
+        for(int i=0;i<imageViewList.size();i++){
+            imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
+        }
+        for(int i=0;i<imageViewList.size();i++){
+            final int finalI = i;
+            imageViewList.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for(int i=0;i<imageViewList.size();i++){
+                        imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
+                    }
+
+                    for(int j = 0; j< finalI+1; j++){
+                        imageViewList.get(j).setImageResource(R.drawable.selected_star);
+
+                        //ket qua lay rating
+                        rating = j+1;
+                    }
+                }
+            });
+        }
+        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        alert.setCancelable(true);
+        alert.setPositiveButton(getResources().getString(R.string.label_btn_Submit), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                showToast(rating+" sao");
+                dialog.dismiss();
+            }
+        });
+        final android.app.AlertDialog dialog = alert.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        dialog.show();
+        dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_submit));
+    }
+
     private void setAdapter() {
         slideShowInformation = new AdapterSlideShowInformation(showInformationArrayList, this);
     }
@@ -111,7 +168,7 @@ import java.util.ArrayList;
         viewPager.setClipToPadding(false);
         viewPager.setClipChildren(false);
         viewPager.setOffscreenPageLimit(3);
-        viewPager.setVisibility(View.GONE);
+//        viewPager.setVisibility(View.GONE);
         viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(100));

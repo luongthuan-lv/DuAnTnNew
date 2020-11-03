@@ -15,9 +15,9 @@
     <dimen name="textSize_edt_search">18sp</dimen>
     <dimen name="paddingH_edt_search">10dp</dimen>
     <dimen name="width_title_tour">170dp</dimen>
-    <dimen name="fontSize_title_tour">36sp</dimen>
+    <dimen name="textSize_title_tour">36sp</dimen>
     <dimen name="padding_img_tour">10dp</dimen>
-    <dimen name="none_widh_heght">0dp</dimen>
+    <dimen name="none_width_height">0dp</dimen>
     <dimen name="width_bottom_title">110dp</dimen>
     <dimen name="paddingH_rating">10dp</dimen>
     <dimen name="paddingV_rating">5dp</dimen>
@@ -34,4 +34,13 @@
     <dimen name="mbCvInformation">30dp</dimen>
     <dimen name="paddingtvInformation">10dp</dimen>
     <dimen name="paddingHViewPager">60dp</dimen>
+    <dimen name="textSize_label_btl_login">16sp</dimen>
+    <dimen name="textSize_title_rating">17sp</dimen>
+    <dimen name="paddingH_title_rating">30dp</dimen>
+    <dimen name="width_height_logo_bus">120dp</dimen>
+    <dimen name="img_start_rating">60dp</dimen>
+    <dimen name="marginTop_edt_note">20dp</dimen>
+    <dimen name="marginH_edt_note">5dp</dimen>
+    <dimen name="marginV_edit_note">10dp</dimen>
+    <dimen name="height_edt_note">150dp</dimen>
 </resources>

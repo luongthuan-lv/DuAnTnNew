@@ -28,4 +28,7 @@
     <string name="label_btn_Cancel">Hủy</string>
     <string name="search_error">Không thể tìm thấy chuyến đi bạn đã nhập, vui lòng tìm kiếm lại!</string>
     <string name="hint_edtSearch">Tìm kiếm..</string>
+    <string name="hint_edt_note">Ghi chú</string>
+    <string name="label_btn_Submit">Gửi</string>
+    <string name="title_dialog_rating">Nhằm nâng cao chất lượng dịch vụ của chúng tôi, vui lòng cho chúng tôi biết về trải nghiệm của bạn.</string>
 </resources>

@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="@id/glV95"
         app:layout_constraintStart_toStartOf="@id/glV85"
-        android:layout_width="@dimen/none_widh_heght"
+        android:layout_width="@dimen/none_width_height"
         android:layout_height="wrap_content"/>
 
 
@@ -150,6 +150,7 @@
         app:layout_constraintTop_toBottomOf="@id/textView3">
 
         <Button
+            android:textSize="@dimen/textSize_label_btl_login"
             android:textColor="@color/color_sign_in_with_google"
             android:id="@+id/btn_google"
             android:layout_width="match_parent"
@@ -159,6 +160,7 @@
             android:textAllCaps="false" />
 
         <Button
+            android:textSize="@dimen/textSize_label_btl_login"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:id="@+id/btn_facebook"
@@ -168,7 +170,5 @@
             android:fontFamily="@font/roboto_medium" />
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

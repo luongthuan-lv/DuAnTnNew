@@ -50,8 +50,11 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
         holder.img_tour.setImageResource(tourList.get(position).getImage());
 
        List<ImageView> imageViewList = Arrays.asList(new ImageView[]{holder.img_star1, holder.img_star2, holder.img_star3, holder.img_star4, holder.img_star5});
+        for (int i=0;i<imageViewList.size();i++){
+            imageViewList.get(i).setImageResource(R.drawable.star2);
+        }
        for (int i=0;i<tourList.get(position).getRating();i++){
-           imageViewList.get(i).setVisibility(View.VISIBLE);
+           imageViewList.get(i).setImageResource(R.drawable.star);
        }
 
        holder.itemView.setOnClickListener(new View.OnClickListener() {
