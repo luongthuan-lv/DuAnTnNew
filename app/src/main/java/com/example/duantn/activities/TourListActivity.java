@@ -9,16 +9,23 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +65,10 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
         setAdapter();
         setViewPager2();
+
+
+
+
 
 
     }

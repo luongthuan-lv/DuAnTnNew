@@ -150,6 +150,7 @@
         app:layout_constraintTop_toBottomOf="@id/textView3">
 
         <Button
+            android:textColor="@color/color_sign_in_with_google"
             android:id="@+id/btn_google"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -158,6 +159,8 @@
             android:textAllCaps="false" />
 
         <Button
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
             android:id="@+id/btn_facebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

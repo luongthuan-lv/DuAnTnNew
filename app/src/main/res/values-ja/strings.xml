@@ -19,6 +19,8 @@
 
 
     // can dich
+    <string name="label_btn_sign_in_with_google">Googleでサインイン</string>
+    <string name="label_btn_login_in_with_Facebook">Facebookとの接続</string>
     <string name="label1_btn_get_started">ベギン</string>
     <string name="title_alert">旅行スケジュール全体を聞きたいですか？</string>
     <string name="content_alert">より良い体験ができることを願って、あなたが経験するすべての歴史的情報を発表します。</string>

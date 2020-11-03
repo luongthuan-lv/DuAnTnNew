@@ -19,6 +19,8 @@
 
 
     // can dich
+    <string name="label_btn_sign_in_with_google">connectez-vous avec Google</string>
+    <string name="label_btn_login_in_with_Facebook">Se connecter avec Facebook</string>
     <string name="label1_btn_get_started">Commencer</string>
     <string name="title_alert">Souhaitez-vous connaître l\'horaire complet du voyage?</string>
     <string name="content_alert">Nous annoncerons toutes les informations historiques que vous passerez en revue, en espérant que vous aurez une meilleure expérience.</string>

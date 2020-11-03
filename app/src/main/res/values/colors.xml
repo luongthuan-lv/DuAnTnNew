@@ -9,8 +9,7 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorBlue">#5400FF</color>
     <color name="colorBgLanguage">#F8E6E4</color>
-    <color name="color_bg_btn_google">#3B83FF</color>
-    <color name="color_bg_btn_facebook">#0144B8</color>
     <color name="colorBlack">#000000</color>
     <color name="color_btn_alertDialog">#673AB7</color>
+    <color name="color_sign_in_with_google">#4d4d4d</color>
 </resources>

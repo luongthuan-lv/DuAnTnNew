@@ -19,6 +19,8 @@
 
 
     // can dich
+    <string name="label_btn_sign_in_with_google">使用Google登录</string>
+    <string name="label_btn_login_in_with_Facebook">与Facebook连接</string>
     <string name="label1_btn_get_started">开始吧</string>
     <string name="title_alert">您想听听整个行程吗？</string>
     <string name="content_alert">我们将公布您将要经历的所有历史信息，希望您会有更好的体验。</string>

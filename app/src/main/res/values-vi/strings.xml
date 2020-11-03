@@ -19,6 +19,8 @@
 
 
     // can dich
+    <string name="label_btn_sign_in_with_google">Đăng nhập bằng Google</string>
+    <string name="label_btn_login_in_with_Facebook">Kết nối với Facebook</string>
     <string name="label1_btn_get_started">Bắt đầu</string>
     <string name="title_alert">Bạn có muốn nghe toàn bộ lịch trình chuyến đi không?</string>
     <string name="content_alert">Chúng tôi sẽ thông báo toàn bộ thông tin địa điểm,lịch sử mà quý khách sẽ đi qua, hi vọng quý khách sẽ có một trải nghiệm tốt hơn.</string>

@@ -8,6 +8,7 @@ import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Base64;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duantn.adapter.AdapterLanguage;
 import com.example.duantn.morder.ClassSelectLanguage;
 import com.example.duantn.morder.KeyLangguage;
@@ -36,8 +38,12 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONObject;
@@ -50,16 +56,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private CallbackManager callbackManager;
     private LoginManager loginManager;
     private Button btn_facebook;
     private Button btn_google;
-    static int RC_SIGN_IN = 1;
-    private GoogleSignInClient googleSignInClient;
-    private FirebaseAuth firebaseAuth;
-    private static final int RC_LOGIN_GG = 1;
-    private static final int RC_LOGIN_FB = 2;
     private MySqliteOpenHelper mySqliteOpenHelper;
     private LanguageDAO languageDAO;
     private List<KeyLangguage> keyLangguageList;
@@ -68,6 +69,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     private AdapterLanguage adapterLanguage;
     private int position_selected_language;
     private ImageView img_change_language;
+    private GoogleSignInClient mGoogleSignInClient;
+    private int RC_SIGN_IN = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,25 +80,32 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         callbackFacebook();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
 
         btn_google = findViewById(R.id.btn_google);
         findViewById(R.id.btn_google).setOnClickListener(this);
         btn_facebook = findViewById(R.id.btn_facebook);
         findViewById(R.id.btn_facebook).setOnClickListener(this);
         findViewById(R.id.img_change_language).setOnClickListener(this);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        googleSignInClient = GoogleSignIn.getClient(this, gso);
-        firebaseAuth = FirebaseAuth.getInstance();
         img_change_language = findViewById(R.id.img_change_language);
         img_change_language.setOnClickListener(this);
         btn_google.getLayoutParams().width = getSizeWithScale(298);
         btn_google.getLayoutParams().height = getSizeWithScale(60);
         btn_facebook.getLayoutParams().width = getSizeWithScale(298);
         btn_facebook.getLayoutParams().height = getSizeWithScale(60);
+        setNgonngu();
+        btn_google.setText(getResources().getString(R.string.label_btn_sign_in_with_google));
+        btn_facebook.setText(getResources().getString(R.string.label_btn_login_in_with_Facebook));
 
+
+
+    }
+
+    private void setNgonngu(){
         mySqliteOpenHelper = new MySqliteOpenHelper(this);
         mySqliteOpenHelper.createDataBase();
         keyLangguage = new KeyLangguage();
@@ -102,10 +113,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         keyLangguageList = languageDAO.getAll();
         ganNgonngu(keyLangguageList.get(0).getValue());
         checkFlag();
-
-
     }
-
 
     private void changeLanguage(String key) {
         keyLangguage.setPk("pk");
@@ -113,8 +121,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         languageDAO.update(keyLangguage);
         keyLangguageList = languageDAO.getAll();
         ganNgonngu(keyLangguageList.get(0).getValue());
-        checkFlag();
-
+        recreate();
     }
 
     private void ganNgonngu(String language) {
@@ -125,7 +132,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 configuration, getBaseContext().getResources().getDisplayMetrics()
         );
     }
-
 
     private void createAlertDialog() {
         LayoutInflater inflater = getLayoutInflater();
@@ -157,7 +163,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         adapterLanguage = new AdapterLanguage(this, selectLanguageArrayList, position_selected_language, new AdapterLanguage.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
-                clickLanguageItem(position,dialog);
+                clickLanguageItem(position, dialog);
             }
 
             @Override
@@ -172,7 +178,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
-    private void clickLanguageItem(int position,AlertDialog dialog ) {
+    private void clickLanguageItem(int position, AlertDialog dialog) {
         switch (position) {
             case 0:
                 changeLanguage("vi");
@@ -202,12 +208,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
-    private void checkFlag(){
+    private void checkFlag() {
         if (keyLangguageList.get(0).getValue().equals("vi")) {
             img_change_language.setImageResource(R.drawable.vietnam);
         } else if (keyLangguageList.get(0).getValue().equals("ja")) {
             img_change_language.setImageResource(R.drawable.japan);
-        }else if (keyLangguageList.get(0).getValue().equals("zh")) {
+        } else if (keyLangguageList.get(0).getValue().equals("zh")) {
             img_change_language.setImageResource(R.drawable.china);
         } else if (keyLangguageList.get(0).getValue().equals("ko")) {
             img_change_language.setImageResource(R.drawable.korea);
@@ -218,12 +224,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    private void checkNN(){
+    private void checkNN() {
         if (keyLangguageList.get(0).getValue().equals("vi")) {
             position_selected_language = 0;
         } else if (keyLangguageList.get(0).getValue().equals("ja")) {
             position_selected_language = 1;
-        }else if (keyLangguageList.get(0).getValue().equals("zh")) {
+        } else if (keyLangguageList.get(0).getValue().equals("zh")) {
             position_selected_language = 3;
         } else if (keyLangguageList.get(0).getValue().equals("ko")) {
             position_selected_language = 4;
@@ -234,24 +240,62 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
+    private void signInGoogle() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // add this line
-
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void loginWithFacebook() {
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
-            loginManager.logInWithReadPermissions(
-                    LoginActivity.this,
-                    Arrays.asList(
-                            "email",
-                            "public_profile"));
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+            if (acct != null) {
+                String personName = acct.getDisplayName();
+                String personEmail = acct.getEmail();
+                String personId = acct.getId();
+                Uri personPhoto = acct.getPhotoUrl();
+
+                Log.i("name",personName);
+                Log.i("email",personEmail);
+                Log.i("ID",personId);
+                Log.i("photo",String.valueOf(personPhoto));
+                showToast(personName);
+            }
+
+            nextActivity(TourListActivity.class);
+
+
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.v("Error", "signInResult:failed code=" + e.getStatusCode());
         }
+    }
 
+
+    private void loginWithFacebook() {
+        loginManager.logInWithReadPermissions(
+                LoginActivity.this,
+                Arrays.asList(
+                        "email",
+                        "public_profile"));
+    }
 
     public void callbackFacebook() {
 
@@ -287,7 +331,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_google:
-                nextActivity(TourListActivity.class);
+                signInGoogle();
                 break;
             case R.id.btn_facebook:
                 printHashKey();
@@ -299,7 +343,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
     }
-
 
     private void getFbInfo() {
         if (AccessToken.getCurrentAccessToken() == null) {
@@ -363,11 +406,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         } catch (Exception e) {
             Log.e("TAG", "printHashKey()", e);
         }
-    }
-
-
-    private void callBackFacebook(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 }
