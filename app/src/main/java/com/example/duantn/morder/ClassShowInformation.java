@@ -5,13 +5,15 @@ public class ClassShowInformation {
     private double longitude;
     private String title;
     private String content;
+    private int position;
 
 
-    public ClassShowInformation(double latitude, double longitude, String title, String content) {
+    public ClassShowInformation(double latitude, double longitude, String title, String content, int position) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.title = title;
         this.content = content;
+        this.position = position;
     }
 
     public double getLatitude() {
@@ -44,5 +46,13 @@ public class ClassShowInformation {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

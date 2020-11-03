@@ -26,7 +26,9 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activities.TourIntroduceActivity"></activity>
+        <activity android:name=".activities.TourIntroduceActivity">
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -36,6 +38,9 @@
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity android:name=".activities.LoginActivity">
+
+        </activity>
+        <activity android:name=".activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +48,6 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity" />
     </application>
 
 </manifest>
