@@ -9,23 +9,19 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +44,24 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         btnSearch = findViewById(R.id.btnSearch);
         findViewById(R.id.layout).setOnClickListener(this);
         findViewById(R.id.btnSearch).setOnClickListener(this);
-        edt_search.getLayoutParams().width = getSizeWithScale(245);
-        edt_search.getLayoutParams().height = getSizeWithScale(40);
-
         btnSearch.getLayoutParams().width = getSizeWithScale(45);
         btnSearch.getLayoutParams().height = getSizeWithScale(45);
+        edt_search.getLayoutParams().width = getSizeWithScale(245);
+        edt_search.getLayoutParams().height = getSizeWithScale(40);
+        edt_search.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        edt_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        search();
+                        closeKeyboard();
+                        break;
+                }
+                return false;
+            }
+        });
 
         tourList = new ArrayList<>();
         tourList.add(new Tour(R.drawable.img_tour, 1, "Ha Noi City Tour", "Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố."));
@@ -65,9 +73,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
         setAdapter();
         setViewPager2();
-
-
-
 
 
 
@@ -100,19 +105,19 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSearch:
-                tourAdapter.getFilter().filter(edt_search.getText().toString());
-                closeKeyboard();
-
-                if(TourAdapter.result==0){
-                    createAlertDialog();
+                search();
+                InputMethodManager imm = (InputMethodManager) this
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm.isAcceptingText()) {
+                    closeKeyboard();
                 }
-
                 break;
             case R.id.layout:
                 closeKeyboard();
                 break;
         }
     }
+
     private void closeKeyboard() {
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -121,7 +126,15 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    private void createAlertDialog(){
+    private void search() {
+        tourAdapter.getFilter().filter(edt_search.getText().toString());
+
+        if (TourAdapter.result == 0) {
+            createAlertDialog();
+        }
+    }
+
+    private void createAlertDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle(getResources().getString(R.string.search_error));
         b.setCancelable(false);
@@ -145,5 +158,5 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         LoginManager.getInstance().logOut();
     }
 
-    }
+}
 

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
@@ -22,8 +21,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +34,6 @@ import android.widget.TextView;
 
 import com.example.duantn.R;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
-import com.example.duantn.morder.ClassSelectLanguage;
 import com.example.duantn.morder.ClassShowInformation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -72,6 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private AdapterSlideShowInformation slideShowInformation;
     private List<ImageView> imageViewList;
     private int rating;
+    private String contentFeedback;
 
 
     @Override
@@ -118,7 +120,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         View alertLayout = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_rating, (LinearLayout) findViewById(R.id.layout_content));
 
         ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
-        EditText edt_note;
+        final EditText edt_note;
         Button btn_submit;
         img_star1 = alertLayout.findViewById(R.id.img_star1);
         img_star2 = alertLayout.findViewById(R.id.img_star2);
@@ -127,6 +129,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         img_star5 = alertLayout.findViewById(R.id.img_star5);
         edt_note = alertLayout.findViewById(R.id.edt_note);
         btn_submit = alertLayout.findViewById(R.id.btn_submit);
+        edt_note.setImeOptions(EditorInfo.IME_ACTION_DONE);
         imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
 
         for (int i = 0; i < imageViewList.size(); i++) {
@@ -159,10 +162,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                showToast(rating+" sao");
+                sendFeedback(edt_note);
+
             }
         });
         dialog.show();
+    }
+
+    private void sendFeedback(EditText edt){
+        contentFeedback =edt.getText().toString().trim();
+        showToast(contentFeedback + "\n" + rating+" sao");
     }
 
     private void setAdapter() {
@@ -258,7 +267,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mGoogleMap.addMarker(markerOptions);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
