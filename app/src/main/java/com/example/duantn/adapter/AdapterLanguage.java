@@ -40,7 +40,7 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
         this.mContext = mContext;
         this.classSelectLanguages = classSelectLanguages;
         this.onClickItemListener = onClickItemListener;
-        this.position_selected_language=position_selected_language;
+        this.position_selected_language = position_selected_language;
     }
 
     @NonNull
@@ -70,7 +70,7 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                click=true;
+                click = true;
                 for(int i=0;i<classSelectLanguages.size();i++){
                     if(i==position){
                         classSelectLanguages.get(position).setCheck(1);

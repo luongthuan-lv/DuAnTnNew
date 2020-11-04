@@ -9,7 +9,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
+import com.facebook.login.LoginManager;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.Arrays;
@@ -24,6 +27,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
     private TextView tv_title_tour,tv_introduce;
     private Button btn_start;
+    private ImageView imgAvata;
+    private String urlAvata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +44,9 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         tv_introduce = findViewById(R.id.tv_introduce);
         btn_start = findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this);
-
+        imgAvata = findViewById(R.id.imgAvata);
         getIntent_bundle();
-
+        logoutUser();
         setView();
 
     }
@@ -50,6 +55,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
+            urlAvata = bundle.getString("urlAvata");
+            Glide.with(this).load(urlAvata).transform(new RoundedCorners(70)).into(imgAvata);
             rating = bundle.getInt("rating");
             image = bundle.getInt("image");
             introduce = bundle.getString("introduce");
@@ -98,5 +105,14 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         al.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
 
 
+    }
+
+    private void logoutUser(){
+        imgAvata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logOut();
+            }
+        });
     }
 }

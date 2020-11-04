@@ -9,6 +9,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,10 +20,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +42,8 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private TourAdapter tourAdapter;
     private EditText edt_search;
     private ImageView btnSearch;
+    private ImageView imgAvata;
+    private String urlAvata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +84,34 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         setAdapter();
         setViewPager2();
 
-
+        //setAvata
+        imgAvata = findViewById(R.id.imgAvata);
+        Intent intent = getIntent();
+        urlAvata = intent.getStringExtra("urlAvata");
+        Glide.with(this).load(urlAvata).transform(new RoundedCorners(70)).into(imgAvata);
 
     }
 
     private void setAdapter() {
-        tourAdapter = new TourAdapter(tourList, this);
+        tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
+            @Override
+            public void onClicked(int position) {
+                Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("urlAvata",urlAvata);
+                bundle.putInt("image", tourList.get(position).getImage());
+                bundle.putInt("rating",tourList.get(position).getRating());
+                bundle.putString("title",tourList.get(position).getTitle());
+                bundle.putString("introduce",tourList.get(position).getIntroduce());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onSwitched(boolean isChecked) {
+
+            }
+        });
     }
 
     private void setViewPager2() {
@@ -105,17 +137,24 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSearch:
+                tourAdapter.getFilter().filter(edt_search.getText().toString());
+                closeKeyboard();
+
+                if (TourAdapter.result == 0) {
+                    createAlertDialog();
                 search();
                 InputMethodManager imm = (InputMethodManager) this
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm.isAcceptingText()) {
                     closeKeyboard();
-                }
+                }}
+
                 break;
             case R.id.layout:
                 closeKeyboard();
                 break;
-        }
+
+    }
     }
 
     private void closeKeyboard() {
@@ -126,13 +165,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    private void search() {
-        tourAdapter.getFilter().filter(edt_search.getText().toString());
-
-        if (TourAdapter.result == 0) {
-            createAlertDialog();
-        }
-    }
 
     private void createAlertDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
@@ -150,7 +182,13 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         al.show();
         al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
     }
+        private void search() {
+            tourAdapter.getFilter().filter(edt_search.getText().toString());
 
+            if (TourAdapter.result == 0) {
+                createAlertDialog();
+            }
+        }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

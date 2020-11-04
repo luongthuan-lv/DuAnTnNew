@@ -13,4 +13,5 @@
     <color name="color_btn_alertDialog">#673AB7</color>
     <color name="color_sign_in_with_google">#4d4d4d</color>
     <color name="color_btn_submit">#00B1FF</color>
+    <color name="colorTvSeeMore">#FFCC00</color>
 </resources>

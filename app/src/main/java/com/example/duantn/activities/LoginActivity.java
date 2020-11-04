@@ -68,6 +68,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView img_change_language;
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
+    private String urlAvarta;
 
 
     @Override
@@ -256,6 +257,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
 
+                urlAvarta = String.valueOf(personPhoto);
                 Log.i("name",personName);
                 Log.i("email",personEmail);
                 Log.i("ID",personId);
@@ -263,7 +265,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 showToast(personName);
             }
 
-            nextActivity(TourListActivity.class);
+            Intent intent = new Intent(this, TourListActivity.class);
+            intent.putExtra("urlAvata", urlAvarta);
+            startActivity(intent);
 
 
         } catch (ApiException e) {
@@ -293,7 +297,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         getFbInfo();
-                        nextActivity(TourListActivity.class);
 
                     }
 
@@ -315,9 +318,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_google:
+                Log.i("TAG", "onClick: "+ urlAvarta);
                 signInGoogle();
                 break;
             case R.id.btn_facebook:
+                Log.i("TAG", "onClick: "+ urlAvarta);
                 printHashKey();
                 loginWithFacebook();
                 break;
@@ -351,7 +356,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 Log.i("imageURL: ", imageURL.toString());
                                 Log.i("link: ", link);
                                 Log.i("gender: ", gender);
-                                showToast(name);
+                                urlAvarta = String.valueOf(imageURL);
+                                Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
+                                intent.putExtra("urlAvata", urlAvarta);
+                                startActivity(intent);
                             }
                         }
                     });

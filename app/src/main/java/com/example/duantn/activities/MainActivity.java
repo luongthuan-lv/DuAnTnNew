@@ -1,6 +1,7 @@
-package com.example.duantn.activities;
+ package com.example.duantn.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +10,7 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,13 +20,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.duantn.R;
+import com.example.duantn.adapter.AdapterSlideDialoginformation;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
 import com.example.duantn.morder.ClassShowInformation;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -54,6 +57,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
 
@@ -73,6 +78,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private AdapterSlideShowInformation slideShowInformation;
     private List<ImageView> imageViewList;
     private int rating;
+    private ArrayList<ClassShowInformation> imgListInformation;
+    private int currentPage = 0;
+    private Timer timer;
     private String contentFeedback;
 
 
@@ -89,29 +97,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         } else {
             fetchLocation();
         }
-        showInformationArrayList = new ArrayList<>();
-
-        showInformationArrayList.add(new ClassShowInformation(21.037000, 105.834727, "Lăng Bác", "Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.", 0));
-        showInformationArrayList.add(new ClassShowInformation(21.032555, 105.839804, "Cột cờ Hà Nội", "Kỳ đài Hà Nội hay còn được nhiều biết tới hơn với tên gọi Cột cờ Hà Nội nằm trong khuôn viên của bảo tàng lịch sử quân sự Việt Nam. Được đánh giá là công trình nguyên vẹn và hoành tráng nhất trong quần thể di tích Hoàng thành Thăng Long, Cột Cờ chính là điểm tham quan du lịch ở Hà Nội mà du khách không thể bỏ qua trong hành trình khám phá lịch sử của đất Hà Thành.", 1));
-        showInformationArrayList.add(new ClassShowInformation(21.029565, 105.836206, "Văn Miếu - Quốc Tử Giám", "Nếu kể tên các địa điểm du lịch Hà Nội bậc nhất xưa và nay có lẽ ai cũng sẽ nghĩ ngay đến Văn Miếu Quốc Tử Giám. Đây là một quần thể kiến trúc văn hoá hàng đầu và là niềm tự hào của người dân Thủ đô khi nhắc đến truyền thống ngàn năm văn hiến của Thăng Long – Đông Đô – Hà Nội.", 2));
-        showInformationArrayList.add(new ClassShowInformation(21.025445, 105.846422, "Di Tích Lịch Sử Nhà Tù Hỏa Lò", "Nhà tù Hỏa Lò được thực dân Pháp xây dựng từ năm 1896 với tên gọi “Maison Central”, là nơi giam giữ những chiến sĩ cách mạng chống lại chế độ thực dân. Đây là một trong những công trình kiên cố vào loại bậc nhất Đông Dương khi đó. Sau ngày giải phóng thủ đô, nhà tù được đặt dưới quyền của chính quyền cách mạng. Từ năm 1963 đến 1975, nơi đây còn được sử dụng để làm nơi giam giữ những phi công Mỹ bị quân đội Việt Nam bắn rơi trong cuộc chiến tranh phá hoại miền Bắc.", 3));
-        showInformationArrayList.add(new ClassShowInformation(21.024118, 105.857947, "Nhà hát Lớn Hà Nội", "Nằm ở số 1 Tràng Tiền, Nhà hát lớn là một trong các địa điểm du lịch đẹp ở Hà Nội mang nhiều dấu ấn lịch sử. Đây là địa điểm tổ chức những chương trình nghệ thuật lớn của nhiều ca sĩ, nghệ sĩ tên tuổi hàng đầu Việt Nam. Du khách có thể chiêm ngưỡng kiến trúc tuyệt vời của Nhà hát Lớn hay mua vé vào xem một trong những chương trình biểu diễn thường xuyên được tổ chức để có thể tận mắt thấy được hết nội thất tráng lệ của nhà hát.", 4));
-        showInformationArrayList.add(new ClassShowInformation(21.028683, 105.848812, "Nhà thờ Lớn Hà Nội", "Nằm ở 40 phố Nhà Chung, phường Hàng Trống, Nhà thờ lớn là một trong những điểm đến thú vị ở Hà Nội, nơi lui tới không chỉ của các tín đồ theo đạo mà còn là địa điểm quen thuộc của giới trẻ, khách du lịch tứ phương. Nhà thờ được thiết kế theo phong cách kiến trúc Gothic trung cổ châu Âu với bức tường xây cao, có mái vòm và nhiều cửa sổ.", 5));
-        showInformationArrayList.add(new ClassShowInformation(21.028805, 105.852150, "Hồ Hoàn Kiếm", "Hồ Gươm hay hồ Hoàn Kiếm là một trong những nơi nên đến ở Hà Nội khi du lịch thủ đô. Nằm ở giữa trung tâm, Hồ Gươm được ví như trái tim của thành phố ngàn năm tuổi này.. Mặt hồ như tấm gương lớn soi bóng những cây cổ thụ, những rặng liễu thướt tha tóc rủ, những mái đền, chùa cổ kính, tháp cũ rêu phong, các toà nhà mới cao tầng vươn lên trời xanh.", 6));
-        showInformationArrayList.add(new ClassShowInformation(21.034399, 105.840115, "Hoàng Thành Thăng Long", "Hoàng thành Thăng Long là quần thể di tích gắn liền với sự phát triển của Thăng Long – Hà Nội, được các triều vua xây dựng trong nhiều giai đoạn lịch sử. Đây cũng là di tích quan trọng bậc nhất trong hệ thống các di tích lịch sử của Việt Nam. Đến Hoàng thành Thăng Long du khách có thể tham quan những địa điểm nổi bật như khu khảo cổ học số 18 Hoàng Diệu, Đoan Môn, Điện Kính Thiên, Bắc Môn (thành Cửa Bắc)…", 7));
-
+        addDataSlideInformation();
         viewPager = findViewById(R.id.viewPager);
         viewPager.getLayoutParams().height = getSizeWithScale(139);
 
         setAdapter();
         setViewPager();
-        viewPager.setOnClickListener(this);
-//        cvInformation = findViewById(R.id.cvInformation);
-//        cvInformation.getLayoutParams().width = getSizeWithScale(289);
-//        cvInformation.getLayoutParams().height = getSizeWithScale(139);
+        addDataListImg();
+    }
 
-//        tvInformation = findViewById(R.id.tvInformation);
-
+    private void addDataListImg() {
+        imgListInformation = new ArrayList<>();
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg", "https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg", "https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://laodongthudo.vn/stores/news_dataimages/quocdai/082019/30/17/4151_cYt_cY_HN.jpg", "https://upload.wikimedia.org/wikipedia/vi/1/17/C%E1%BB%99t_c%E1%BB%9D_H%C3%A0_N%E1%BB%99i_x%C6%B0a.jpg", "https://lh3.googleusercontent.com/proxy/GlpfWnSUxBhIrH1XVKYflWoReAlupUARUUxkaB_aYpsEWKaDJ59kBqZJ5zAw9c3F12m8fwWgpF8hiN86ugj_qJZ_c3Av-QI"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg", "https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://sodulich.hanoi.gov.vn/storage/nhatuhoalo120190915230108.png", "https://cdnmedia.baotintuc.vn/2014/07/25/19/23/hoalo7%20(2).JPG", "https://cdnimg.vietnamplus.vn/t870/uploaded/fsmsy/2020_01_29/ttxvn_nha_tu_hoa_lo_1.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://hanoi1000.vn/wp-content/uploads/2019/09/nha-hat-lon-thumnail.jpg", "https://media-cdn.tripadvisor.com/media/photo-s/0e/8e/9f/f0/hanoi-opera-house.jpg", "https://photo-1-baomoi.zadn.vn/w1000_r1/2019_01_10_180_29302323/4196b74e8c0d65533c1c.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://dulichkhampha24.com/wp-content/uploads/2020/01/nha-tho-lon-ha-noi-9.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/nha-tho-lon-ha-noi-1-1.jpg", "https://laodongthudo.vn/stores/news_dataimages/maiquy/032020/28/14/4305_DSC_6917.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/ho-hoan-kiem-1.png", "https://dulichkhampha24.com/wp-content/uploads/2020/01/gioi-thieu-ve-ho-guom-15.jpg", "https://phapluat.tuoitrethudo.com.vn/stores/news_dataimages/nguyenthithanhhoa/072019/06/18/in_article/ha-noi-day-manh-tuyen-truyen-su-kien-20-nam-thanh-pho-vi-hoa-binh.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://baoxaydung.com.vn/stores/news_dataimages/vananh/112018/30/23/231143baoxaydung_image001.jpg", "https://thoibaonganhang.vn/stores/news_dataimages/thanhlm/022019/01/09/f40a1d5e2f78bad9fa1ab42ec1790b8f_Untitled.jpg", "https://sohanews.sohacdn.com/thumb_w/660/2018/2/13/photo1518495306225-15184953062251022493055.jpg"}));
 
     }
 
@@ -167,15 +171,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         dialog.show();
-    }
+
+                    }
 
     private void sendFeedback(EditText edt){
         contentFeedback =edt.getText().toString().trim();
         showToast(contentFeedback + "\n" + rating+" sao");
     }
 
+    private void addDataSlideInformation() {
+        showInformationArrayList = new ArrayList<>();
+
+        showInformationArrayList.add(new ClassShowInformation(21.037000, 105.834727, "Lăng Bác", "Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.", 0, "https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg"));
+        showInformationArrayList.add(new ClassShowInformation(21.032555, 105.839804, "Cột cờ Hà Nội", "Kỳ đài Hà Nội hay còn được nhiều biết tới hơn với tên gọi Cột cờ Hà Nội nằm trong khuôn viên của bảo tàng lịch sử quân sự Việt Nam. Được đánh giá là công trình nguyên vẹn và hoành tráng nhất trong quần thể di tích Hoàng thành Thăng Long, Cột Cờ chính là điểm tham quan du lịch ở Hà Nội mà du khách không thể bỏ qua trong hành trình khám phá lịch sử của đất Hà Thành.", 1, "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_tower%2C_Hanoi.jpg/250px-Flag_tower%2C_Hanoi.jpg"));
+        showInformationArrayList.add(new ClassShowInformation(21.029565, 105.836206, "Văn Miếu - Quốc Tử Giám", "Nếu kể tên các địa điểm du lịch Hà Nội bậc nhất xưa và nay có lẽ ai cũng sẽ nghĩ ngay đến Văn Miếu Quốc Tử Giám. Đây là một quần thể kiến trúc văn hoá hàng đầu và là niềm tự hào của người dân Thủ đô khi nhắc đến truyền thống ngàn năm văn hiến của Thăng Long – Đông Đô – Hà Nội.", 2, "https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg"));
+        showInformationArrayList.add(new ClassShowInformation(21.025445, 105.846422, "Di Tích Lịch Sử Nhà Tù Hỏa Lò", "Nhà tù Hỏa Lò được thực dân Pháp xây dựng từ năm 1896 với tên gọi “Maison Central”, là nơi giam giữ những chiến sĩ cách mạng chống lại chế độ thực dân. Đây là một trong những công trình kiên cố vào loại bậc nhất Đông Dương khi đó. Sau ngày giải phóng thủ đô, nhà tù được đặt dưới quyền của chính quyền cách mạng. Từ năm 1963 đến 1975, nơi đây còn được sử dụng để làm nơi giam giữ những phi công Mỹ bị quân đội Việt Nam bắn rơi trong cuộc chiến tranh phá hoại miền Bắc. Nhà tù Hỏa Lò được thực dân Pháp xây dựng từ năm 1896 với tên gọi “Maison Central”, là nơi giam giữ những chiến sĩ cách mạng chống lại chế độ thực dân. Đây là một trong những công trình kiên cố vào loại bậc nhất Đông Dương khi đó. Sau ngày giải phóng thủ đô, nhà tù được đặt dưới quyền của chính quyền cách mạng. Từ năm 1963 đến 1975, nơi đây còn được sử dụng để làm nơi giam giữ những phi công Mỹ bị quân đội Việt Nam bắn rơi trong cuộc chiến tranh phá hoại miền Bắc.", 3, "https://sodulich.hanoi.gov.vn/storage/nhatuhoalo120190915230108.png"));
+        showInformationArrayList.add(new ClassShowInformation(21.024118, 105.857947, "Nhà hát Lớn Hà Nội", "Nằm ở số 1 Tràng Tiền, Nhà hát lớn là một trong các địa điểm du lịch đẹp ở Hà Nội mang nhiều dấu ấn lịch sử. Đây là địa điểm tổ chức những chương trình nghệ thuật lớn của nhiều ca sĩ, nghệ sĩ tên tuổi hàng đầu Việt Nam. Du khách có thể chiêm ngưỡng kiến trúc tuyệt vời của Nhà hát Lớn hay mua vé vào xem một trong những chương trình biểu diễn thường xuyên được tổ chức để có thể tận mắt thấy được hết nội thất tráng lệ của nhà hát.", 4, "https://icdn.dantri.com.vn/zoom/1200_630/2017/nha-hat-lon-ha-noi-1499853914500-crop-1499854079654.jpg"));
+        showInformationArrayList.add(new ClassShowInformation(21.028683, 105.848812, "Nhà thờ Lớn Hà Nội", "Nằm ở 40 phố Nhà Chung, phường Hàng Trống, Nhà thờ lớn là một trong những điểm đến thú vị ở Hà Nội, nơi lui tới không chỉ của các tín đồ theo đạo mà còn là địa điểm quen thuộc của giới trẻ, khách du lịch tứ phương. Nhà thờ được thiết kế theo phong cách kiến trúc Gothic trung cổ châu Âu với bức tường xây cao, có mái vòm và nhiều cửa sổ.", 5, "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Hanoi_sjc.jpg/1200px-Hanoi_sjc.jpg"));
+        showInformationArrayList.add(new ClassShowInformation(21.028805, 105.852150, "Hồ Hoàn Kiếm", "Hồ Gươm hay hồ Hoàn Kiếm là một trong những nơi nên đến ở Hà Nội khi du lịch thủ đô. Nằm ở giữa trung tâm, Hồ Gươm được ví như trái tim của thành phố ngàn năm tuổi này.. Mặt hồ như tấm gương lớn soi bóng những cây cổ thụ, những rặng liễu thướt tha tóc rủ, những mái đền, chùa cổ kính, tháp cũ rêu phong, các toà nhà mới cao tầng vươn lên trời xanh.", 6, "https://e.dowload.vn/data/image/2020/01/08/thuyet-minh-ve-ho-guom-1.jpg"));
+        showInformationArrayList.add(new ClassShowInformation(21.034399, 105.840115, "Hoàng Thành Thăng Long", "Hoàng thành Thăng Long là quần thể di tích gắn liền với sự phát triển của Thăng Long – Hà Nội, được các triều vua xây dựng trong nhiều giai đoạn lịch sử. Đây cũng là di tích quan trọng bậc nhất trong hệ thống các di tích lịch sử của Việt Nam. Đến Hoàng thành Thăng Long du khách có thể tham quan những địa điểm nổi bật như khu khảo cổ học số 18 Hoàng Diệu, Đoan Môn, Điện Kính Thiên, Bắc Môn (thành Cửa Bắc)…", 7, "https://useful.vn/wp-content/uploads/2020/04/1568099002089_4146890.png"));
+
+    }
+
     private void setAdapter() {
-        slideShowInformation = new AdapterSlideShowInformation(showInformationArrayList, this);
+        slideShowInformation = new AdapterSlideShowInformation(showInformationArrayList, this, new AdapterSlideShowInformation.OnClickItemListener() {
+            @Override
+            public void onClicked(int position) {
+                showCustomDialog(position);
+            }
+
+            @Override
+            public void onSwitched(boolean isChecked) {
+
+            }
+        });
     }
 
     private void setViewPager() {
@@ -183,10 +212,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         viewPager.setClipToPadding(false);
         viewPager.setClipChildren(false);
         viewPager.setOffscreenPageLimit(3);
-//        viewPager.setVisibility(View.GONE);
+
         viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(100));
+        compositePageTransformer.addTransformer(new MarginPageTransformer(50));
         compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
             @Override
             public void transformPage(@NonNull View page, float position) {
@@ -267,6 +296,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mGoogleMap.addMarker(markerOptions);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,6 +336,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 option.position(position1);
                 option.title(showInformationArrayList.get(position).getTitle());
                 option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
+                Log.e("TAG", "onPageSelected: " + position);
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
                 final Marker maker = mGoogleMap.addMarker(option);
                 maker.showInfoWindow();
@@ -318,6 +350,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                viewPager.setVisibility(View.VISIBLE);
                 String indexMarker = String.valueOf(marker.getId().charAt(1));
                 int positionMarker = Integer.parseInt(indexMarker);
                 Log.e("TAG", "onMarkerClick: " + indexMarker);
@@ -325,6 +358,41 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 return false;
             }
         });
+    }
+
+    private void showCustomDialog(int position) {
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_show_information, viewGroup, false);
+        TextView tvContent = dialogView.findViewById(R.id.tvDialogContent);
+        tvContent.setText(showInformationArrayList.get(position).getContent());
+        tvContent.setMovementMethod(new ScrollingMovementMethod());
+        final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);
+        AdapterSlideDialoginformation adapterSlideDialoginformation = new AdapterSlideDialoginformation(imgListInformation.get(position).imgInformationList, this);
+        Log.e("TAG", "showCustomDialog: " + imgListInformation.get(position).imgInformationList.length);
+        viewPager.setAdapter(adapterSlideDialoginformation);
+
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                currentPage = viewPager.getCurrentItem() + 1;
+                viewPager.setCurrentItem(currentPage, true);
+            }
+        };
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, 3000, 3000);
+
+        Dialog dialog = new Dialog(this, R.style.dialogNotice);
+        tvContent.getLayoutParams().width = getSizeWithScale(331);
+        tvContent.getLayoutParams().height = getSizeWithScale(261);
+        dialog.setContentView(dialogView);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
     @Override

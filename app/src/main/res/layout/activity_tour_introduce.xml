@@ -277,5 +277,12 @@
 
 
     </FrameLayout>
-
+    <ImageView
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imgAvata"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

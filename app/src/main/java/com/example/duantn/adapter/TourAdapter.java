@@ -30,10 +30,15 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
     private List<Tour> tourList2;
     public static int result;
 
-
-    public TourAdapter(List<Tour> tourList, Context context) {
+    public interface OnClickItemListener {
+        void onClicked(int position);
+        void onSwitched(boolean isChecked);
+    }
+    private OnClickItemListener onClickItemListener;
+    public TourAdapter(List<Tour> tourList, Context context, OnClickItemListener onClickItemListener) {
         this.tourList = tourList;
         this.context = context;
+        this.onClickItemListener = onClickItemListener;
         this.tourList2 = new ArrayList<>(tourList);
     }
 
@@ -60,14 +65,8 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
        holder.itemView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Intent intent = new Intent(context, TourIntroduceActivity.class);
-               Bundle bundle = new Bundle();
-               bundle.putInt("image", tourList.get(position).getImage());
-               bundle.putInt("rating",tourList.get(position).getRating());
-               bundle.putString("title",tourList.get(position).getTitle());
-               bundle.putString("introduce",tourList.get(position).getIntroduce());
-               intent.putExtras(bundle);
-               context.startActivity(intent);
+               if (onClickItemListener != null)
+                   onClickItemListener.onClicked(position);
            }
        });
 

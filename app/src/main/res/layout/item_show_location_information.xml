@@ -1,41 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
- <androidx.cardview.widget.CardView
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="30dp">
 
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     app:cardCornerRadius="30dp"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_cl_show_information">
 
-  <androidx.constraintlayout.widget.ConstraintLayout
-      android:background="@drawable/bg_cl_show_information"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-   <androidx.constraintlayout.widget.Guideline
-       android:id="@+id/glV30"
-       android:layout_width="wrap_content"
-       android:layout_height="match_parent"
-       android:orientation="vertical"
-       app:layout_constraintGuide_percent="0.3" />
-   <com.google.android.material.imageview.ShapeableImageView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:adjustViewBounds="true"
-       android:scaleType="centerCrop"
-       app:shapeAppearanceOverlay="@style/roundimageview"
-       android:src="@drawable/baotanglichsuquandoivietnam"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
-   <TextView
-       android:padding="@dimen/paddingtvInformation"
-       android:id="@+id/tvInformation"
-       android:background="@color/colorWhite"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toEndOf="@+id/glV30"
-       android:layout_width="0dp"
-       android:layout_height="match_parent"/>
-  </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glV30"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.35" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgFirstly"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baotanglichsuquandoivietnam"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundimageview" />
+     <androidx.constraintlayout.widget.ConstraintLayout
+         android:paddingLeft="@dimen/padding_05"
+         android:background="@color/colorWhite"
+         android:layout_width="0dp"
+         android:layout_height="match_parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toEndOf="@+id/glV30">
+      <androidx.constraintlayout.widget.Guideline
+          android:id="@+id/glV50"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:orientation="horizontal"
+          app:layout_constraintGuide_percent="0.8" />
+      <TextView
+          android:fontFamily="@font/playfair_display_bold_italic"
+          android:textStyle="bold"
+          android:textColor="@color/colorBlack"
+          android:textSize="@dimen/ts_15"
+          android:ellipsize="end"
+          android:maxLines="1"
+          android:id="@+id/tvTitle"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintTop_toTopOf="parent"
+          android:background="@color/colorWhite" />
+
+      <TextView
+          android:textSize="@dimen/ts_12"
+          android:textColor="@color/colorBlack"
+          android:ellipsize="end"
+          android:maxLines="4"
+          android:id="@+id/tvInformation"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+          android:background="@color/colorWhite" />
+
+      <ImageView
+          android:padding="@dimen/padding_05"
+          android:layout_marginRight="@dimen/margin_20dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@drawable/ic_audio"
+          app:layout_constraintTop_toBottomOf="@+id/tvInformation"
+          app:layout_constraintEnd_toEndOf="parent" />
+
+      <TextView
+          android:layout_marginTop="@dimen/padding_05"
+          android:textColor="@color/colorTvSeeMore"
+          android:textStyle="bold"
+          android:text="@string/lblSeeMore"
+          app:layout_constraintStart_toStartOf="parent"
+          android:id="@+id/tvSeeMore"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:layout_constraintTop_toBottomOf="@+id/tvInformation"
+          android:background="@color/colorWhite" />
+     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
- </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
