@@ -43,4 +43,6 @@
     <dimen name="marginH_edt_note">5dp</dimen>
     <dimen name="marginV_edit_note">10dp</dimen>
     <dimen name="height_edt_note">150dp</dimen>
+    <dimen name="marginTop_btn_submit">20dp</dimen>
+    <dimen name="padding_dialog_rating">20dp</dimen>
 </resources>

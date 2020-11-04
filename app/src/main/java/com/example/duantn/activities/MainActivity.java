@@ -1,7 +1,6 @@
- package com.example.duantn.activities;
+package com.example.duantn.activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +10,7 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,8 +24,10 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.duantn.R;
@@ -52,7 +54,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
- public class MainActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
+public class MainActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private LocationManager locationManager;
@@ -68,7 +70,7 @@ import java.util.List;
     private PolygonOptions polylineOptions;
     private ViewPager2 viewPager;
     private AdapterSlideShowInformation slideShowInformation;
-    private  List<ImageView> imageViewList;
+    private List<ImageView> imageViewList;
     private int rating;
 
 
@@ -110,53 +112,57 @@ import java.util.List;
 
 
     }
-    private void createDialogRating(){
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.dialog_rating, null);
-        ImageView img_star1,img_star2,img_star3,img_star4,img_star5;
+
+    private void createDialogRating() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+        View alertLayout = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_rating, (LinearLayout) findViewById(R.id.layout_content));
+
+        ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
         EditText edt_note;
+        Button btn_submit;
         img_star1 = alertLayout.findViewById(R.id.img_star1);
         img_star2 = alertLayout.findViewById(R.id.img_star2);
         img_star3 = alertLayout.findViewById(R.id.img_star3);
         img_star4 = alertLayout.findViewById(R.id.img_star4);
         img_star5 = alertLayout.findViewById(R.id.img_star5);
         edt_note = alertLayout.findViewById(R.id.edt_note);
-       imageViewList  = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
+        btn_submit = alertLayout.findViewById(R.id.btn_submit);
+        imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
 
-        for(int i=0;i<imageViewList.size();i++){
+        for (int i = 0; i < imageViewList.size(); i++) {
             imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
         }
-        for(int i=0;i<imageViewList.size();i++){
+        for (int i = 0; i < imageViewList.size(); i++) {
             final int finalI = i;
             imageViewList.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for(int i=0;i<imageViewList.size();i++){
+                    for (int i = 0; i < imageViewList.size(); i++) {
                         imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
                     }
 
-                    for(int j = 0; j< finalI+1; j++){
+                    for (int j = 0; j < finalI + 1; j++) {
                         imageViewList.get(j).setImageResource(R.drawable.selected_star);
 
-                        //ket qua lay rating
-                        rating = j+1;
+                        //ket qua rating
+                        rating = j + 1;
                     }
                 }
             });
         }
-        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(this);
         alert.setView(alertLayout);
         alert.setCancelable(true);
-        alert.setPositiveButton(getResources().getString(R.string.label_btn_Submit), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                showToast(rating+" sao");
+
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
+                showToast(rating+" sao");
             }
         });
-        final android.app.AlertDialog dialog = alert.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         dialog.show();
-        dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_submit));
     }
 
     private void setAdapter() {
@@ -201,7 +207,6 @@ import java.util.List;
         alertDialog.show();
     }
 
-
     private void fetchLocation() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(
@@ -231,10 +236,10 @@ import java.util.List;
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                if (btnMyLocation.getVisibility() == View.VISIBLE && viewPager.getVisibility() == View.VISIBLE){
+                if (btnMyLocation.getVisibility() == View.VISIBLE && viewPager.getVisibility() == View.VISIBLE) {
                     btnMyLocation.setVisibility(View.GONE);
                     viewPager.setVisibility(View.GONE);
-                }else {
+                } else {
                     btnMyLocation.setVisibility(View.VISIBLE);
                     viewPager.setVisibility(View.VISIBLE);
                 }
@@ -267,7 +272,7 @@ import java.util.List;
         latLngs = new ArrayList<>();
         polylineOptions = new PolygonOptions();
         for (int i = 0; i < showInformationArrayList.size(); i++) {
-                final LatLng position = new LatLng(showInformationArrayList.get(i).getLatitude(), showInformationArrayList.get(i).getLongitude());
+            final LatLng position = new LatLng(showInformationArrayList.get(i).getLatitude(), showInformationArrayList.get(i).getLongitude());
             MarkerOptions option = new MarkerOptions();
             option.position(position);
             option.title(showInformationArrayList.get(i).getTitle());
@@ -296,7 +301,7 @@ import java.util.List;
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
                 final Marker maker = mGoogleMap.addMarker(option);
                 maker.showInfoWindow();
-                Log.e("TAG", "onPageSelected: " + position );
+                Log.e("TAG", "onPageSelected: " + position);
             }
         };
         viewPager.registerOnPageChangeCallback(pageChangeCallback);
@@ -307,18 +312,16 @@ import java.util.List;
             public boolean onMarkerClick(Marker marker) {
                 String indexMarker = String.valueOf(marker.getId().charAt(1));
                 int positionMarker = Integer.parseInt(indexMarker);
-                Log.e("TAG", "onMarkerClick: "+ indexMarker );
+                Log.e("TAG", "onMarkerClick: " + indexMarker);
                 viewPager.setCurrentItem(positionMarker - 1);
                 return false;
             }
         });
     }
 
-
     @Override
     public void onClick(View v) {
 
     }
 
-
- }
+}
