@@ -98,11 +98,11 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             public void onClicked(int position) {
                 Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("urlAvata",urlAvata);
+                bundle.putString("urlAvata", urlAvata);
                 bundle.putInt("image", tourList.get(position).getImage());
-                bundle.putInt("rating",tourList.get(position).getRating());
-                bundle.putString("title",tourList.get(position).getTitle());
-                bundle.putString("introduce",tourList.get(position).getIntroduce());
+                bundle.putInt("rating", tourList.get(position).getRating());
+                bundle.putString("title", tourList.get(position).getTitle());
+                bundle.putString("introduce", tourList.get(position).getIntroduce());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -142,19 +142,20 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
                 if (TourAdapter.result == 0) {
                     createAlertDialog();
-                search();
-                InputMethodManager imm = (InputMethodManager) this
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isAcceptingText()) {
-                    closeKeyboard();
-                }}
+                    search();
+                    InputMethodManager imm = (InputMethodManager) this
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm.isAcceptingText()) {
+                        closeKeyboard();
+                    }
+                }
 
                 break;
             case R.id.layout:
                 closeKeyboard();
                 break;
 
-    }
+        }
     }
 
     private void closeKeyboard() {
@@ -164,7 +165,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
-
 
     private void createAlertDialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
@@ -182,13 +182,15 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         al.show();
         al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
     }
-        private void search() {
-            tourAdapter.getFilter().filter(edt_search.getText().toString());
 
-            if (TourAdapter.result == 0) {
-                createAlertDialog();
-            }
+    private void search() {
+        tourAdapter.getFilter().filter(edt_search.getText().toString());
+
+        if (TourAdapter.result == 0) {
+            createAlertDialog();
         }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
