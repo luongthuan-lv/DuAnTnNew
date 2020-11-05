@@ -85,8 +85,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
+        initDialogLoading();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -99,12 +98,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
         btn_google = findViewById(R.id.btn_google);
-        findViewById(R.id.btn_google).setOnClickListener(this);
         btn_facebook = findViewById(R.id.btn_facebook);
-        findViewById(R.id.btn_facebook).setOnClickListener(this);
-        findViewById(R.id.img_change_language).setOnClickListener(this);
         img_change_language = findViewById(R.id.img_change_language);
-        img_change_language.setOnClickListener(this);
         btn_google.getLayoutParams().width = getSizeWithScale(298);
         btn_google.getLayoutParams().height = getSizeWithScale(60);
         btn_facebook.getLayoutParams().width = getSizeWithScale(298);
@@ -112,6 +107,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setNgonngu();
         btn_google.setText(getResources().getString(R.string.label_btn_sign_in_with_google));
         btn_facebook.setText(getResources().getString(R.string.label_btn_login_in_with_Facebook));
+
+
+            img_change_language.setOnClickListener(this);
+            findViewById(R.id.btn_google).setOnClickListener(this);
+            findViewById(R.id.btn_facebook).setOnClickListener(this);
 
     }
 
@@ -328,11 +328,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        if (isConnected(false)){
         switch (v.getId()) {
             case R.id.btn_google:
-                initDialogLoading();
-                showDialogLoading();
-                signInGoogle();
+                    initDialogLoading();
+                    showDialogLoading();
+                    signInGoogle();
+
                 break;
             case R.id.btn_facebook:
                 initDialogLoading();
@@ -344,6 +346,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 checkNN();
                 createAlertDialog();
                 break;
+        }
+        }else {
+            showDialogNoInternet();
         }
     }
 

@@ -199,7 +199,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         slideShowInformation = new AdapterSlideShowInformation(showInformationArrayList, this, new AdapterSlideShowInformation.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
-                showCustomDialog(position);
+                if (isConnected(false)) {
+                    showCustomDialog(position);
+                }else showDialogNoInternet();
             }
 
             @Override

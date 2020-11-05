@@ -6,7 +6,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -144,4 +147,30 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+    public boolean isConnected( boolean connected) {
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+           showToast(e.getMessage());
+        }
+        return connected;
+    }
+    public void showDialogNoInternet(){
+        AlertDialog.Builder d = new AlertDialog.Builder(this);
+        d.setTitle(getResources().getString(R.string.noInternet));
+        d.setMessage(getResources().getString(R.string.checkInternet));
+        d.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog, int id) {
+               dialog.dismiss();
+            }
+        });
+        AlertDialog al = d.create();
+        al.show();
+        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorRed));
+        al.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
+
+    }
 }

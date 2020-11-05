@@ -82,6 +82,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        if (isConnected(false)){
         switch (v.getId()){
             case R.id.btn_start:
                 createAlertDialog();
@@ -89,7 +90,9 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             case R.id.imgAvata:
                 showDialogLogout(this,titleUser);
         }
-
+    }else {
+        showDialogNoInternet();
+    }
     }
 
     private void createAlertDialog(){

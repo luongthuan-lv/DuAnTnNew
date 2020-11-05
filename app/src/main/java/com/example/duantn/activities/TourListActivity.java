@@ -55,7 +55,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         viewPager2 = findViewById(R.id.viewPager2);
         edt_search = findViewById(R.id.edt_search);
         btnSearch = findViewById(R.id.btnSearch);
-        findViewById(R.id.layout).setOnClickListener(this);
         findViewById(R.id.btnSearch).setOnClickListener(this);
         btnSearch.getLayoutParams().width = getSizeWithScale(45);
         btnSearch.getLayoutParams().height = getSizeWithScale(45);
@@ -106,16 +105,19 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
-                Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("titleUser", titleUser);
-                bundle.putString("urlAvata", urlAvata);
-                bundle.putInt("image", tourList.get(position).getImage());
-                bundle.putInt("rating", tourList.get(position).getRating());
-                bundle.putString("title", tourList.get(position).getTitle());
-                bundle.putString("introduce", tourList.get(position).getIntroduce());
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (isConnected(false)){
+                    Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("titleUser", titleUser);
+                    bundle.putString("urlAvata", urlAvata);
+                    bundle.putInt("image", tourList.get(position).getImage());
+                    bundle.putInt("rating", tourList.get(position).getRating());
+                    bundle.putString("title", tourList.get(position).getTitle());
+                    bundle.putString("introduce", tourList.get(position).getIntroduce());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }else showDialogNoInternet();
+
             }
 
             @Override
@@ -146,6 +148,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        if (isConnected(false)){
         switch (v.getId()) {
             case R.id.btnSearch:
                 tourAdapter.getFilter().filter(edt_search.getText().toString());
@@ -162,13 +165,13 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 }
 
                 break;
-            case R.id.layout:
-                closeKeyboard();
-                break;
             case R.id.imgAvata:
                 showDialogLogout(this,titleUser);
                 break;
 
+        }
+        }else {
+            showDialogNoInternet();
         }
     }
 
