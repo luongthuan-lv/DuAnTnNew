@@ -1,15 +1,27 @@
 package com.example.duantn.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duantn.R;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class BaseActivity extends AppCompatActivity {
+    private Activity context;
     private Dialog mProgressDialog;
     public void showToast(String msg) {
         try {
@@ -95,18 +107,41 @@ public class BaseActivity extends AppCompatActivity {
             mProgressDialog.dismiss();
         }
     }
-//    public void showProgress(boolean cancelAble) {
-//        try {
-//            if (dialogProgress == null) {
-//                dialogProgress = new Dialog(this, R.style.dialogNotice);
-//                dialogProgress.setContentView(R.layout.dialog_progress);
-//            }
-//
-//            dialogProgress.setCancelable(cancelAble);
-//            dialogProgress.show();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
+    public void showDialogLogout(final Activity context, String title){
+        this.context = context;
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(title);
+        b.setMessage(getResources().getString(R.string.logout));
+        b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                initDialogLoading();
+                showDialogLoading();
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .build();
+                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
+            mGoogleSignInClient.revokeAccess()
+                        .addOnCompleteListener(context, new OnCompleteListener<Void>() {
+
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                              nextActivity(LoginActivity.class);
+                            }
+                        });
+                LoginManager.getInstance().logOut();
+            }
+        });
+        b.setNegativeButton(getResources().getString(R.string.label_btn_Cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog al = b.create();
+        al.show();
+        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorRed));
+        al.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
+
+    }
 
 }

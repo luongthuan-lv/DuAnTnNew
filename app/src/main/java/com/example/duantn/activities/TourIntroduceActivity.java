@@ -29,6 +29,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private Button btn_start;
     private ImageView imgAvata;
     private String urlAvata;
+    private String titleUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +47,9 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         btn_start.setOnClickListener(this);
         imgAvata = findViewById(R.id.imgAvata);
         getIntent_bundle();
-        logoutUser();
         setView();
 
+        imgAvata.setOnClickListener(this);
     }
 
     private void getIntent_bundle(){
@@ -56,7 +57,12 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             urlAvata = bundle.getString("urlAvata");
-            Glide.with(this).load(urlAvata).transform(new RoundedCorners(70)).into(imgAvata);
+            titleUser = bundle.getString("titleUser");
+            if (urlAvata.equals("null")){
+                Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvata);
+            }else{
+                Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);}
+
             rating = bundle.getInt("rating");
             image = bundle.getInt("image");
             introduce = bundle.getString("introduce");
@@ -80,6 +86,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             case R.id.btn_start:
                 createAlertDialog();
                 break;
+            case R.id.imgAvata:
+                showDialogLogout(this,titleUser);
         }
 
     }
@@ -107,12 +115,4 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
     }
 
-    private void logoutUser(){
-        imgAvata.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginManager.getInstance().logOut();
-            }
-        });
-    }
 }

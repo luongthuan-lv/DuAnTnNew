@@ -1,4 +1,4 @@
- package com.example.duantn.activities;
+package com.example.duantn.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -69,8 +69,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final int REQUEST_CODE = 101;
     private FloatingActionButton btnMyLocation;
     private ArrayList<ClassShowInformation> showInformationArrayList;
-    private CardView cvInformation;
-    private TextView tvInformation;
     private ArrayList<LatLng> latLngs;
     private Polygon line;
     private PolygonOptions polylineOptions;
@@ -89,6 +87,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnMyLocation = findViewById(R.id.add_fab);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+
         initDialogLoading();
         showDialogLoading();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -104,18 +105,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setAdapter();
         setViewPager();
         addDataListImg();
+        createDialogRating();
     }
 
     private void addDataListImg() {
         imgListInformation = new ArrayList<>();
-        imgListInformation.add(new ClassShowInformation(new String[]{"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg", "https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg", "https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg"}));
-        imgListInformation.add(new ClassShowInformation(new String[]{"https://laodongthudo.vn/stores/news_dataimages/quocdai/082019/30/17/4151_cYt_cY_HN.jpg", "https://upload.wikimedia.org/wikipedia/vi/1/17/C%E1%BB%99t_c%E1%BB%9D_H%C3%A0_N%E1%BB%99i_x%C6%B0a.jpg", "https://lh3.googleusercontent.com/proxy/GlpfWnSUxBhIrH1XVKYflWoReAlupUARUUxkaB_aYpsEWKaDJ59kBqZJ5zAw9c3F12m8fwWgpF8hiN86ugj_qJZ_c3Av-QI"}));
-        imgListInformation.add(new ClassShowInformation(new String[]{"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg", "https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412"}));
-        imgListInformation.add(new ClassShowInformation(new String[]{"https://sodulich.hanoi.gov.vn/storage/nhatuhoalo120190915230108.png", "https://cdnmedia.baotintuc.vn/2014/07/25/19/23/hoalo7%20(2).JPG", "https://cdnimg.vietnamplus.vn/t870/uploaded/fsmsy/2020_01_29/ttxvn_nha_tu_hoa_lo_1.jpg"}));
-        imgListInformation.add(new ClassShowInformation(new String[]{"https://hanoi1000.vn/wp-content/uploads/2019/09/nha-hat-lon-thumnail.jpg", "https://media-cdn.tripadvisor.com/media/photo-s/0e/8e/9f/f0/hanoi-opera-house.jpg", "https://photo-1-baomoi.zadn.vn/w1000_r1/2019_01_10_180_29302323/4196b74e8c0d65533c1c.jpg"}));
-        imgListInformation.add(new ClassShowInformation(new String[]{"https://dulichkhampha24.com/wp-content/uploads/2020/01/nha-tho-lon-ha-noi-9.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/nha-tho-lon-ha-noi-1-1.jpg", "https://laodongthudo.vn/stores/news_dataimages/maiquy/032020/28/14/4305_DSC_6917.jpg"}));
-        imgListInformation.add(new ClassShowInformation(new String[]{"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/ho-hoan-kiem-1.png", "https://dulichkhampha24.com/wp-content/uploads/2020/01/gioi-thieu-ve-ho-guom-15.jpg", "https://phapluat.tuoitrethudo.com.vn/stores/news_dataimages/nguyenthithanhhoa/072019/06/18/in_article/ha-noi-day-manh-tuyen-truyen-su-kien-20-nam-thanh-pho-vi-hoa-binh.jpg"}));
-        imgListInformation.add(new ClassShowInformation(new String[]{"https://baoxaydung.com.vn/stores/news_dataimages/vananh/112018/30/23/231143baoxaydung_image001.jpg", "https://thoibaonganhang.vn/stores/news_dataimages/thanhlm/022019/01/09/f40a1d5e2f78bad9fa1ab42ec1790b8f_Untitled.jpg", "https://sohanews.sohacdn.com/thumb_w/660/2018/2/13/photo1518495306225-15184953062251022493055.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg", "https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg", "https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg", "https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_tower%2C_Hanoi.jpg/250px-Flag_tower%2C_Hanoi.jpg", "https://laodongthudo.vn/stores/news_dataimages/quocdai/082019/30/17/4151_cYt_cY_HN.jpg", "https://upload.wikimedia.org/wikipedia/vi/1/17/C%E1%BB%99t_c%E1%BB%9D_H%C3%A0_N%E1%BB%99i_x%C6%B0a.jpg", "https://lh3.googleusercontent.com/proxy/GlpfWnSUxBhIrH1XVKYflWoReAlupUARUUxkaB_aYpsEWKaDJ59kBqZJ5zAw9c3F12m8fwWgpF8hiN86ugj_qJZ_c3Av-QI"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg", "https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg", "https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://sodulich.hanoi.gov.vn/storage/nhatuhoalo120190915230108.png", "https://sodulich.hanoi.gov.vn/storage/nhatuhoalo120190915230108.png", "https://cdnmedia.baotintuc.vn/2014/07/25/19/23/hoalo7%20(2).JPG", "https://cdnimg.vietnamplus.vn/t870/uploaded/fsmsy/2020_01_29/ttxvn_nha_tu_hoa_lo_1.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://icdn.dantri.com.vn/zoom/1200_630/2017/nha-hat-lon-ha-noi-1499853914500-crop-1499854079654.jpg", "https://hanoi1000.vn/wp-content/uploads/2019/09/nha-hat-lon-thumnail.jpg", "https://media-cdn.tripadvisor.com/media/photo-s/0e/8e/9f/f0/hanoi-opera-house.jpg", "https://photo-1-baomoi.zadn.vn/w1000_r1/2019_01_10_180_29302323/4196b74e8c0d65533c1c.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Hanoi_sjc.jpg/1200px-Hanoi_sjc.jpg", "https://dulichkhampha24.com/wp-content/uploads/2020/01/nha-tho-lon-ha-noi-9.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/nha-tho-lon-ha-noi-1-1.jpg", "https://laodongthudo.vn/stores/news_dataimages/maiquy/032020/28/14/4305_DSC_6917.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://e.dowload.vn/data/image/2020/01/08/thuyet-minh-ve-ho-guom-1.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/ho-hoan-kiem-1.png", "https://dulichkhampha24.com/wp-content/uploads/2020/01/gioi-thieu-ve-ho-guom-15.jpg", "https://phapluat.tuoitrethudo.com.vn/stores/news_dataimages/nguyenthithanhhoa/072019/06/18/in_article/ha-noi-day-manh-tuyen-truyen-su-kien-20-nam-thanh-pho-vi-hoa-binh.jpg"}));
+        imgListInformation.add(new ClassShowInformation(new String[]{"https://useful.vn/wp-content/uploads/2020/04/1568099002089_4146890.png", "https://baoxaydung.com.vn/stores/news_dataimages/vananh/112018/30/23/231143baoxaydung_image001.jpg", "https://thoibaonganhang.vn/stores/news_dataimages/thanhlm/022019/01/09/f40a1d5e2f78bad9fa1ab42ec1790b8f_Untitled.jpg", "https://sohanews.sohacdn.com/thumb_w/660/2018/2/13/photo1518495306225-15184953062251022493055.jpg"}));
 
     }
 
@@ -172,11 +174,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
         dialog.show();
 
-                    }
+    }
 
-    private void sendFeedback(EditText edt){
-        contentFeedback =edt.getText().toString().trim();
-        showToast(contentFeedback + "\n" + rating+" sao");
+    private void sendFeedback(EditText edt) {
+        contentFeedback = edt.getText().toString().trim();
+        showToast(contentFeedback + "\n" + rating + " sao");
     }
 
     private void addDataSlideInformation() {
@@ -246,11 +248,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void fetchLocation() {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
@@ -269,7 +267,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-
         this.mGoogleMap = googleMap;
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -300,10 +297,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-                mGoogleMap.stopAnimation();
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
-                mGoogleMap.addMarker(markerOptions);
+                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
             }
         });
 
@@ -338,10 +332,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
                 Log.e("TAG", "onPageSelected: " + position);
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
                 final Marker maker = mGoogleMap.addMarker(option);
                 maker.showInfoWindow();
-                Log.e("TAG", "onPageSelected: " + position);
             }
         };
         viewPager.registerOnPageChangeCallback(pageChangeCallback);
@@ -362,14 +354,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void showCustomDialog(int position) {
         ViewGroup viewGroup = findViewById(android.R.id.content);
-        //then we will inflate the custom alert dialog xml that we created
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_show_information, viewGroup, false);
         TextView tvContent = dialogView.findViewById(R.id.tvDialogContent);
         tvContent.setText(showInformationArrayList.get(position).getContent());
         tvContent.setMovementMethod(new ScrollingMovementMethod());
         final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);
         AdapterSlideDialoginformation adapterSlideDialoginformation = new AdapterSlideDialoginformation(imgListInformation.get(position).imgInformationList, this);
-        Log.e("TAG", "showCustomDialog: " + imgListInformation.get(position).imgInformationList.length);
         viewPager.setAdapter(adapterSlideDialoginformation);
 
         final Handler handler = new Handler();

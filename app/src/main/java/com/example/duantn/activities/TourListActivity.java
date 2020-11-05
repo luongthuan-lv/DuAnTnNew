@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -30,6 +31,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private ImageView btnSearch;
     private ImageView imgAvata;
     private String urlAvata;
-
+    private String titleUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +91,14 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         imgAvata = findViewById(R.id.imgAvata);
         Intent intent = getIntent();
         urlAvata = intent.getStringExtra("urlAvata");
-        Glide.with(this).load(urlAvata).transform(new RoundedCorners(70)).into(imgAvata);
+        titleUser = intent.getStringExtra("title");
+
+        if (urlAvata.equals("null")){
+            Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvata);
+        }else{
+        Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);}
+
+        imgAvata.setOnClickListener(this);
 
     }
 
@@ -98,6 +108,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             public void onClicked(int position) {
                 Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("titleUser", titleUser);
                 bundle.putString("urlAvata", urlAvata);
                 bundle.putInt("image", tourList.get(position).getImage());
                 bundle.putInt("rating", tourList.get(position).getRating());
@@ -154,6 +165,9 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             case R.id.layout:
                 closeKeyboard();
                 break;
+            case R.id.imgAvata:
+                showDialogLogout(this,titleUser);
+                break;
 
         }
     }
@@ -195,7 +209,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
-        LoginManager.getInstance().logOut();
     }
 
 }

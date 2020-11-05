@@ -1,6 +1,8 @@
 package com.example.duantn.activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,6 +10,7 @@ import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +45,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
@@ -58,6 +64,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private LoginManager loginManager;
     private Button btn_facebook;
     private Button btn_google;
+    private LocationManager locationManager;
     private MySqliteOpenHelper mySqliteOpenHelper;
     private LanguageDAO languageDAO;
     private List<KeyLangguage> keyLangguageList;
@@ -69,12 +76,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
     private String urlAvarta;
+    private String titleUser;
+    private static final int REQUEST_CODE = 101;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         callbackFacebook();
@@ -248,8 +262,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
                 String personName = acct.getDisplayName();
@@ -257,17 +269,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
 
+                titleUser = personName;
                 urlAvarta = String.valueOf(personPhoto);
                 Log.i("name",personName);
                 Log.i("email",personEmail);
                 Log.i("ID",personId);
                 Log.i("photo",String.valueOf(personPhoto));
-                showToast(personName);
             }
 
             Intent intent = new Intent(this, TourListActivity.class);
             intent.putExtra("urlAvata", urlAvarta);
+            intent.putExtra("title", titleUser);
             startActivity(intent);
+            dismissDialog();
 
 
         } catch (ApiException e) {
@@ -302,14 +316,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                     @Override
                     public void onCancel() {
-                        Log.v("LoginScreen", "---onCancel");
+                      dismissDialog();
                     }
-
                     @Override
                     public void onError(FacebookException error) {
-                        // here write code when get error
-                        Log.v("LoginScreen", "----onError: "
-                                + error.getMessage());
+                     dismissDialog();
+                       showToast(error.getMessage());
                     }
                 });
     }
@@ -318,11 +330,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_google:
-                Log.i("TAG", "onClick: "+ urlAvarta);
+                initDialogLoading();
+                showDialogLoading();
                 signInGoogle();
                 break;
             case R.id.btn_facebook:
-                Log.i("TAG", "onClick: "+ urlAvarta);
+                initDialogLoading();
+                showDialogLoading();
                 printHashKey();
                 loginWithFacebook();
                 break;
@@ -357,9 +371,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 Log.i("link: ", link);
                                 Log.i("gender: ", gender);
                                 urlAvarta = String.valueOf(imageURL);
+                                titleUser = name;
                                 Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
                                 intent.putExtra("urlAvata", urlAvarta);
+                                intent.putExtra("title", titleUser);
                                 startActivity(intent);
+                                dismissDialog();
                             }
                         }
                     });
@@ -400,4 +417,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
 }
