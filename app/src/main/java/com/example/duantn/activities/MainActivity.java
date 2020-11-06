@@ -45,6 +45,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -80,7 +81,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private int currentPage = 0;
     private Timer timer;
     private String contentFeedback;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,20 +282,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
             }
         });
+
         googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
                 dismissDialog();
             }
         });
+
         final LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        final MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        mGoogleMap.addMarker(markerOptions);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
-        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
+         Marker currentPositionMarker = null;
+        if (currentPositionMarker == null)
+
+            currentPositionMarker = mGoogleMap.addMarker(new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location))
+                    .position(latLng)
+                    .zIndex(20));
+        else
+            currentPositionMarker.setPosition(latLng);
+
+
+        mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+
+//        final MarkerOptions markerOptions = new MarkerOptions();
+//
+//        markerOptions.position(latLng);
+//        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
+//        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+//        mGoogleMap.addMarker(markerOptions);
+//        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+//        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
