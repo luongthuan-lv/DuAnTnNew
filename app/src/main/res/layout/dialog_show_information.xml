@@ -8,6 +8,7 @@
 
 <androidx.cardview.widget.CardView
     app:cardCornerRadius="30dp"
+    android:id="@+id/cvDialog"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout

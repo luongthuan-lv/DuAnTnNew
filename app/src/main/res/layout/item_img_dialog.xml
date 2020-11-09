@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
     <com.google.android.material.imageview.ShapeableImageView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imgsInformation"
@@ -7,6 +6,5 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/baotanglichsuquandoivietnam"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

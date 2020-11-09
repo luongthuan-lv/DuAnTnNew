@@ -378,6 +378,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ViewGroup viewGroup = findViewById(android.R.id.content);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_show_information, viewGroup, false);
         TextView tvContent = dialogView.findViewById(R.id.tvDialogContent);
+        CardView cvDialog = dialogView.findViewById(R.id.cvDialog);
+
         tvContent.setText(showInformationArrayList.get(position).getContent());
         tvContent.setMovementMethod(new ScrollingMovementMethod());
         final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);
@@ -399,7 +401,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         }, 3000, 3000);
 
+
         Dialog dialog = new Dialog(this, R.style.dialogNotice);
+        cvDialog.getLayoutParams().width = getSizeWithScale(340);
+        cvDialog.getLayoutParams().height = getSizeWithScale(519);
         tvContent.getLayoutParams().width = getSizeWithScale(331);
         tvContent.getLayoutParams().height = getSizeWithScale(261);
         dialog.setContentView(dialogView);

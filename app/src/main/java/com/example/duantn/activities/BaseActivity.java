@@ -148,8 +148,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public boolean isConnected( boolean connected) {
-        try {
-            ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        try { ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nInfo = cm.getActiveNetworkInfo();
             connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
             return connected;
@@ -158,6 +157,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         return connected;
     }
+
     public void showDialogNoInternet(){
         AlertDialog.Builder d = new AlertDialog.Builder(this);
         d.setTitle(getResources().getString(R.string.noInternet));
