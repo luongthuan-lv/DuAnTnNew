@@ -48,6 +48,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private ImageView imgAvata;
     private String urlAvata;
     private String titleUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         edt_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
                 switch (actionId) {
                     case EditorInfo.IME_ACTION_SEARCH:
                         search();
@@ -86,16 +86,17 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         setAdapter();
         setViewPager2();
 
-        //setAvata
+        //setAvatar
         imgAvata = findViewById(R.id.imgAvata);
         Intent intent = getIntent();
         urlAvata = intent.getStringExtra("urlAvata");
         titleUser = intent.getStringExtra("title");
 
-        if (urlAvata.equals("null")){
+        if (urlAvata.equals("null")) {
             Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvata);
-        }else{
-        Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);}
+        } else {
+            Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);
+        }
 
         imgAvata.setOnClickListener(this);
 
@@ -105,7 +106,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
-                if (isConnected(false)){
+                if (isConnected(false)) {
                     Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("titleUser", titleUser);
@@ -116,7 +117,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     bundle.putString("introduce", tourList.get(position).getIntroduce());
                     intent.putExtras(bundle);
                     startActivity(intent);
-                }else showDialogNoInternet();
+                } else showDialogNoInternet();
 
             }
 
@@ -148,29 +149,22 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (isConnected(false)){
-        switch (v.getId()) {
-            case R.id.btnSearch:
-                tourAdapter.getFilter().filter(edt_search.getText().toString());
-                closeKeyboard();
-
-                if (TourAdapter.result == 0) {
-                    createAlertDialog();
+        if (isConnected(false)) {
+            switch (v.getId()) {
+                case R.id.btnSearch:
                     search();
                     InputMethodManager imm = (InputMethodManager) this
                             .getSystemService(Context.INPUT_METHOD_SERVICE);
                     if (imm.isAcceptingText()) {
                         closeKeyboard();
                     }
-                }
+                    break;
+                case R.id.imgAvata:
+                    showDialogLogout(this, titleUser);
+                    break;
 
-                break;
-            case R.id.imgAvata:
-                showDialogLogout(this,titleUser);
-                break;
-
-        }
-        }else {
+            }
+        } else {
             showDialogNoInternet();
         }
     }
@@ -202,7 +196,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
     private void search() {
         tourAdapter.getFilter().filter(edt_search.getText().toString());
-
         if (TourAdapter.result == 0) {
             createAlertDialog();
         }

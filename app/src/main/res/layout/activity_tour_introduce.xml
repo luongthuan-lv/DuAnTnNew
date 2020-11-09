@@ -118,91 +118,40 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_title_tour"
                 app:layout_constraintVertical_bias="0.01">
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/paddingH_rating"
+                    android:paddingTop="@dimen/paddingV_rating"
+                    android:paddingEnd="@dimen/paddingH_rating"
+                    android:paddingBottom="@dimen/paddingV_rating">
 
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/img_star1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingStart="@dimen/paddingH_rating"
-                        android:paddingTop="@dimen/paddingV_rating"
-                        android:paddingEnd="@dimen/paddingH_rating"
-                        android:paddingBottom="@dimen/paddingV_rating">
+                        android:layout_height="wrap_content"/>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star2" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star2" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star2" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star2" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star2" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <ImageView
+                        android:id="@+id/img_star2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingStart="@dimen/paddingH_rating"
-                        android:paddingTop="@dimen/paddingV_rating"
-                        android:paddingEnd="@dimen/paddingH_rating"
-                        android:paddingBottom="@dimen/paddingV_rating">
+                        android:layout_height="wrap_content" />
 
-                        <ImageView
-                            android:id="@+id/img_star1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star"
-                            android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/img_star3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-                        <ImageView
-                            android:id="@+id/img_star2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star"
-                            android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/img_star4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-                        <ImageView
-                            android:id="@+id/img_star3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star"
-                            android:visibility="gone" />
-
-                        <ImageView
-                            android:id="@+id/img_star4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star"
-                            android:visibility="gone" />
-
-                        <ImageView
-                            android:id="@+id/img_star5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/star"
-                            android:visibility="gone" />
-                    </LinearLayout>
-
-                </FrameLayout>
+                    <ImageView
+                        android:id="@+id/img_star5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
 
             </androidx.cardview.widget.CardView>
@@ -235,36 +184,40 @@
             android:padding="@dimen/padding_introduce_tourintr">
 
             <androidx.cardview.widget.CardView
-                app:cardBackgroundColor="@color/colorWhite"
-                app:cardCornerRadius="@dimen/radius_introduce_tourintr"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorWhite"
+                app:cardCornerRadius="@dimen/radius_introduce_tourintr">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding2_introduce_tourintr">
 
-
-                    <TextView
-                        android:id="@+id/tv_introduce"
-                        android:layout_marginBottom="@dimen/marginBottom_introduce_tourintr"
-                        android:fontFamily="@font/lato_regular"
-                        android:textSize="@dimen/textSize_introduce_tourintr"
-                        app:layout_constraintBottom_toTopOf="@+id/btn_start"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <Button
-                        android:background="@drawable/bg_btn_get_started"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/lato_regular"
-                        android:id="@+id/btn_start"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                    <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/marginBottom_introduce_tourintr"
+                        app:layout_constraintBottom_toTopOf="@+id/btn_start">
+
+                        <TextView
+                            android:id="@+id/tv_introduce"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_regular"
+                            android:textSize="@dimen/textSize_introduce_tourintr" />
+                    </ScrollView>
+
+                    <Button
+                        android:id="@+id/btn_start"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_btn_get_started"
+                        android:fontFamily="@font/lato_regular"
                         android:text="@string/label1_btn_get_started"
-                        android:textAllCaps="false" />
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -277,12 +230,13 @@
 
 
     </FrameLayout>
+
     <ImageView
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
+        android:id="@+id/imgAvata"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/imgAvata"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

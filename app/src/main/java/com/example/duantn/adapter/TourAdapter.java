@@ -95,22 +95,15 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
             FilterResults results = new FilterResults();
             results.values = tours;
             result  = tours.size();
-
             return results;
         }
-
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             tourList.clear();
             tourList.addAll((List) results.values);
-
-
-
             notifyDataSetChanged();
         }
     };
-
-
 
     @Override
     public Filter getFilter() {

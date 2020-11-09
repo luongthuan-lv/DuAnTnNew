@@ -74,9 +74,13 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         img_tour.setImageResource(image);
         tv_title_tour.setText(title);
         List<ImageView> imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
-        for (int i=0;i<rating;i++){
-            imageViewList.get(i).setVisibility(View.VISIBLE);
+        for (int i=0;i<imageViewList.size();i++){
+            imageViewList.get(i).setImageResource(R.drawable.star2);
         }
+        for (int i=0;i<rating;i++){
+            imageViewList.get(i).setImageResource(R.drawable.star);
+        }
+
         tv_introduce.setText(introduce);
     }
 

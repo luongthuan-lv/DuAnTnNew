@@ -30,7 +30,6 @@ public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHo
     private int position_selected_language;
     private boolean click = false;
 
-
     public interface OnClickItemListener {
         void onClicked(int position);
         void onSwitched(boolean isChecked);
