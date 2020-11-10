@@ -105,7 +105,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setAdapter();
         setViewPager();
         addDataListImg();
-        createDialogRating();
     }
 
     private void addDataListImg() {
@@ -152,7 +151,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
                     for (int j = 0; j < finalI + 1; j++) {
                         imageViewList.get(j).setImageResource(R.drawable.selected_star);
-
                         //ket qua rating
                         rating = j + 1;
                     }
