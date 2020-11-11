@@ -61,8 +61,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="@dimen/padding_img_tour">
+            android:layout_gravity="center_horizontal">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_tour"
@@ -196,11 +195,11 @@
 
                     <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/marginBottom_introduce_tourintr"
+                        android:layout_height="match_parent"
                         app:layout_constraintBottom_toTopOf="@+id/btn_start">
 
                         <TextView
+                            android:layout_marginBottom="@dimen/marginBottom_introduce_tourintr"
                             android:id="@+id/tv_introduce"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
