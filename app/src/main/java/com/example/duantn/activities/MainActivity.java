@@ -1,6 +1,7 @@
 package com.example.duantn.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -40,6 +41,8 @@ import com.example.duantn.R;
 import com.example.duantn.adapter.AdapterSlideDialoginformation;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
 import com.example.duantn.morder.ClassShowInformation;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -51,6 +54,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.IndoorBuilding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -66,16 +70,15 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, OnMapReadyCallback {
+public class MainActivity extends BaseActivity implements  OnMapReadyCallback,
+        View.OnClickListener{
     private int LOCATION_REQUEST_CODE = 10001;
     private int ACCESS_LOCATION_REQUEST_CODE = 10001;
     private GoogleMap mGoogleMap;
     private LocationManager locationManager;
     private LocationRequest locationRequest;
-    private Location currentLocation;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
-    private FloatingActionButton btnMyLocation;
     private ArrayList<ClassShowInformation> showInformationArrayList;
     private ArrayList<LatLng> latLngs;
     private Polygon line;
@@ -88,14 +91,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private int currentPage = 0;
     private Timer timer;
     private String contentFeedback;
-    private Marker userLocationMarker;
-    public LatLng latLng;
+
+    private LatLng mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnMyLocation = findViewById(R.id.add_fab);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
 
@@ -114,8 +116,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         viewPager.getLayoutParams().height = getSizeWithScale(139);
 
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(200);
-        locationRequest.setFastestInterval(200);
+        locationRequest.setInterval(50);
+        locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         setAdapter();
@@ -215,7 +217,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void onClicked(int position) {
                 if (isConnected(false)) {
                     showCustomDialog(position);
-                }else showDialogNoInternet();
+                } else showDialogNoInternet();
             }
 
             @Override
@@ -263,51 +265,38 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         alertDialog.show();
     }
 
-    private void setUserLocationMarker(Location location){
-        latLng = new LatLng(location.getLatitude(),location.getLongitude());
-        if(userLocationMarker == null){
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
-//            markerOptions.rotation(location.getBearing());
-//            markerOptions.anchor((float) 0.5,(float)0.5);
-            userLocationMarker = mGoogleMap.addMarker(markerOptions);
-            mGoogleMap.animateCamera((CameraUpdateFactory.newLatLngZoom(latLng,22)));
-        }else {
-            userLocationMarker.setPosition(latLng);
-            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,22));
-        }
-
-
-    }
-    LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            Log.d("TAG", "onLocationResult: " + locationResult.getLastLocation());
-            if (mGoogleMap != null) {
-                setUserLocationMarker(locationResult.getLastLocation());
-            }
-        }
-    };
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.mGoogleMap = googleMap;
-        startLocationUpdates();
+        mGoogleMap.getUiSettings().setCompassEnabled(true);
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mGoogleMap.setTrafficEnabled(true);
+        mGoogleMap.setBuildingsEnabled(true);
+        setViewPageAndMarker();
+        addMarkerAllAndClick();
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        mGoogleMap.setMyLocationEnabled(true);
+
+        //onClickMap
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 stopLocationUpdate();
-                if (btnMyLocation.getVisibility() == View.VISIBLE && viewPager.getVisibility() == View.VISIBLE) {
-                    btnMyLocation.setVisibility(View.GONE);
+                if (viewPager.getVisibility() == View.VISIBLE) {
                     viewPager.setVisibility(View.GONE);
                 } else {
-                    btnMyLocation.setVisibility(View.VISIBLE);
                     viewPager.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        // onLoadMap
         googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
@@ -315,71 +304,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
 
-        btnMyLocation.setOnClickListener(new View.OnClickListener() {
+        // onClickButtonMyLocation
+        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                   startLocationUpdates();
-                } else {
-
-                }
-
-            }
-        });
-
-        latLngs = new ArrayList<>();
-        polylineOptions = new PolygonOptions();
-        for (int i = 0; i < showInformationArrayList.size(); i++) {
-            final LatLng position = new LatLng(showInformationArrayList.get(i).getLatitude(), showInformationArrayList.get(i).getLongitude());
-            MarkerOptions option = new MarkerOptions();
-            option.position(position);
-            option.title(showInformationArrayList.get(i).getTitle());
-            option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-            final Marker maker = googleMap.addMarker(option);
-            maker.showInfoWindow();
-            latLngs.add(position);
-        }
-
-        polylineOptions.addAll(latLngs);
-        line = mGoogleMap.addPolygon(polylineOptions);
-        line.setStrokeColor(Color.BLUE);
-        line.setStrokeWidth(10);
-        line.setGeodesic(true);
-
-
-        ViewPager2.OnPageChangeCallback pageChangeCallback = new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-
-                stopLocationUpdate();
-
-                final LatLng position1 = new LatLng(showInformationArrayList.get(position).getLatitude(), showInformationArrayList.get(position).getLongitude());
-                MarkerOptions option = new MarkerOptions();
-                option.position(position1);
-                option.title(showInformationArrayList.get(position).getTitle());
-                option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
-                Log.e("TAG", "onPageSelected: " + position);
-                final Marker maker = mGoogleMap.addMarker(option);
-                maker.showInfoWindow();
-            }
-        };
-        viewPager.registerOnPageChangeCallback(pageChangeCallback);
-
-
-        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                stopLocationUpdate();
-                viewPager.setVisibility(View.VISIBLE);
-                String indexMarker = String.valueOf(marker.getId().charAt(1));
-                int positionMarker = Integer.parseInt(indexMarker);
-                Log.e("TAG", "onMarkerClick: " + indexMarker);
-                viewPager.setCurrentItem(positionMarker - 1);
+            public boolean onMyLocationButtonClick() {
+                startLocationUpdates();
                 return false;
             }
         });
+
+        //
+
+
     }
 
 
@@ -426,7 +362,84 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     }
 
+    private void addMarkerAllAndClick(){
+        latLngs = new ArrayList<>();
+        polylineOptions = new PolygonOptions();
+        for (int i = 0; i < showInformationArrayList.size(); i++) {
+            final LatLng position = new LatLng(showInformationArrayList.get(i).getLatitude(), showInformationArrayList.get(i).getLongitude());
+            MarkerOptions option = new MarkerOptions();
+            option.position(position);
+            option.title(showInformationArrayList.get(i).getTitle());
+            option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            final Marker maker = mGoogleMap.addMarker(option);
+            maker.showInfoWindow();
+            latLngs.add(position);
+        }
 
+        polylineOptions.addAll(latLngs);
+        line = mGoogleMap.addPolygon(polylineOptions);
+        line.setStrokeColor(Color.BLUE);
+        line.setStrokeWidth(10);
+        line.setGeodesic(true);
+
+
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                viewPager.setVisibility(View.VISIBLE);
+                String indexMarker = String.valueOf(marker.getId().charAt(1));
+                int positionMarker = Integer.parseInt(indexMarker);
+                Log.e("TAG", "onMarkerClick: " + indexMarker);
+                viewPager.setCurrentItem(positionMarker - 1);
+                return false;
+            }
+        });
+    }
+
+    private void setViewPageAndMarker(){
+        ViewPager2.OnPageChangeCallback pageChangeCallback = new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                stopLocationUpdate();
+                final LatLng position1 = new LatLng(showInformationArrayList.get(position).getLatitude(), showInformationArrayList.get(position).getLongitude());
+                MarkerOptions option = new MarkerOptions();
+                option.position(position1);
+                option.title(showInformationArrayList.get(position).getTitle());
+                option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
+                Log.e("TAG", "onPageSelected: " + position);
+                final Marker maker = mGoogleMap.addMarker(option);
+                maker.showInfoWindow();
+            }
+        };
+        viewPager.registerOnPageChangeCallback(pageChangeCallback);
+    }
+    LocationCallback locationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            super.onLocationResult(locationResult);
+            if (mGoogleMap != null) {
+                mCurrentLocation  = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation,20));
+
+
+            }
+        }
+    };
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+
+            }
+        }
+    }
 
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -442,23 +455,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startLocationUpdates();
+    }
     private void stopLocationUpdate() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            } else {
-
-            }
-        }
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
