@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // can dich
+    <string name="label_btn_sign_in_with_google">Войти через Google</string>
+    <string name="label_btn_login_in_with_Facebook">Подключитесь к Facebook</string>
+    <string name="label1_btn_get_started">Начать</string>
+    <string name="title_alert">Хотите узнать полный график поездки?</string>
+    <string name="content_alert">Мы объявим всю историческую информацию, которую вы пройдете, в надежде, что вы получите лучший опыт.</string>
+    <string name="label_btn_OK">Согласен</string>
+    <string name="label_btn_Cancel">Отмена</string>
+    <string name="search_error">Не можете найти указанную поездку, повторите поиск!</string>
+    <string name="hint_edtSearch">Поиск...</string>
+    <string name="hint_edt_note">Заметка</string>
+    <string name="label_btn_Submit">представить</string>
+    <string name="title_dialog_rating">Чтобы улучшить качество наших услуг, сообщите нам о своем опыте.</string>
+    <string name="lblSeeMore">узнать больше</string>
+    <string name="logout">Вы хотите выйти?</string>
+    <string name="noInternet">Нет интернета</string>
+    <string name="checkInternet">Пожалуйста, проверьте подключение к интернету!</string>
+</resources>

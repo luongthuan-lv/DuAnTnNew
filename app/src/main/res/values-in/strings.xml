@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // can dich
+    <string name="label_btn_sign_in_with_google">Masuk dengan Google</string>
+    <string name="label_btn_login_in_with_Facebook">Terhubung dengan Facebook</string>
+    <string name="label1_btn_get_started">Mulai</string>
+    <string name="title_alert">Mau dengar keseluruhan jadwal perjalanannya?</string>
+    <string name="content_alert">Kami akan mengumumkan semua informasi sejarah yang akan Anda lalui, berharap Anda akan mendapatkan pengalaman yang lebih baik.</string>
+    <string name="label_btn_OK">Setuju</string>
+    <string name="label_btn_Cancel">Membatalkan</string>
+    <string name="search_error">Tidak dapat menemukan perjalanan yang Anda masukkan, harap cari lagi!</string>
+    <string name="hint_edtSearch">Cari...</string>
+    <string name="hint_edt_note">Catatan</string>
+    <string name="label_btn_Submit">Kirimkan</string>
+    <string name="title_dialog_rating">Untuk meningkatkan kualitas layanan kami, beri tahu kami tentang pengalaman Anda.</string>
+    <string name="lblSeeMore">Lihat lebih banyak</string>
+    <string name="logout">Apakah Anda ingin keluar?</string>
+    <string name="noInternet">Tidak ada internet</string>
+    <string name="checkInternet">Silakan periksa koneksi internet Anda!</string>
+</resources>

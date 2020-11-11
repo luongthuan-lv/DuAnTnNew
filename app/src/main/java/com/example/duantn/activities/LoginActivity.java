@@ -109,13 +109,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         btn_facebook.setText(getResources().getString(R.string.label_btn_login_in_with_Facebook));
 
 
-            img_change_language.setOnClickListener(this);
-            findViewById(R.id.btn_google).setOnClickListener(this);
-            findViewById(R.id.btn_facebook).setOnClickListener(this);
+        img_change_language.setOnClickListener(this);
+        findViewById(R.id.btn_google).setOnClickListener(this);
+        findViewById(R.id.btn_facebook).setOnClickListener(this);
 
     }
 
-    private void setNgonngu(){
+    private void setNgonngu() {
         mySqliteOpenHelper = new MySqliteOpenHelper(this);
         mySqliteOpenHelper.createDataBase();
         keyLangguage = new KeyLangguage();
@@ -156,6 +156,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.china, R.string.LblChina));
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.korea, R.string.LblKorea));
         selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.france, R.string.LblFrance));
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.germany, R.string.LblGermany));
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.indonesia, R.string.LblIndonesia));
+        selectLanguageArrayList.add(new ClassSelectLanguage(R.drawable.russia, R.string.LblRussia));
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         alert.setCancelable(true);
@@ -204,6 +207,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 changeLanguage("fr");
                 dialog.dismiss();
                 break;
+            case 6:
+                changeLanguage("de");
+                dialog.dismiss();
+                break;
+            case 7:
+                changeLanguage("in");
+                dialog.dismiss();
+                break;
+            case 8:
+                changeLanguage("ru");
+                dialog.dismiss();
+                break;
         }
 
     }
@@ -219,6 +234,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             img_change_language.setImageResource(R.drawable.korea);
         } else if (keyLangguageList.get(0).getValue().equals("fr")) {
             img_change_language.setImageResource(R.drawable.france);
+        } else if (keyLangguageList.get(0).getValue().equals("de")) {
+            img_change_language.setImageResource(R.drawable.germany);
+        } else if (keyLangguageList.get(0).getValue().equals("in")) {
+            img_change_language.setImageResource(R.drawable.indonesia);
+        } else if (keyLangguageList.get(0).getValue().equals("ru")) {
+            img_change_language.setImageResource(R.drawable.russia);
         } else {
             img_change_language.setImageResource(R.drawable.american);
         }
@@ -235,6 +256,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             position_selected_language = 4;
         } else if (keyLangguageList.get(0).getValue().equals("fr")) {
             position_selected_language = 5;
+        } else if (keyLangguageList.get(0).getValue().equals("de")) {
+            position_selected_language = 6;
+        } else if (keyLangguageList.get(0).getValue().equals("in")) {
+            position_selected_language = 7;
+        } else if (keyLangguageList.get(0).getValue().equals("ru")) {
+            position_selected_language = 8;
         } else {
             position_selected_language = 2;
         }
@@ -271,10 +298,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 titleUser = personName;
                 urlAvarta = String.valueOf(personPhoto);
-                Log.i("name",personName);
-                Log.i("email",personEmail);
-                Log.i("ID",personId);
-                Log.i("photo",String.valueOf(personPhoto));
+                Log.i("name", personName);
+                Log.i("email", personEmail);
+                Log.i("ID", personId);
+                Log.i("photo", String.valueOf(personPhoto));
             }
 
             Intent intent = new Intent(this, TourListActivity.class);
@@ -316,38 +343,39 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                     @Override
                     public void onCancel() {
-                      dismissDialog();
+                        dismissDialog();
                     }
+
                     @Override
                     public void onError(FacebookException error) {
-                     dismissDialog();
-                       showToast(error.getMessage());
+                        dismissDialog();
+                        showToast(error.getMessage());
                     }
                 });
     }
 
     @Override
     public void onClick(View v) {
-        if (isConnected(false)){
-        switch (v.getId()) {
-            case R.id.btn_google:
+        if (isConnected(false)) {
+            switch (v.getId()) {
+                case R.id.btn_google:
                     initDialogLoading();
                     showDialogLoading();
                     signInGoogle();
 
-                break;
-            case R.id.btn_facebook:
-                initDialogLoading();
-                showDialogLoading();
-                printHashKey();
-                loginWithFacebook();
-                break;
-            case R.id.img_change_language:
-                checkNN();
-                createAlertDialog();
-                break;
-        }
-        }else {
+                    break;
+                case R.id.btn_facebook:
+                    initDialogLoading();
+                    showDialogLoading();
+                    printHashKey();
+                    loginWithFacebook();
+                    break;
+                case R.id.img_change_language:
+                    checkNN();
+                    createAlertDialog();
+                    break;
+            }
+        } else {
             showDialogNoInternet();
         }
     }

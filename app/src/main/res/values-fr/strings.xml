@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TourIntro</string>
-    // khong dich
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="loading" translatable="false">Loading</string>
-    <string name="title1_login" translatable="false">Travel Like</string>
-    <string name="title2_login" translatable="false">You Never</string>
-    <string name="title3_login" translatable="false">Lost</string>
-    <string name="LblVietNam" translatable="false">Tiếng Việt</string>
-    <string name="LblJapan" translatable="false">日本語</string>
-    <string name="LblEnglish" translatable="false">English</string>
-    <string name="LblChina" translatable="false">中文</string>
-    <string name="LblKorea" translatable="false">한국어</string>
-    <string name="LblFrance" translatable="false">Français</string>
-    <string name="google_client_id" translatable="false">229845774338-4ogbuk4ncm45cgt6mjin2pmgfcdrlhjn.apps.googleusercontent.com</string>
-
-
     // can dich
     <string name="label_btn_sign_in_with_google">Connectez-vous avec Google</string>
     <string name="label_btn_login_in_with_Facebook">Connecter avec Facebook</string>
@@ -31,4 +13,8 @@
     <string name="hint_edt_note">Remarque</string>
     <string name="label_btn_Submit">Soumettre</string>
     <string name="title_dialog_rating">Afin d\'améliorer la qualité de notre service, merci de nous faire part de votre expérience.</string>
+    <string name="lblSeeMore">Voir plus</string>
+    <string name="logout">Voulez-vous vous déconnecter?</string>
+    <string name="noInternet">Pas d\'Internet</string>
+    <string name="checkInternet">S\'il vous plait, vérifiez votre connexion internet!</string>
 </resources>

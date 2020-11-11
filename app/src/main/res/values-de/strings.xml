@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // can dich
+    <string name="label_btn_sign_in_with_google">Anmeldung mit Google</string>
+    <string name="label_btn_login_in_with_Facebook">Mit Facebook verbinden</string>
+    <string name="label1_btn_get_started">Loslegen</string>
+    <string name="title_alert">Möchten Sie den gesamten Reiseplan hören?</string>
+    <string name="content_alert">Wir werden alle historischen Informationen bekannt geben, die Sie durchgehen werden, in der Hoffnung, dass Sie eine bessere Erfahrung machen werden.</string>
+    <string name="label_btn_OK">Zustimmen</string>
+    <string name="label_btn_Cancel">Stornieren</string>
+    <string name="search_error">Die eingegebene Reise kann nicht gefunden werden. Bitte suchen Sie erneut!</string>
+    <string name="hint_edtSearch">Suche...</string>
+    <string name="hint_edt_note">Hinweis</string>
+    <string name="label_btn_Submit">Einreichen</string>
+    <string name="title_dialog_rating">Um die Qualität unseres Service zu verbessern, teilen Sie uns bitte Ihre Erfahrungen mit.</string>
+    <string name="lblSeeMore">Mehr sehen</string>
+    <string name="logout">Möchten Sie sich abmelden?</string>
+    <string name="noInternet">Kein Internet</string>
+    <string name="checkInternet">Bitte überprüfe deine Internetverbindung!</string>
+</resources>

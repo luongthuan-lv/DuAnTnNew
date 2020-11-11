@@ -1,23 +1,24 @@
 <resources>
-    <string name="app_name" translatable="false">TourIntro</string>
     // khong dich
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="app_name" translatable="false">TourIntro</string>
+    <string name="title_activity_fullscreen" translatable="false">FullscreenActivity</string>
+    <string name="dummy_button" translatable="false">Dummy Button</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
+    <string name="loading" translatable="false">Loading</string>
+    <string name="title1_login" translatable="false">Travel Like</string>
+    <string name="title2_login" translatable="false">You Never</string>
+    <string name="title3_login" translatable="false">Lost</string>
     <string name="LblVietNam" translatable="false">Tiếng Việt</string>
     <string name="LblJapan" translatable="false">日本語</string>
     <string name="LblEnglish" translatable="false">English</string>
     <string name="LblChina" translatable="false">中文</string>
     <string name="LblKorea" translatable="false">한국어</string>
     <string name="LblFrance" translatable="false">Français</string>
-    <string name="loading">Loading</string>
-    <string name="title1_login">Travel Like</string>
-    <string name="title2_login">You Never</string>
-    <string name="title3_login">Lost</string>
-    <string name="google_client_id">229845774338-4ogbuk4ncm45cgt6mjin2pmgfcdrlhjn.apps.googleusercontent.com</string>
-
+    <string name="LblGermany" translatable="false">Deutsche</string>
+    <string name="LblIndonesia" translatable="false">Indonesia</string>
+    <string name="LblRussia" translatable="false">Pусский</string>
+    <string name="google_client_id" translatable="false">229845774338-4ogbuk4ncm45cgt6mjin2pmgfcdrlhjn.apps.googleusercontent.com</string>
     //FACEBOOK
-
     <string name="name" translatable="false">name</string>
     <string name="id" translatable="false">id</string>
     <string name="email" translatable="false">email</string>
@@ -28,6 +29,7 @@
     <string name="data" translatable="false">data</string>
     <string name="facebook_app_id" translatable="false">383267972718761</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>
+
 
     // can dich
     <string name="label_btn_sign_in_with_google">Sign in with Google</string>
@@ -45,5 +47,5 @@
     <string name="lblSeeMore">See more</string>
     <string name="logout">Do you want to log out?</string>
     <string name="noInternet">No Internet</string>
-    <string name="checkInternet">Please check your internet connection</string>
+    <string name="checkInternet">Please check your internet connection!</string>
 </resources>
