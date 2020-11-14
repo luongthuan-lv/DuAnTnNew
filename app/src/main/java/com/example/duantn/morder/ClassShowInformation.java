@@ -1,36 +1,41 @@
 package com.example.duantn.morder;
 
+import java.util.List;
+
 public class ClassShowInformation {
     private double latitude;
     private double longitude;
     private String title;
     private String content;
-    private int position;
-    private String imgFirstly;
-    public String[] imgInformationList;
+    private List<String> waypoints;
+    private List<String> imageList;
 
-
-
-
-    public ClassShowInformation(double latitude, double longitude, String title, String content, int position, String imgFirstly) {
+    public ClassShowInformation(double latitude, double longitude, String title, String content, List<String> waypoints) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.title = title;
         this.content = content;
-        this.position = position;
-        this.imgFirstly = imgFirstly;
+        this.waypoints = waypoints;
     }
 
-    public ClassShowInformation(String[] imgInformationList) {
-        this.imgInformationList = imgInformationList;
+    public ClassShowInformation(List<String> imageList) {
+        this.imageList = imageList;
     }
 
-    public String[] getImgInformationList() {
-        return imgInformationList;
+    public List<String> getWaypoints() {
+        return waypoints;
     }
 
-    public void setImgInformationList(String[] imgInformationList) {
-        this.imgInformationList = imgInformationList;
+    public void setWaypoints(List<String> waypoints) {
+        this.waypoints = waypoints;
+    }
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
     }
 
     public double getLatitude() {
@@ -65,19 +70,4 @@ public class ClassShowInformation {
         this.content = content;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public String getImgFirstly() {
-        return imgFirstly;
-    }
-
-    public void setImgFirstly(String imgFirstly) {
-        this.imgFirstly = imgFirstly;
-    }
 }

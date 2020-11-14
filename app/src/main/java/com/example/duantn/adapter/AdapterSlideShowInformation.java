@@ -17,17 +17,22 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
 
-public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSlideShowInformation.ViewHolder>  {
-    private List<ClassShowInformation> classShowInformationList;
+public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSlideShowInformation.ViewHolder> {
+    private List<ClassShowInformation> showInformationArrayList;
+    private List<ClassShowInformation> imageViewList;
     private Context context;
 
     public interface OnClickItemListener {
         void onClicked(int position);
+
         void onSwitched(boolean isChecked);
     }
+
     private OnClickItemListener onClickItemListener;
-    public AdapterSlideShowInformation(List<ClassShowInformation> classShowInformationList, Context context, OnClickItemListener onClickItemListener) {
-        this.classShowInformationList = classShowInformationList;
+
+    public AdapterSlideShowInformation(List<ClassShowInformation> showInformationArrayList, List<ClassShowInformation> imageViewList, Context context, OnClickItemListener onClickItemListener) {
+        this.showInformationArrayList = showInformationArrayList;
+        this.imageViewList = imageViewList;
         this.context = context;
         this.onClickItemListener = onClickItemListener;
     }
@@ -41,9 +46,9 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSlideShowInformation.ViewHolder holder, final int position) {
-        holder.tvInformation.setText(classShowInformationList.get(position).getContent());
-        holder.tvTitle.setText(classShowInformationList.get(position).getTitle());
-        Glide.with(context).load(classShowInformationList.get(position).getImgFirstly()).into(holder.imgFirstly);
+        holder.tvInformation.setText(showInformationArrayList.get(position).getContent());
+        holder.tvTitle.setText(showInformationArrayList.get(position).getTitle());
+        Glide.with(context).load(imageViewList.get(position).getImageList().get(0)).into(holder.imgFirstly);
 
         holder.tvSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +57,6 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
                     onClickItemListener.onClicked(position);
             }
         });
-
     }
 
     @Override
@@ -63,14 +67,8 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
     @Override
     public int getItemCount() {
 
-        return classShowInformationList.size();
+        return showInformationArrayList.size();
     }
-
-
-
-
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvInformation;

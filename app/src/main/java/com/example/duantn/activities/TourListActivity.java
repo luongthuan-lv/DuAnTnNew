@@ -75,14 +75,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
-        tourList = new ArrayList<>();
-        tourList.add(new Tour(R.drawable.img_tour, 1, "Ha Noi City Tour", "Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố."));
-        tourList.add(new Tour(R.drawable.bg_splash, 2, "Ha Long Tour", "Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố."));
-        tourList.add(new Tour(R.drawable.main_background, 3, "Ba Na Hill Tour", "Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố."));
-        tourList.add(new Tour(R.drawable.bg_splash, 4, "Sapa  Tour", "Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố."));
-        tourList.add(new Tour(R.drawable.img_tour, 5, "Ha Noi City Tour", "Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố."));
-        tourList.add(new Tour(R.drawable.main_background, 5, "Ha Noi City Tour", "Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố."));
-
+        addTourList();
         setAdapter();
         setViewPager2();
 
@@ -102,6 +95,17 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    private void addTourList() {
+        tourList = new ArrayList<>();
+        tourList.add(new Tour("id", "Ha Noi City Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 1));
+        tourList.add(new Tour("id", "Ha Long Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 2));
+        tourList.add(new Tour("id", "Ba Na Hill Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 3));
+        tourList.add(new Tour("id", "Sapa  Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 4));
+        tourList.add(new Tour("id", "Ha Noi City Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 5));
+        tourList.add(new Tour("id", "Ha Noi City Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 5));
+
+    }
+
     private void setAdapter() {
         tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
             @Override
@@ -109,12 +113,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 if (isConnected(false)) {
                     Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("titleUser", titleUser);
-                    bundle.putString("urlAvata", urlAvata);
-                    bundle.putInt("image", tourList.get(position).getImage());
-                    bundle.putInt("rating", tourList.get(position).getRating());
-                    bundle.putString("title", tourList.get(position).getTitle());
-                    bundle.putString("introduce", tourList.get(position).getIntroduce());
+                    bundle.putString("id", tourList.get(position).getId());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else showDialogNoInternet();

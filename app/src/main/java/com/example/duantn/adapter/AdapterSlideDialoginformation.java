@@ -8,17 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.duantn.R;
+import com.example.duantn.morder.ClassShowInformation;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterSlideDialoginformation.ViewHolder>  {
-    private String [] imgListInformation;
+    private List<ClassShowInformation> imgListInformation;
     private Context context;
 
 
-    public AdapterSlideDialoginformation(String [] imgListInformation, Context context) {
+    public AdapterSlideDialoginformation(List<ClassShowInformation> imgListInformation, Context context) {
         this.imgListInformation = imgListInformation;
         this.context = context;
     }
@@ -32,7 +34,7 @@ public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterS
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSlideDialoginformation.ViewHolder holder, final int position) {
-            Picasso.with(context).load(imgListInformation[position]).into(holder.imgItemDialog);
+            Picasso.with(context).load(imgListInformation.get(position).getImageList().get(0)).into(holder.imgItemDialog);
 
     }
 
@@ -44,7 +46,7 @@ public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterS
     @Override
     public int getItemCount() {
 
-        return imgListInformation.length;
+        return imgListInformation.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

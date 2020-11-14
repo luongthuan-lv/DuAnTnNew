@@ -1,27 +1,40 @@
 package com.example.duantn.morder;
 
 public class Tour {
-    private int image;
+    private String id;
+    private String tour_name;
+    private String avatar;
     private int rating;
-    private String title;
-    private String introduce;
 
-    public Tour(int image, int rating, String title, String introduce) {
-        this.image = image;
+    public Tour(String id, String tour_name, String avatar, int rating) {
+        this.id = id;
+        this.tour_name = tour_name;
+        this.avatar = avatar;
         this.rating = rating;
-        this.title = title;
-        this.introduce = introduce;
     }
 
-    public Tour() {
+    public String getId() {
+        return id;
     }
 
-    public int getImage() {
-        return image;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public String getTour_name() {
+        return tour_name;
+    }
+
+    public void setTour_name(String tour_name) {
+        this.tour_name = tour_name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getRating() {
@@ -30,21 +43,5 @@ public class Tour {
 
     public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getIntroduce() {
-        return introduce;
-    }
-
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
     }
 }

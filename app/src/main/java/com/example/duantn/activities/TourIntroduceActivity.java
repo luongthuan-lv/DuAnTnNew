@@ -12,8 +12,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
-import com.facebook.login.LoginManager;
+import com.example.duantn.morder.Introduce;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.gson.Gson;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +22,7 @@ import java.util.List;
 public class TourIntroduceActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private int rating, image;
-    private String introduce, title;
+    private  String id;
     private ShapeableImageView img_tour;
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
     private TextView tv_title_tour,tv_introduce;
@@ -30,6 +30,16 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private ImageView imgAvata;
     private String urlAvata;
     private String titleUser;
+
+    public static Introduce introduce;
+
+    private String json = "{\n" +
+            "  \"id_tour\": \"135165415dsa45dsds\",\n" +
+            "  \"tour_name\": \"Ha Noi City Tour\",\n" +
+            "  \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
+            "  \"rating\": 5,\n" +
+            "  \"introduce\": \"Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố.\"\n" +
+            "}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +57,11 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         btn_start.setOnClickListener(this);
         imgAvata = findViewById(R.id.imgAvata);
         getIntent_bundle();
-        setView();
 
+        Gson gson = new Gson();
+        introduce = gson.fromJson(json,Introduce.class);
+
+        setView();
         imgAvata.setOnClickListener(this);
     }
 
@@ -56,32 +69,28 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            urlAvata = bundle.getString("urlAvata");
+            urlAvata = bundle.getString("id");
             titleUser = bundle.getString("titleUser");
             if (urlAvata.equals("null")){
                 Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvata);
             }else{
                 Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);}
-
-            rating = bundle.getInt("rating");
-            image = bundle.getInt("image");
-            introduce = bundle.getString("introduce");
-            title = bundle.getString("title");
+            id = bundle.getString("id");
         }
     }
 
     private void setView(){
-        img_tour.setImageResource(image);
-        tv_title_tour.setText(title);
+        Glide.with(this).load(introduce.getAvatar()).into(img_tour);
+        tv_title_tour.setText(introduce.getTourName());
         List<ImageView> imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
         for (int i=0;i<imageViewList.size();i++){
             imageViewList.get(i).setImageResource(R.drawable.star2);
         }
-        for (int i=0;i<rating;i++){
+        for (int i=0;i<introduce.getRating();i++){
             imageViewList.get(i).setImageResource(R.drawable.star);
         }
 
-        tv_introduce.setText(introduce);
+        tv_introduce.setText(introduce.getIntroduce());
     }
 
     @Override
@@ -97,6 +106,10 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     }else {
         showDialogNoInternet();
     }
+    }
+
+    private void addTourInfor(){
+
     }
 
     private void createAlertDialog(){

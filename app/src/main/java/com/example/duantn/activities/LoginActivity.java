@@ -2,7 +2,6 @@ package com.example.duantn.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -26,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duantn.adapter.AdapterLanguage;
-import com.example.duantn.morder.ClassSelectLanguage;
+import com.example.duantn.adapter.ClassSelectLanguage;
 import com.example.duantn.morder.KeyLangguage;
 import com.example.duantn.sql.LanguageDAO;
 import com.example.duantn.sql.MySqliteOpenHelper;

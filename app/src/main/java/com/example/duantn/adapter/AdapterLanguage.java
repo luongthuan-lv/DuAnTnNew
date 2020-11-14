@@ -1,28 +1,18 @@
 package com.example.duantn.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.duantn.R;
-import com.example.duantn.activities.TourListActivity;
-import com.example.duantn.morder.ClassSelectLanguage;
 
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 public class AdapterLanguage extends RecyclerView.Adapter<AdapterLanguage.ViewHolder> {
     private ArrayList<ClassSelectLanguage> classSelectLanguages;
