@@ -16,12 +16,12 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterSlideDialoginformation.ViewHolder>  {
-    private List<ClassShowInformation> imgListInformation;
+    private List<ClassShowInformation> locationList;
     private Context context;
 
 
-    public AdapterSlideDialoginformation(List<ClassShowInformation> imgListInformation, Context context) {
-        this.imgListInformation = imgListInformation;
+    public AdapterSlideDialoginformation(List<ClassShowInformation> locationList, Context context) {
+        this.locationList = locationList;
         this.context = context;
     }
 
@@ -34,7 +34,7 @@ public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterS
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSlideDialoginformation.ViewHolder holder, final int position) {
-            Picasso.with(context).load(imgListInformation.get(position).getImageList().get(0)).into(holder.imgItemDialog);
+            Picasso.with(context).load(locationList.get(position).getImageList().get(0)).into(holder.imgItemDialog);
 
     }
 
@@ -46,7 +46,7 @@ public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterS
     @Override
     public int getItemCount() {
 
-        return imgListInformation.size();
+        return locationList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

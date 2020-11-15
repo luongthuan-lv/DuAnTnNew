@@ -10,9 +10,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -26,13 +24,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +38,48 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private TourAdapter tourAdapter;
     private EditText edt_search;
     private ImageView btnSearch;
-    private ImageView imgAvata;
+    private ImageView imgAvatar;
     private String urlAvata;
     private String titleUser;
+
+    private String json="[\n" +
+            "  {\n" +
+            "    \"id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
+            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
+            "    \"rating\": 5\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
+            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
+            "    \"rating\": 5\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
+            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
+            "    \"rating\": 5\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
+            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
+            "    \"rating\": 5\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
+            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
+            "    \"rating\": 5\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
+            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
+            "    \"rating\": 5\n" +
+            "  }\n" +
+            "]";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,34 +107,26 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
-        addTourList();
+        Gson gson = new Gson();
+        tourList = new ArrayList<>();
+        tourList =  gson.fromJson(json, new TypeToken<List<Tour>>(){}.getType());
+
         setAdapter();
         setViewPager2();
 
         //setAvatar
-        imgAvata = findViewById(R.id.imgAvata);
+        imgAvatar = findViewById(R.id.imgAvata);
         Intent intent = getIntent();
         urlAvata = intent.getStringExtra("urlAvata");
         titleUser = intent.getStringExtra("title");
 
         if (urlAvata.equals("null")) {
-            Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvata);
+            Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
         } else {
-            Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);
+            Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvatar);
         }
 
-        imgAvata.setOnClickListener(this);
-
-    }
-
-    private void addTourList() {
-        tourList = new ArrayList<>();
-        tourList.add(new Tour("id", "Ha Noi City Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 1));
-        tourList.add(new Tour("id", "Ha Long Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 2));
-        tourList.add(new Tour("id", "Ba Na Hill Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 3));
-        tourList.add(new Tour("id", "Sapa  Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 4));
-        tourList.add(new Tour("id", "Ha Noi City Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 5));
-        tourList.add(new Tour("id", "Ha Noi City Tour", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg", 5));
+        imgAvatar.setOnClickListener(this);
 
     }
 

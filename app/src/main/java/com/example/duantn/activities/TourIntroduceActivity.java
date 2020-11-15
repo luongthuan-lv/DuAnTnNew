@@ -16,16 +16,17 @@ import com.example.duantn.morder.Introduce;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class TourIntroduceActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private  String id;
+    private String id;
     private ShapeableImageView img_tour;
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
-    private TextView tv_title_tour,tv_introduce;
+    private TextView tv_title_tour, tv_introduce;
     private Button btn_start;
     private ImageView imgAvata;
     private String urlAvata;
@@ -56,37 +57,37 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         btn_start = findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this);
         imgAvata = findViewById(R.id.imgAvata);
+        imgAvata.setOnClickListener(this);
         getIntent_bundle();
-
         Gson gson = new Gson();
-        introduce = gson.fromJson(json,Introduce.class);
+        introduce = gson.fromJson(json, Introduce.class);
 
         setView();
-        imgAvata.setOnClickListener(this);
     }
 
-    private void getIntent_bundle(){
+    private void getIntent_bundle() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             urlAvata = bundle.getString("id");
             titleUser = bundle.getString("titleUser");
-            if (urlAvata.equals("null")){
+            if (urlAvata.equals("null")) {
                 Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvata);
-            }else{
-                Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);}
+            } else {
+                Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);
+            }
             id = bundle.getString("id");
         }
     }
 
-    private void setView(){
+    private void setView() {
         Glide.with(this).load(introduce.getAvatar()).into(img_tour);
         tv_title_tour.setText(introduce.getTourName());
         List<ImageView> imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
-        for (int i=0;i<imageViewList.size();i++){
+        for (int i = 0; i < imageViewList.size(); i++) {
             imageViewList.get(i).setImageResource(R.drawable.star2);
         }
-        for (int i=0;i<introduce.getRating();i++){
+        for (int i = 0; i < introduce.getRating(); i++) {
             imageViewList.get(i).setImageResource(R.drawable.star);
         }
 
@@ -95,24 +96,20 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        if (isConnected(false)){
-        switch (v.getId()){
-            case R.id.btn_start:
-                createAlertDialog();
-                break;
-            case R.id.imgAvata:
-                showDialogLogout(this,titleUser);
+        if (isConnected(false)) {
+            switch (v.getId()) {
+                case R.id.btn_start:
+                    createAlertDialog();
+                    break;
+                case R.id.imgAvata:
+                    showDialogLogout(this, titleUser);
+            }
+        } else {
+            showDialogNoInternet();
         }
-    }else {
-        showDialogNoInternet();
-    }
     }
 
-    private void addTourInfor(){
-
-    }
-
-    private void createAlertDialog(){
+    private void createAlertDialog() {
 
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle(getResources().getString(R.string.title_alert));

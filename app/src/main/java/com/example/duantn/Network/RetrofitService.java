@@ -13,6 +13,7 @@ public interface RetrofitService {
     @GET("maps/api/directions/json")
     Call<Example> getHttp(@Query("origin") String origin,
                           @Query("destination") String destination,
+                          @Query("waypoints") String waypoints,
                           @Query("key") String key);
 
 }

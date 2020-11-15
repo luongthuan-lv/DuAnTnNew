@@ -56,6 +56,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,8 +71,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends BaseActivity implements OnMapReadyCallback,
-        View.OnClickListener {
+public class MainActivity extends BaseActivity implements OnMapReadyCallback{
     private int LOCATION_REQUEST_CODE = 10001;
     private GoogleMap mGoogleMap;
     private LocationManager locationManager;
@@ -91,8 +92,130 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
     private List<Colors> colorsList;
     private int colorIndex = 0;
     private PolylineOptions polylineOptions;
-    private ArrayList<ClassShowInformation> showInformationArrayList;
-    private ArrayList<ClassShowInformation> imgListInformation;
+    private ArrayList<ClassShowInformation> locationList = new ArrayList<>();
+
+    private String json = "[\n" +
+            "  {\n" +
+            "    \"latitude\": 21.037000,\n" +
+            "    \"longitude\": 105.834727,\n" +
+            "    \"waypoints\": [\n" +
+            "      \"21.030980,105.834039\"\n" +
+            "    ],\n" +
+            "    \"title\": \"Lăng Bác\",\n" +
+            "    \"content\": \"Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg\",\n" +
+            "      \"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg\",\n" +
+            "      \"https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg\",\n" +
+            "      \"https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.032555,\n" +
+            "    \"longitude\": 105.839804,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Cột cờ Hà Nội\",\n" +
+            "    \"content\": \"Kỳ đài Hà Nội hay còn được nhiều biết tới hơn với tên gọi Cột cờ Hà Nội nằm trong khuôn viên của bảo tàng lịch sử quân sự Việt Nam. Được đánh giá là công trình nguyên vẹn và hoành tráng nhất trong quần thể di tích Hoàng thành Thăng Long, Cột Cờ chính là điểm tham quan du lịch ở Hà Nội mà du khách không thể bỏ qua trong hành trình khám phá lịch sử của đất Hà Thành.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_tower%2C_Hanoi.jpg/250px-Flag_tower%2C_Hanoi.jpg\",\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/quocdai/082019/30/17/4151_cYt_cY_HN.jpg\",\n" +
+            "      \"https://upload.wikimedia.org/wikipedia/vi/1/17/C%E1%BB%99t_c%E1%BB%9D_H%C3%A0_N%E1%BB%99i_x%C6%B0a.jpg\",\n" +
+            "      \"https://lh3.googleusercontent.com/proxy/GlpfWnSUxBhIrH1XVKYflWoReAlupUARUUxkaB_aYpsEWKaDJ59kBqZJ5zAw9c3F12m8fwWgpF8hiN86ugj_qJZ_c3Av-QI\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.029565,\n" +
+            "    \"longitude\": 105.836206,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Văn Miếu - Quốc Tử Giám\",\n" +
+            "    \"content\": \"Nếu kể tên các địa điểm du lịch Hà Nội bậc nhất xưa và nay có lẽ ai cũng sẽ nghĩ ngay đến Văn Miếu Quốc Tử Giám. Đây là một quần thể kiến trúc văn hoá hàng đầu và là niềm tự hào của người dân Thủ đô khi nhắc đến truyền thống ngàn năm văn hiến của Thăng Long – Đông Đô – Hà Nội.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
+            "      \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg\",\n" +
+            "      \"https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.025445,\n" +
+            "    \"longitude\": 105.846422,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Di Tích Lịch Sử Nhà Tù Hỏa Lò\",\n" +
+            "    \"content\": \"Nhà tù Hỏa Lò được thực dân Pháp xây dựng từ năm 1896 với tên gọi “Maison Central”, là nơi giam giữ những chiến sĩ cách mạng chống lại chế độ thực dân. Đây là một trong những công trình kiên cố vào loại bậc nhất Đông Dương khi đó. Sau ngày giải phóng thủ đô, nhà tù được đặt dưới quyền của chính quyền cách mạng. Từ năm 1963 đến 1975, nơi đây còn được sử dụng để làm nơi giam giữ những phi công Mỹ bị quân đội Việt Nam bắn rơi trong cuộc chiến tranh phá hoại miền Bắc. Nhà tù Hỏa Lò được thực dân Pháp xây dựng từ năm 1896 với tên gọi “Maison Central”, là nơi giam giữ những chiến sĩ cách mạng chống lại chế độ thực dân. Đây là một trong những công trình kiên cố vào loại bậc nhất Đông Dương khi đó. Sau ngày giải phóng thủ đô, nhà tù được đặt dưới quyền của chính quyền cách mạng. Từ năm 1963 đến 1975, nơi đây còn được sử dụng để làm nơi giam giữ những phi công Mỹ bị quân đội Việt Nam bắn rơi trong cuộc chiến tranh phá hoại miền Bắc.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
+            "      \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg\",\n" +
+            "      \"https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.024118,\n" +
+            "    \"longitude\": 105.857947,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Nhà hát Lớn Hà Nội\",\n" +
+            "    \"content\": \"Nằm ở số 1 Tràng Tiền, Nhà hát lớn là một trong các địa điểm du lịch đẹp ở Hà Nội mang nhiều dấu ấn lịch sử. Đây là địa điểm tổ chức những chương trình nghệ thuật lớn của nhiều ca sĩ, nghệ sĩ tên tuổi hàng đầu Việt Nam. Du khách có thể chiêm ngưỡng kiến trúc tuyệt vời của Nhà hát Lớn hay mua vé vào xem một trong những chương trình biểu diễn thường xuyên được tổ chức để có thể tận mắt thấy được hết nội thất tráng lệ của nhà hát.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://icdn.dantri.com.vn/zoom/1200_630/2017/nha-hat-lon-ha-noi-1499853914500-crop-1499854079654.jpg\",\n" +
+            "      \"https://hanoi1000.vn/wp-content/uploads/2019/09/nha-hat-lon-thumnail.jpg\",\n" +
+            "      \"https://media-cdn.tripadvisor.com/media/photo-s/0e/8e/9f/f0/hanoi-opera-house.jpg\",\n" +
+            "      \"https://photo-1-baomoi.zadn.vn/w1000_r1/2019_01_10_180_29302323/4196b74e8c0d65533c1c.jpg\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.028683,\n" +
+            "    \"longitude\": 105.848812,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Nhà thờ Lớn Hà Nội\",\n" +
+            "    \"content\": \"Nằm ở 40 phố Nhà Chung, phường Hàng Trống, Nhà thờ lớn là một trong những điểm đến thú vị ở Hà Nội, nơi lui tới không chỉ của các tín đồ theo đạo mà còn là địa điểm quen thuộc của giới trẻ, khách du lịch tứ phương. Nhà thờ được thiết kế theo phong cách kiến trúc Gothic trung cổ châu Âu với bức tường xây cao, có mái vòm và nhiều cửa sổ.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Hanoi_sjc.jpg/1200px-Hanoi_sjc.jpg\",\n" +
+            "      \"https://dulichkhampha24.com/wp-content/uploads/2020/01/nha-tho-lon-ha-noi-9.jpg\",\n" +
+            "      \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/nha-tho-lon-ha-noi-1-1.jpg\",\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/maiquy/032020/28/14/4305_DSC_6917.jpg\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.028805,\n" +
+            "    \"longitude\": 105.852150,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Hồ Hoàn Kiếm\",\n" +
+            "    \"content\": \"Hồ Gươm hay hồ Hoàn Kiếm là một trong những nơi nên đến ở Hà Nội khi du lịch thủ đô. Nằm ở giữa trung tâm, Hồ Gươm được ví như trái tim của thành phố ngàn năm tuổi này.. Mặt hồ như tấm gương lớn soi bóng những cây cổ thụ, những rặng liễu thướt tha tóc rủ, những mái đền, chùa cổ kính, tháp cũ rêu phong, các toà nhà mới cao tầng vươn lên trời xanh.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://e.dowload.vn/data/image/2020/01/08/thuyet-minh-ve-ho-guom-1.jpg\",\n" +
+            "      \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/ho-hoan-kiem-1.png\",\n" +
+            "      \"https://dulichkhampha24.com/wp-content/uploads/2020/01/gioi-thieu-ve-ho-guom-15.jpg\",\n" +
+            "      \"https://phapluat.tuoitrethudo.com.vn/stores/news_dataimages/nguyenthithanhhoa/072019/06/18/in_article/ha-noi-day-manh-tuyen-truyen-su-kien-20-nam-thanh-pho-vi-hoa-binh.jpg\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.034399,\n" +
+            "    \"longitude\": 105.840115,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Hoàng Thành Thăng Long\",\n" +
+            "    \"content\": \"Hoàng thành Thăng Long là quần thể di tích gắn liền với sự phát triển của Thăng Long – Hà Nội, được các triều vua xây dựng trong nhiều giai đoạn lịch sử. Đây cũng là di tích quan trọng bậc nhất trong hệ thống các di tích lịch sử của Việt Nam. Đến Hoàng thành Thăng Long du khách có thể tham quan những địa điểm nổi bật như khu khảo cổ học số 18 Hoàng Diệu, Đoan Môn, Điện Kính Thiên, Bắc Môn (thành Cửa Bắc)\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://useful.vn/wp-content/uploads/2020/04/1568099002089_4146890.png\",\n" +
+            "      \"https://baoxaydung.com.vn/stores/news_dataimages/vananh/112018/30/23/231143baoxaydung_image001.jpg\",\n" +
+            "      \"https://thoibaonganhang.vn/stores/news_dataimages/thanhlm/022019/01/09/f40a1d5e2f78bad9fa1ab42ec1790b8f_Untitled.jpg\",\n" +
+            "      \"https://sohanews.sohacdn.com/thumb_w/660/2018/2/13/photo1518495306225-15184953062251022493055.jpg\"\n" +
+            "    ]\n" +
+            "  }\n" +
+            "]";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,45 +239,17 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
         locationRequest.setInterval(50);
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        addDataListImg();
-        addDataSlideInformation();
+        Gson gson = new Gson();
+        locationList = gson.fromJson(json,new TypeToken<List<ClassShowInformation>>(){}.getType());
+
 
         setAdapter();
         setViewPager();
-
         addColor();
         getRetrofit(locationIndex, locationIndex + 1);
 
     }
 
-
-    private void addDataListImg() {
-        imgListInformation = new ArrayList<>();
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg", "https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg", "https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg", "https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg"})));
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg", "https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg", "https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg", "https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg"})));
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_tower%2C_Hanoi.jpg/250px-Flag_tower%2C_Hanoi.jpg", "https://laodongthudo.vn/stores/news_dataimages/quocdai/082019/30/17/4151_cYt_cY_HN.jpg", "https://upload.wikimedia.org/wikipedia/vi/1/17/C%E1%BB%99t_c%E1%BB%9D_H%C3%A0_N%E1%BB%99i_x%C6%B0a.jpg", "https://lh3.googleusercontent.com/proxy/GlpfWnSUxBhIrH1XVKYflWoReAlupUARUUxkaB_aYpsEWKaDJ59kBqZJ5zAw9c3F12m8fwWgpF8hiN86ugj_qJZ_c3Av-QI"})));
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg", "https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg", "https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412"})));
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://sodulich.hanoi.gov.vn/storage/nhatuhoalo120190915230108.png", "https://sodulich.hanoi.gov.vn/storage/nhatuhoalo120190915230108.png", "https://cdnmedia.baotintuc.vn/2014/07/25/19/23/hoalo7%20(2).JPG", "https://cdnimg.vietnamplus.vn/t870/uploaded/fsmsy/2020_01_29/ttxvn_nha_tu_hoa_lo_1.jpg"})));
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://icdn.dantri.com.vn/zoom/1200_630/2017/nha-hat-lon-ha-noi-1499853914500-crop-1499854079654.jpg", "https://hanoi1000.vn/wp-content/uploads/2019/09/nha-hat-lon-thumnail.jpg", "https://media-cdn.tripadvisor.com/media/photo-s/0e/8e/9f/f0/hanoi-opera-house.jpg", "https://photo-1-baomoi.zadn.vn/w1000_r1/2019_01_10_180_29302323/4196b74e8c0d65533c1c.jpg"})));
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Hanoi_sjc.jpg/1200px-Hanoi_sjc.jpg", "https://dulichkhampha24.com/wp-content/uploads/2020/01/nha-tho-lon-ha-noi-9.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/nha-tho-lon-ha-noi-1-1.jpg", "https://laodongthudo.vn/stores/news_dataimages/maiquy/032020/28/14/4305_DSC_6917.jpg"})));
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://e.dowload.vn/data/image/2020/01/08/thuyet-minh-ve-ho-guom-1.jpg", "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/ho-hoan-kiem-1.png", "https://dulichkhampha24.com/wp-content/uploads/2020/01/gioi-thieu-ve-ho-guom-15.jpg", "https://phapluat.tuoitrethudo.com.vn/stores/news_dataimages/nguyenthithanhhoa/072019/06/18/in_article/ha-noi-day-manh-tuyen-truyen-su-kien-20-nam-thanh-pho-vi-hoa-binh.jpg"})));
-        imgListInformation.add(new ClassShowInformation(Arrays.asList(new String[]{"https://useful.vn/wp-content/uploads/2020/04/1568099002089_4146890.png", "https://baoxaydung.com.vn/stores/news_dataimages/vananh/112018/30/23/231143baoxaydung_image001.jpg", "https://thoibaonganhang.vn/stores/news_dataimages/thanhlm/022019/01/09/f40a1d5e2f78bad9fa1ab42ec1790b8f_Untitled.jpg", "https://sohanews.sohacdn.com/thumb_w/660/2018/2/13/photo1518495306225-15184953062251022493055.jpg"})));
-
-    }
-
-    private void addDataSlideInformation() {
-        showInformationArrayList = new ArrayList<>();
-
-        showInformationArrayList.add(new ClassShowInformation(21.037000, 105.834727, "Lăng Bác", "Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.", Arrays.asList(new String[]{})));
-        showInformationArrayList.add(new ClassShowInformation(21.032555, 105.839804, "Cột cờ Hà Nội", "Kỳ đài Hà Nội hay còn được nhiều biết tới hơn với tên gọi Cột cờ Hà Nội nằm trong khuôn viên của bảo tàng lịch sử quân sự Việt Nam. Được đánh giá là công trình nguyên vẹn và hoành tráng nhất trong quần thể di tích Hoàng thành Thăng Long, Cột Cờ chính là điểm tham quan du lịch ở Hà Nội mà du khách không thể bỏ qua trong hành trình khám phá lịch sử của đất Hà Thành.", Arrays.asList(new String[]{})));
-        showInformationArrayList.add(new ClassShowInformation(21.029565, 105.836206, "Văn Miếu - Quốc Tử Giám", "Nếu kể tên các địa điểm du lịch Hà Nội bậc nhất xưa và nay có lẽ ai cũng sẽ nghĩ ngay đến Văn Miếu Quốc Tử Giám. Đây là một quần thể kiến trúc văn hoá hàng đầu và là niềm tự hào của người dân Thủ đô khi nhắc đến truyền thống ngàn năm văn hiến của Thăng Long – Đông Đô – Hà Nội.", Arrays.asList(new String[]{})));
-        showInformationArrayList.add(new ClassShowInformation(21.025445, 105.846422, "Di Tích Lịch Sử Nhà Tù Hỏa Lò", "Nhà tù Hỏa Lò được thực dân Pháp xây dựng từ năm 1896 với tên gọi “Maison Central”, là nơi giam giữ những chiến sĩ cách mạng chống lại chế độ thực dân. Đây là một trong những công trình kiên cố vào loại bậc nhất Đông Dương khi đó. Sau ngày giải phóng thủ đô, nhà tù được đặt dưới quyền của chính quyền cách mạng. Từ năm 1963 đến 1975, nơi đây còn được sử dụng để làm nơi giam giữ những phi công Mỹ bị quân đội Việt Nam bắn rơi trong cuộc chiến tranh phá hoại miền Bắc. Nhà tù Hỏa Lò được thực dân Pháp xây dựng từ năm 1896 với tên gọi “Maison Central”, là nơi giam giữ những chiến sĩ cách mạng chống lại chế độ thực dân. Đây là một trong những công trình kiên cố vào loại bậc nhất Đông Dương khi đó. Sau ngày giải phóng thủ đô, nhà tù được đặt dưới quyền của chính quyền cách mạng. Từ năm 1963 đến 1975, nơi đây còn được sử dụng để làm nơi giam giữ những phi công Mỹ bị quân đội Việt Nam bắn rơi trong cuộc chiến tranh phá hoại miền Bắc.", Arrays.asList(new String[]{})));
-        showInformationArrayList.add(new ClassShowInformation(21.024118, 105.857947, "Nhà hát Lớn Hà Nội", "Nằm ở số 1 Tràng Tiền, Nhà hát lớn là một trong các địa điểm du lịch đẹp ở Hà Nội mang nhiều dấu ấn lịch sử. Đây là địa điểm tổ chức những chương trình nghệ thuật lớn của nhiều ca sĩ, nghệ sĩ tên tuổi hàng đầu Việt Nam. Du khách có thể chiêm ngưỡng kiến trúc tuyệt vời của Nhà hát Lớn hay mua vé vào xem một trong những chương trình biểu diễn thường xuyên được tổ chức để có thể tận mắt thấy được hết nội thất tráng lệ của nhà hát.", Arrays.asList(new String[]{})));
-        showInformationArrayList.add(new ClassShowInformation(21.028683, 105.848812, "Nhà thờ Lớn Hà Nội", "Nằm ở 40 phố Nhà Chung, phường Hàng Trống, Nhà thờ lớn là một trong những điểm đến thú vị ở Hà Nội, nơi lui tới không chỉ của các tín đồ theo đạo mà còn là địa điểm quen thuộc của giới trẻ, khách du lịch tứ phương. Nhà thờ được thiết kế theo phong cách kiến trúc Gothic trung cổ châu Âu với bức tường xây cao, có mái vòm và nhiều cửa sổ.", Arrays.asList(new String[]{})));
-        showInformationArrayList.add(new ClassShowInformation(21.028805, 105.852150, "Hồ Hoàn Kiếm", "Hồ Gươm hay hồ Hoàn Kiếm là một trong những nơi nên đến ở Hà Nội khi du lịch thủ đô. Nằm ở giữa trung tâm, Hồ Gươm được ví như trái tim của thành phố ngàn năm tuổi này.. Mặt hồ như tấm gương lớn soi bóng những cây cổ thụ, những rặng liễu thướt tha tóc rủ, những mái đền, chùa cổ kính, tháp cũ rêu phong, các toà nhà mới cao tầng vươn lên trời xanh.", Arrays.asList(new String[]{})));
-        showInformationArrayList.add(new ClassShowInformation(21.034399, 105.840115, "Hoàng Thành Thăng Long", "Hoàng thành Thăng Long là quần thể di tích gắn liền với sự phát triển của Thăng Long – Hà Nội, được các triều vua xây dựng trong nhiều giai đoạn lịch sử. Đây cũng là di tích quan trọng bậc nhất trong hệ thống các di tích lịch sử của Việt Nam. Đến Hoàng thành Thăng Long du khách có thể tham quan những địa điểm nổi bật như khu khảo cổ học số 18 Hoàng Diệu, Đoan Môn, Điện Kính Thiên, Bắc Môn (thành Cửa Bắc)", Arrays.asList(new String[]{})));
-
-    }
 
     private void getRetrofit(int location1, int location2) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -163,7 +258,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
 
-        retrofitService.getHttp(getLatLng(location1), getLatLng(location2), api_key).enqueue(new Callback<Example>() {
+        String waypoints = "";
+        for (int i = 0; i < locationList.get(locationIndex).getWaypoints().size(); i++) {
+            waypoints += locationList.get(locationIndex).getWaypoints().get(i) + "|";
+        }
+
+        Log.e("TAG",waypoints);
+        retrofitService.getHttp(getLatLng(location1), getLatLng(location2),waypoints, api_key).enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
 
@@ -181,10 +282,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
                 assert supportMapFragment != null;
                 supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
 
-                if (locationIndex < showInformationArrayList.size() - 2) {
+                if (locationIndex < locationList.size() - 2) {
                     locationIndex++;
                     getRetrofit(locationIndex, locationIndex + 1);
-                } else if (locationIndex == showInformationArrayList.size() - 2) {
+                } else if (locationIndex == locationList.size() - 2) {
                     locationIndex++;
                     getRetrofit(locationIndex, 0);
                 }
@@ -237,7 +338,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
 
     private String getLatLng(int i) {
 
-        String latLng = showInformationArrayList.get(i).getLatitude() + "," + showInformationArrayList.get(i).getLongitude();
+        String latLng = locationList.get(i).getLatitude() + "," + locationList.get(i).getLongitude();
 
         return latLng;
     }
@@ -313,7 +414,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
     }
 
     private void setAdapter() {
-        slideShowInformation = new AdapterSlideShowInformation(showInformationArrayList, imgListInformation, this, new AdapterSlideShowInformation.OnClickItemListener() {
+        slideShowInformation = new AdapterSlideShowInformation(locationList, this, new AdapterSlideShowInformation.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
                 if (isConnected(false)) {
@@ -370,7 +471,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
     public void onMapReady(final GoogleMap googleMap) {
         this.mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setCompassEnabled(true);
-//        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
 //        mGoogleMap.setTrafficEnabled(true);
@@ -428,10 +528,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
         TextView tvContent = dialogView.findViewById(R.id.tvDialogContent);
         CardView cvDialog = dialogView.findViewById(R.id.cvDialog);
 
-        tvContent.setText(showInformationArrayList.get(position).getContent());
+        tvContent.setText(locationList.get(position).getContent());
         tvContent.setMovementMethod(new ScrollingMovementMethod());
         final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);
-        AdapterSlideDialoginformation adapterSlideDialoginformation = new AdapterSlideDialoginformation(imgListInformation, this);
+        AdapterSlideDialoginformation adapterSlideDialoginformation = new AdapterSlideDialoginformation(locationList, this);
         viewPager.setAdapter(adapterSlideDialoginformation);
 
         final Handler handler = new Handler();
@@ -460,18 +560,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
         dialog.show();
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
     private void addMarkerAllAndClick() {
         latLngs = new ArrayList<>();
-        for (int i = 0; i < showInformationArrayList.size(); i++) {
-            final LatLng position = new LatLng(showInformationArrayList.get(i).getLatitude(), showInformationArrayList.get(i).getLongitude());
+        for (int i = 0; i < locationList.size(); i++) {
+            final LatLng position = new LatLng(locationList.get(i).getLatitude(), locationList.get(i).getLongitude());
             MarkerOptions option = new MarkerOptions();
             option.position(position);
-            option.title(showInformationArrayList.get(i).getTitle());
+            option.title(locationList.get(i).getTitle());
             option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             final Marker maker = mGoogleMap.addMarker(option);
             maker.showInfoWindow();
@@ -485,7 +580,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
                 viewPager.setVisibility(View.VISIBLE);
                 String indexMarker = String.valueOf(marker.getId().charAt(1));
                 int positionMarker = Integer.parseInt(indexMarker);
-                viewPager.setCurrentItem(positionMarker - 1);
+                viewPager.setCurrentItem(positionMarker);
                 return false;
             }
         });
@@ -497,13 +592,12 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 stopLocationUpdate();
-                final LatLng position1 = new LatLng(showInformationArrayList.get(position).getLatitude(), showInformationArrayList.get(position).getLongitude());
+                final LatLng position1 = new LatLng(locationList.get(position).getLatitude(), locationList.get(position).getLongitude());
                 MarkerOptions option = new MarkerOptions();
                 option.position(position1);
-                option.title(showInformationArrayList.get(position).getTitle());
+                option.title(locationList.get(position).getTitle());
                 option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
-                Log.e("TAG", "onPageSelected: " + position);
                 final Marker maker = mGoogleMap.addMarker(option);
                 maker.showInfoWindow();
             }
@@ -523,7 +617,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback,
             }
         }
     };
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

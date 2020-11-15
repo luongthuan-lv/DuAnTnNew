@@ -18,8 +18,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import java.util.List;
 
 public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSlideShowInformation.ViewHolder> {
-    private List<ClassShowInformation> showInformationArrayList;
-    private List<ClassShowInformation> imageViewList;
+    private List<ClassShowInformation> locationList;
     private Context context;
 
     public interface OnClickItemListener {
@@ -30,9 +29,8 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
 
     private OnClickItemListener onClickItemListener;
 
-    public AdapterSlideShowInformation(List<ClassShowInformation> showInformationArrayList, List<ClassShowInformation> imageViewList, Context context, OnClickItemListener onClickItemListener) {
-        this.showInformationArrayList = showInformationArrayList;
-        this.imageViewList = imageViewList;
+    public AdapterSlideShowInformation(List<ClassShowInformation> locationList, Context context, OnClickItemListener onClickItemListener) {
+        this.locationList = locationList;
         this.context = context;
         this.onClickItemListener = onClickItemListener;
     }
@@ -46,9 +44,9 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSlideShowInformation.ViewHolder holder, final int position) {
-        holder.tvInformation.setText(showInformationArrayList.get(position).getContent());
-        holder.tvTitle.setText(showInformationArrayList.get(position).getTitle());
-        Glide.with(context).load(imageViewList.get(position).getImageList().get(0)).into(holder.imgFirstly);
+        holder.tvInformation.setText(locationList.get(position).getContent());
+        holder.tvTitle.setText(locationList.get(position).getTitle());
+        Glide.with(context).load(locationList.get(position).getImageList().get(0)).into(holder.imgFirstly);
 
         holder.tvSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +65,7 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
     @Override
     public int getItemCount() {
 
-        return showInformationArrayList.size();
+        return locationList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

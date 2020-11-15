@@ -13,6 +13,9 @@ public class Tour {
         this.rating = rating;
     }
 
+    public Tour() {
+    }
+
     public String getId() {
         return id;
     }
