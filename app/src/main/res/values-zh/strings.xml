@@ -15,6 +15,7 @@
     <string name="title_dialog_rating">为了提高我们的服务质量，请告诉我们您的经验。</string>
     <string name="lblSeeMore">查看更多</string>
     <string name="logout">您要登出吗？</string>
-    <string name="noInternet">没有网路</string>
-    <string name="checkInternet">请检查您的互联网连接！</string>
+    <string name="text_dialog_warning_internet">请检查您的互联网连接！</string>
+    <string name="title_dialog_warning_internet">看起来您没有互联网连接</string>
+    <string name="text_btn_close">关</string>
 </resources>

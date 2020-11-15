@@ -231,7 +231,7 @@
     </FrameLayout>
 
     <ImageView
-        android:id="@+id/imgAvata"
+        android:id="@+id/imgAvatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="@dimen/margin_10dp"

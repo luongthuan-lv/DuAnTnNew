@@ -46,6 +46,7 @@
     <string name="title_dialog_rating">In order to improve the quality of our service, please let us know about your experience.</string>
     <string name="lblSeeMore">See more</string>
     <string name="logout">Do you want to log out?</string>
-    <string name="noInternet">No Internet</string>
-    <string name="checkInternet">Please check your internet connection!</string>
+    <string name="text_dialog_warning_internet">Please check your internet connection!</string>
+    <string name="title_dialog_warning_internet">Looks like you don\'t have an Internet connection</string>
+    <string name="text_btn_close">Close</string>
 </resources>

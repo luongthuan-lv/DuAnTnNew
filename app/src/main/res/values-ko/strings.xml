@@ -15,6 +15,7 @@
     <string name="title_dialog_rating">서비스 품질을 개선하기 위해 귀하의 경험을 알려주십시오.</string>
     <string name="lblSeeMore">인터넷 없음</string>
     <string name="logout">로그 아웃 하시겠습니까?</string>
-    <string name="noInternet">인터넷 없음</string>
-    <string name="checkInternet">인터넷 연결을 확인하세요!</string>
+    <string name="text_dialog_warning_internet">인터넷 연결을 확인하세요!</string>
+    <string name="title_dialog_warning_internet">인터넷에 연결되어 있지 않은 것 같습니다.</string>
+    <string name="text_btn_close">닫기</string>
 </resources>

@@ -355,27 +355,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if (isConnected(false)) {
-            switch (v.getId()) {
-                case R.id.btn_google:
+        switch (v.getId()) {
+            case R.id.btn_google:
+                if (isConnected(false)) {
                     initDialogLoading();
                     showDialogLoading();
                     signInGoogle();
-
-                    break;
-                case R.id.btn_facebook:
+                } else {
+                    showDialogNoInternet();
+                }
+                break;
+            case R.id.btn_facebook:
+                if (isConnected(false)) {
                     initDialogLoading();
                     showDialogLoading();
                     printHashKey();
                     loginWithFacebook();
-                    break;
-                case R.id.img_change_language:
-                    checkNN();
-                    createAlertDialog();
-                    break;
-            }
-        } else {
-            showDialogNoInternet();
+                } else {
+                    showDialogNoInternet();
+                }
+                break;
+            case R.id.img_change_language:
+                checkNN();
+                createAlertDialog();
+                break;
         }
     }
 

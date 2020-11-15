@@ -15,6 +15,7 @@
     <string name="title_dialog_rating">Untuk meningkatkan kualitas layanan kami, beri tahu kami tentang pengalaman Anda.</string>
     <string name="lblSeeMore">Lihat lebih banyak</string>
     <string name="logout">Apakah Anda ingin keluar?</string>
-    <string name="noInternet">Tidak ada internet</string>
-    <string name="checkInternet">Silakan periksa koneksi internet Anda!</string>
+    <string name="text_dialog_warning_internet">Silakan periksa koneksi internet Anda!</string>
+    <string name="title_dialog_warning_internet">Sepertinya Anda tidak memiliki koneksi internet</string>
+    <string name="text_btn_close">Menutup</string>
 </resources>

@@ -115,7 +115,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         setViewPager2();
 
         //setAvatar
-        imgAvatar = findViewById(R.id.imgAvata);
+        imgAvatar = findViewById(R.id.imgAvatar);
         Intent intent = getIntent();
         urlAvata = intent.getStringExtra("urlAvata");
         titleUser = intent.getStringExtra("title");
@@ -182,10 +182,9 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                         closeKeyboard();
                     }
                     break;
-                case R.id.imgAvata:
+                case R.id.imgAvatar:
                     showDialogLogout(this, titleUser);
                     break;
-
             }
         } else {
             showDialogNoInternet();

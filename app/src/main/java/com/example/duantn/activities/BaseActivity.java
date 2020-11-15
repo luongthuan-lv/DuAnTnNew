@@ -6,10 +6,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,9 +32,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Arrays;
+
 public class BaseActivity extends AppCompatActivity {
     private Activity context;
     private Dialog mProgressDialog;
+
     public void showToast(String msg) {
         try {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -34,7 +46,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void nextActivity (Class activity){
+    public void nextActivity(Class activity) {
         Intent intent = new Intent(this, activity);
         startActivity(intent);
     }
@@ -111,7 +123,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void showDialogLogout(final Activity context, String title){
+    public void showDialogLogout(final Activity context, String title) {
         this.context = context;
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle(title);
@@ -124,12 +136,12 @@ public class BaseActivity extends AppCompatActivity {
                         .requestEmail()
                         .build();
                 GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
-            mGoogleSignInClient.revokeAccess()
+                mGoogleSignInClient.revokeAccess()
                         .addOnCompleteListener(context, new OnCompleteListener<Void>() {
 
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                              nextActivity(LoginActivity.class);
+                                nextActivity(LoginActivity.class);
                             }
                         });
                 LoginManager.getInstance().logOut();
@@ -147,30 +159,34 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    public boolean isConnected( boolean connected) {
-        try { ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+    public boolean isConnected(boolean connected) {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nInfo = cm.getActiveNetworkInfo();
             connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
             return connected;
         } catch (Exception e) {
-           showToast(e.getMessage());
+            showToast(e.getMessage());
         }
         return connected;
     }
 
-    public void showDialogNoInternet(){
-        AlertDialog.Builder d = new AlertDialog.Builder(this);
-        d.setTitle(getResources().getString(R.string.noInternet));
-        d.setMessage(getResources().getString(R.string.checkInternet));
-        d.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
-            public void onClick(final DialogInterface dialog, int id) {
-               dialog.dismiss();
+    public void showDialogNoInternet() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+        View alertLayout = LayoutInflater.from(this).inflate(R.layout.dialog_warning_internet, (LinearLayout) findViewById(R.id.layout_content));
+        Button btn_close;
+        btn_close = alertLayout.findViewById(R.id.btn_close);
+        alert.setView(alertLayout);
+        alert.setCancelable(true);
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
-        AlertDialog al = d.create();
-        al.show();
-        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorRed));
-        al.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
+        dialog.show();
 
     }
 }

@@ -14,4 +14,7 @@
     <color name="color_sign_in_with_google">#4d4d4d</color>
     <color name="color_btn_submit">#00B1FF</color>
     <color name="colorTvSeeMore">#FFCC00</color>
+    <color name="color_text_dialog_waring">#5C5F63</color>
+    <color name="color_text_btn_warning">#2A7DE9</color>
+    <color name="color_bg_btn_close_warning">#5C5F63</color>
 </resources>

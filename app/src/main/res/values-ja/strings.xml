@@ -15,6 +15,7 @@
     <string name="title_dialog_rating">私たちのサービスの質を向上させるために、あなたの経験を教えてください。</string>
     <string name="lblSeeMore">続きを見る</string>
     <string name="logout">ログアウトしますか？</string>
-    <string name="noInternet">インターネットがない</string>
-    <string name="checkInternet">インターネット接続を確認してください！</string>
+    <string name="text_dialog_warning_internet">インターネット接続を確認してください！</string>
+    <string name="title_dialog_warning_internet">インターネットに接続していないようです</string>
+    <string name="text_btn_close">閉じる</string>
 </resources>

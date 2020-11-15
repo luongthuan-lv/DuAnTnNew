@@ -28,7 +28,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
     private TextView tv_title_tour, tv_introduce;
     private Button btn_start;
-    private ImageView imgAvata;
+    private ImageView imgAvatar;
     private String urlAvata;
     private String titleUser;
 
@@ -56,8 +56,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         tv_introduce = findViewById(R.id.tv_introduce);
         btn_start = findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this);
-        imgAvata = findViewById(R.id.imgAvata);
-        imgAvata.setOnClickListener(this);
+        imgAvatar = findViewById(R.id.imgAvatar);
+        imgAvatar.setOnClickListener(this);
         getIntent_bundle();
         Gson gson = new Gson();
         introduce = gson.fromJson(json, Introduce.class);
@@ -72,9 +72,9 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             urlAvata = bundle.getString("id");
             titleUser = bundle.getString("titleUser");
             if (urlAvata.equals("null")) {
-                Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvata);
+                Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
             } else {
-                Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvata);
+                Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvatar);
             }
             id = bundle.getString("id");
         }
@@ -101,7 +101,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                 case R.id.btn_start:
                     createAlertDialog();
                     break;
-                case R.id.imgAvata:
+                case R.id.imgAvatar:
                     showDialogLogout(this, titleUser);
             }
         } else {

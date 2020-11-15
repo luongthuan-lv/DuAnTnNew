@@ -15,6 +15,7 @@
     <string name="title_dialog_rating">Um die Qualität unseres Service zu verbessern, teilen Sie uns bitte Ihre Erfahrungen mit.</string>
     <string name="lblSeeMore">Mehr sehen</string>
     <string name="logout">Möchten Sie sich abmelden?</string>
-    <string name="noInternet">Kein Internet</string>
-    <string name="checkInternet">Bitte überprüfe deine Internetverbindung!</string>
+    <string name="text_dialog_warning_internet">Bitte überprüfe deine Internetverbindung!</string>
+    <string name="title_dialog_warning_internet">Sieht so aus, als hätten Sie keine Internetverbindung</string>
+    <string name="text_btn_close">Schließen sie</string>
 </resources>

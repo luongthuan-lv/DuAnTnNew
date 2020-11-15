@@ -15,6 +15,7 @@
     <string name="title_dialog_rating">Afin d\'améliorer la qualité de notre service, merci de nous faire part de votre expérience.</string>
     <string name="lblSeeMore">Voir plus</string>
     <string name="logout">Voulez-vous vous déconnecter?</string>
-    <string name="noInternet">Pas d\'Internet</string>
-    <string name="checkInternet">S\'il vous plait, vérifiez votre connexion internet!</string>
+    <string name="text_dialog_warning_internet">S\'il vous plait, vérifiez votre connexion internet!</string>
+    <string name="title_dialog_warning_internet">Il semble que vous ñ\'ayez pas de connexion Internet</string>
+    <string name="text_btn_close">Proche</string>
 </resources>
