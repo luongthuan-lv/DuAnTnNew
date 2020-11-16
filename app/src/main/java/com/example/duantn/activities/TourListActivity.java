@@ -10,12 +10,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +27,14 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
+import com.example.duantn.view.CustomImageButton;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -185,6 +196,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 case R.id.imgAvatar:
                     showDialogLogout(this, titleUser);
                     break;
+
             }
         } else {
             showDialogNoInternet();

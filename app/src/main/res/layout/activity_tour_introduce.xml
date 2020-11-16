@@ -207,7 +207,7 @@
                             android:textSize="@dimen/textSize_introduce_tourintr" />
                     </ScrollView>
 
-                    <Button
+                    <com.example.duantn.view.CustomButton
                         android:id="@+id/btn_start"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -230,7 +230,7 @@
 
     </FrameLayout>
 
-    <ImageView
+    <com.example.duantn.view.CustomImageButton
         android:id="@+id/imgAvatar"
         android:layout_width="50dp"
         android:layout_height="50dp"

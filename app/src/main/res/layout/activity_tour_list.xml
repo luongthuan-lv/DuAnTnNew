@@ -86,7 +86,7 @@
 
     </androidx.viewpager2.widget.ViewPager2>
 
-    <ImageView
+    <com.example.duantn.view.CustomImageButton
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_marginRight="@dimen/margin_10dp"
         android:layout_width="50dp"

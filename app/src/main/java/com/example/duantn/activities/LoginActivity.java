@@ -29,6 +29,7 @@ import com.example.duantn.adapter.ClassSelectLanguage;
 import com.example.duantn.morder.KeyLangguage;
 import com.example.duantn.sql.LanguageDAO;
 import com.example.duantn.sql.MySqliteOpenHelper;
+import com.example.duantn.view.CustomButton;
 import com.facebook.FacebookSdk;
 import com.example.duantn.R;
 import com.facebook.AccessToken;
@@ -61,8 +62,8 @@ import java.util.Locale;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private CallbackManager callbackManager;
     private LoginManager loginManager;
-    private Button btn_facebook;
-    private Button btn_google;
+    private CustomButton btn_facebook;
+    private CustomButton btn_google;
     private LocationManager locationManager;
     private MySqliteOpenHelper mySqliteOpenHelper;
     private LanguageDAO languageDAO;
