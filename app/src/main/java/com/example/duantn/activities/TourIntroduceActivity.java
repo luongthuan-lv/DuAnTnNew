@@ -16,7 +16,6 @@ import com.example.duantn.morder.Introduce;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private TextView tv_title_tour, tv_introduce;
     private Button btn_start;
     private ImageView imgAvatar;
-    private String urlAvata;
+    private String urlAvatar;
     private String titleUser;
 
     public static Introduce introduce;
@@ -69,14 +68,14 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            urlAvata = bundle.getString("id");
-            titleUser = bundle.getString("titleUser");
-            if (urlAvata.equals("null")) {
+            urlAvatar = bundle.getString("urlAvatar");
+            titleUser = bundle.getString("title");
+            id = bundle.getString("id");
+            if (urlAvatar.equals("null")) {
                 Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
             } else {
-                Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvatar);
+                Glide.with(this).load(urlAvatar).transform(new RoundedCorners(80)).into(imgAvatar);
             }
-            id = bundle.getString("id");
         }
     }
 

@@ -74,7 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView img_change_language;
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
-    private String urlAvarta;
+    private String urlAvartar;
     private String titleUser;
     private static final int REQUEST_CODE = 101;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -296,7 +296,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 Uri personPhoto = acct.getPhotoUrl();
 
                 titleUser = personName;
-                urlAvarta = String.valueOf(personPhoto);
+                urlAvartar = String.valueOf(personPhoto);
                 Log.i("name", personName);
                 Log.i("email", personEmail);
                 Log.i("ID", personId);
@@ -304,7 +304,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
 
             Intent intent = new Intent(this, TourListActivity.class);
-            intent.putExtra("urlAvata", urlAvarta);
+            intent.putExtra("urlAvatar", urlAvartar);
             intent.putExtra("title", titleUser);
             startActivity(intent);
             dismissDialog();
@@ -405,10 +405,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 Log.i("imageURL: ", imageURL.toString());
                                 Log.i("link: ", link);
                                 Log.i("gender: ", gender);
-                                urlAvarta = String.valueOf(imageURL);
+                                urlAvartar = String.valueOf(imageURL);
                                 titleUser = name;
                                 Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
-                                intent.putExtra("urlAvata", urlAvarta);
+                                intent.putExtra("urlAvatar", urlAvartar);
                                 intent.putExtra("title", titleUser);
                                 startActivity(intent);
                                 dismissDialog();

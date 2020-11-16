@@ -117,7 +117,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         //setAvatar
         imgAvatar = findViewById(R.id.imgAvatar);
         Intent intent = getIntent();
-        urlAvatar = intent.getStringExtra("urlAvata");
+        urlAvatar = intent.getStringExtra("urlAvatar");
         titleUser = intent.getStringExtra("title");
 
         if (urlAvatar.equals("null")) {
@@ -138,6 +138,8 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("id", tourList.get(position).getId());
+                    bundle.putString("urlAvatar", urlAvatar);
+                    bundle.putString("title", titleUser);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else showDialogNoInternet();
