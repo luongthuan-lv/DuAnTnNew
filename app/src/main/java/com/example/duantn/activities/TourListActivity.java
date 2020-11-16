@@ -39,7 +39,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private EditText edt_search;
     private ImageView btnSearch;
     private ImageView imgAvatar;
-    private String urlAvata;
+    private String urlAvatar;
     private String titleUser;
 
     private String json="[\n" +
@@ -117,13 +117,13 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         //setAvatar
         imgAvatar = findViewById(R.id.imgAvatar);
         Intent intent = getIntent();
-        urlAvata = intent.getStringExtra("urlAvata");
+        urlAvatar = intent.getStringExtra("urlAvata");
         titleUser = intent.getStringExtra("title");
 
-        if (urlAvata.equals("null")) {
+        if (urlAvatar.equals("null")) {
             Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
         } else {
-            Glide.with(this).load(urlAvata).transform(new RoundedCorners(80)).into(imgAvatar);
+            Glide.with(this).load(urlAvatar).transform(new RoundedCorners(80)).into(imgAvatar);
         }
 
         imgAvatar.setOnClickListener(this);
