@@ -75,8 +75,7 @@
 
 
     <androidx.viewpager2.widget.ViewPager2
-        android:paddingStart="60dp"
-        android:paddingEnd="60dp"
+        android:paddingHorizontal="@dimen/paddingHViewPager"
         android:id="@+id/viewPager2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
