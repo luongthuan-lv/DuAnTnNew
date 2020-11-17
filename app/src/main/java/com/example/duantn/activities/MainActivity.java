@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,6 +53,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -93,13 +95,16 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
     private int colorIndex = 0;
     private PolylineOptions polylineOptions;
     private ArrayList<ClassShowInformation> locationList = new ArrayList<>();
+    private int mLocationIndex=0;
+    private boolean moveCamera=true;
+    private int itemIndex=0;
 
     private String json = "[\n" +
             "  {\n" +
             "    \"latitude\": 21.037000,\n" +
             "    \"longitude\": 105.834727,\n" +
             "    \"waypoints\": [\n" +
-            "      \"21.030980,105.834039\"\n" +
+            "      \n" +
             "    ],\n" +
             "    \"title\": \"Lăng Bác\",\n" +
             "    \"content\": \"Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.\",\n" +
@@ -239,6 +244,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         locationRequest.setInterval(50);
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
         Gson gson = new Gson();
         locationList = gson.fromJson(json,new TypeToken<List<ClassShowInformation>>(){}.getType());
 
@@ -471,25 +477,20 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         mGoogleMap.getUiSettings().setCompassEnabled(true);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-//        mGoogleMap.setTrafficEnabled(true);
         mGoogleMap.setBuildingsEnabled(true);
         setViewPageAndMarker();
         addMarkerAllAndClick();
         if (polylineOptions != null) {
             mGoogleMap.addPolyline(polylineOptions);
         }
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             return;
         }
         mGoogleMap.setMyLocationEnabled(true);
-
         //onClickMap
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                stopLocationUpdate();
                 if (viewPager.getVisibility() == View.VISIBLE) {
                     viewPager.setVisibility(View.GONE);
                 } else {
@@ -497,7 +498,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
                 }
             }
         });
-
         // onLoadMap
         googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
@@ -505,19 +505,14 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
                 dismissDialog();
             }
         });
-
         // onClickButtonMyLocation
         mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                startLocationUpdates();
+                moveCamera=true;
                 return false;
             }
         });
-
-        //
-
-
     }
 
     private void showCustomDialog(int position) {
@@ -575,6 +570,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                moveCamera=false;
                 viewPager.setVisibility(View.VISIBLE);
                 String indexMarker = String.valueOf(marker.getId().charAt(1));
                 int positionMarker = Integer.parseInt(indexMarker);
@@ -589,15 +585,18 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                stopLocationUpdate();
-                final LatLng position1 = new LatLng(locationList.get(position).getLatitude(), locationList.get(position).getLongitude());
-                MarkerOptions option = new MarkerOptions();
-                option.position(position1);
-                option.title(locationList.get(position).getTitle());
-                option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
-                final Marker maker = mGoogleMap.addMarker(option);
-                maker.showInfoWindow();
+                if(itemIndex!=0){
+                    moveCamera=false;
+                    final LatLng position1 = new LatLng(locationList.get(position).getLatitude(), locationList.get(position).getLongitude());
+                    MarkerOptions option = new MarkerOptions();
+                    option.position(position1);
+                    option.title(locationList.get(position).getTitle());
+                    option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
+                    final Marker maker = mGoogleMap.addMarker(option);
+                    maker.showInfoWindow();
+                }
+                itemIndex=1;
             }
         };
         viewPager.registerOnPageChangeCallback(pageChangeCallback);
@@ -609,12 +608,26 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             super.onLocationResult(locationResult);
             if (mGoogleMap != null) {
                 mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 20));
-
-
+                getDistance(locationResult,mLocationIndex);
+                if(moveCamera){
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 20));
+                }
             }
         }
     };
+
+    private void getDistance(LocationResult locationResult,int a){
+        float results[] = new float[10];
+        Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(),locationList.get(a).getLatitude(), locationList.get(a).getLongitude(),results);
+        if(results[0]<200){
+            viewPager.setCurrentItem(mLocationIndex);
+            mLocationIndex++;
+            showToast(String.valueOf(results[0]));
+            if(mLocationIndex==locationList.size()){
+                mLocationIndex=0;
+            }
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
