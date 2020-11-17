@@ -256,7 +256,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void signInGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        dismissDialog();
     }
 
     @Override
@@ -267,6 +266,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            dismissDialog();
             handleSignInResult(task);
         }
 
@@ -293,7 +293,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             intent.putExtra("name", name);
             intent.putExtra("id_user", id_user);
             startActivity(intent);
-            dismissDialog();
 
 
         } catch (ApiException e) {
