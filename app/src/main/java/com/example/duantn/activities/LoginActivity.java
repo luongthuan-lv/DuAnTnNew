@@ -256,6 +256,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void signInGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        dismissDialog();
     }
 
     @Override
@@ -343,6 +344,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.btn_google:
                 if (isConnected(false)) {
+                    initDialogLoading();
+                    showDialogLoading();
                     signInGoogle();
                 } else {
                     showDialogNoInternet();
