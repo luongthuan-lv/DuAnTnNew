@@ -25,6 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duantn.R;
+import com.example.duantn.morder.Account;
+import com.example.duantn.sql.AccountDAO;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,6 +39,18 @@ import java.util.Arrays;
 public class BaseActivity extends AppCompatActivity {
     private Activity context;
     private Dialog mProgressDialog;
+    private AccountDAO accountDAO;
+    private Account account;
+
+    public void saveAccount(String id, String urlAvatar, String name){
+        accountDAO = new AccountDAO(this);
+        account = new Account();
+        account.setPk("pk");
+        account.setName(name);
+        account.setUrl_avt(urlAvatar);
+        account.setId(id);
+        accountDAO.update(account);
+    }
 
     public void showToast(String msg) {
         try {
@@ -141,6 +155,7 @@ public class BaseActivity extends AppCompatActivity {
 
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                saveAccount("","","");
                                 nextActivity(LoginActivity.class);
                             }
                         });

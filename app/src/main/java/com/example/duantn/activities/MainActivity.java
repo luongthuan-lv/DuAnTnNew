@@ -35,7 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.duantn.Network.RetrofitService;
+import com.example.duantn.network.RetrofitService;
 import com.example.duantn.R;
 import com.example.duantn.adapter.AdapterSlideDialoginformation;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
@@ -262,8 +262,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         for (int i = 0; i < locationList.get(locationIndex).getWaypoints().size(); i++) {
             waypoints += locationList.get(locationIndex).getWaypoints().get(i) + "|";
         }
-
-        Log.e("TAG",waypoints);
         retrofitService.getHttp(getLatLng(location1), getLatLng(location2),waypoints, api_key).enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {

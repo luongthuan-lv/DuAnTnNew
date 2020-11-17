@@ -1,6 +1,6 @@
 package com.example.duantn.morder;
 
-public class KeyLangguage {
+public class KeyLanguage {
     private String pk;
     private String value;
 
