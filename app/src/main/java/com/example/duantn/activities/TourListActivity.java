@@ -1,16 +1,19 @@
 package com.example.duantn.activities;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,6 +27,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,8 +44,9 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private EditText edt_search;
     private ImageView btnSearch;
     private ImageView imgAvatar;
-    private String urlAvatar;
-    private String titleUser;
+    private String urlAvatar, name,id_user;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int REQUEST_CODE = 101;
 
     private String json="[\n" +
             "  {\n" +
@@ -85,9 +91,13 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_list);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         viewPager2 = findViewById(R.id.viewPager2);
         edt_search = findViewById(R.id.edt_search);
         btnSearch = findViewById(R.id.btnSearch);
+        imgAvatar = findViewById(R.id.imgAvatar);
+        imgAvatar.setOnClickListener(this);
         findViewById(R.id.btnSearch).setOnClickListener(this);
         btnSearch.getLayoutParams().width = getSizeWithScale(45);
         btnSearch.getLayoutParams().height = getSizeWithScale(45);
@@ -106,29 +116,28 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 return false;
             }
         });
-
+        getIntent_bundle();
         Gson gson = new Gson();
         tourList = new ArrayList<>();
         tourList =  gson.fromJson(json, new TypeToken<List<Tour>>(){}.getType());
-
         setAdapter();
         setViewPager2();
 
-        //setAvatar
-        imgAvatar = findViewById(R.id.imgAvatar);
+    }
+
+    private void getIntent_bundle() {
         Intent intent = getIntent();
         urlAvatar = intent.getStringExtra("urlAvatar");
-        titleUser = intent.getStringExtra("title");
-
-        if (urlAvatar.equals("null")) {
+        name = intent.getStringExtra("name");
+        id_user = intent.getStringExtra("id_user");
+        Log.e("TAG",name+" "+id_user+" "+urlAvatar);
+        if (urlAvatar.equals("")) {
             Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
         } else {
             Glide.with(this).load(urlAvatar).transform(new RoundedCorners(80)).into(imgAvatar);
         }
-
-        imgAvatar.setOnClickListener(this);
-
     }
+
 
     private void setAdapter() {
         tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
@@ -137,9 +146,10 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 if (isConnected(false)) {
                     Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("id", tourList.get(position).getId());
-                    bundle.putString("urlAvatar", urlAvatar);
-                    bundle.putString("title", titleUser);
+                    bundle.putString("id_tour", tourList.get(position).getId());
+                    intent.putExtra("urlAvatar", urlAvatar);
+                    intent.putExtra("name", name);
+                    intent.putExtra("id_user", id_user);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else showDialogNoInternet();
@@ -185,7 +195,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     }
                     break;
                 case R.id.imgAvatar:
-                    showDialogLogout(this, titleUser);
+                    showDialogLogout(this, name);
                     break;
             }
         } else {

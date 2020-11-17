@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,14 +23,13 @@ import java.util.List;
 public class TourIntroduceActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private String id;
+    private String id_tour;
     private ShapeableImageView img_tour;
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
     private TextView tv_title_tour, tv_introduce;
     private Button btn_start;
     private ImageView imgAvatar;
-    private String urlAvatar;
-    private String titleUser;
+    private String urlAvatar,name,id_user;
 
     public static Introduce introduce;
 
@@ -68,10 +68,11 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            urlAvatar = bundle.getString("urlAvatar");
-            titleUser = bundle.getString("title");
-            id = bundle.getString("id");
-            if (urlAvatar.equals("null")) {
+            urlAvatar = intent.getStringExtra("urlAvatar");
+            name = intent.getStringExtra("name");
+            id_user = intent.getStringExtra("id_user");
+            Log.e("TAG",name+" "+id_user+" "+urlAvatar);
+            if (urlAvatar.equals("")) {
                 Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
             } else {
                 Glide.with(this).load(urlAvatar).transform(new RoundedCorners(80)).into(imgAvatar);
@@ -101,7 +102,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                     createAlertDialog();
                     break;
                 case R.id.imgAvatar:
-                    showDialogLogout(this, titleUser);
+                    showDialogLogout(this, name);
             }
         } else {
             showDialogNoInternet();

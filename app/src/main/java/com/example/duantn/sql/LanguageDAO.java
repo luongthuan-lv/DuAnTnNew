@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.duantn.morder.KeyLangguage;
+import com.example.duantn.morder.KeyLanguage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,10 @@ public class LanguageDAO {
     private String PK = "pk";
     private String VALUE = "value";
 
-    public List<KeyLangguage> getAll() {
+    public List<KeyLanguage> getAll() {
 
 
-        List<KeyLangguage> keyLangguageList = new ArrayList<>();
+        List<KeyLanguage> keyLanguageList = new ArrayList<>();
 
         SQLiteDatabase sqLiteDatabase = mySqliteOpenHelper.getReadableDatabase();
 
@@ -39,12 +39,12 @@ public class LanguageDAO {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
 
-                    KeyLangguage keyLangguage = new KeyLangguage();
+                    KeyLanguage keyLanguage = new KeyLanguage();
 
-                    keyLangguage.setPk(cursor.getString(cursor.getColumnIndex(PK)));
-                    keyLangguage.setValue(cursor.getString(cursor.getColumnIndex(VALUE)));
+                    keyLanguage.setPk(cursor.getString(cursor.getColumnIndex(PK)));
+                    keyLanguage.setValue(cursor.getString(cursor.getColumnIndex(VALUE)));
 
-                    keyLangguageList.add(keyLangguage);
+                    keyLanguageList.add(keyLanguage);
                     cursor.moveToNext();
 
                 }
@@ -52,18 +52,18 @@ public class LanguageDAO {
             }
         }
 
-        return keyLangguageList;
+        return keyLanguageList;
     }
 
 
-    public void update(KeyLangguage keyLangguage) {
+    public void update(KeyLanguage keyLanguage) {
         SQLiteDatabase sqLiteDatabase = mySqliteOpenHelper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PK, keyLangguage.getPk());
-        contentValues.put(VALUE, keyLangguage.getValue());
+        contentValues.put(PK, keyLanguage.getPk());
+        contentValues.put(VALUE, keyLanguage.getValue());
 
-        sqLiteDatabase.update(NN_TABLE, contentValues, PK + "=?", new String[]{keyLangguage.getPk()});
+        sqLiteDatabase.update(NN_TABLE, contentValues, PK + "=?", new String[]{keyLanguage.getPk()});
         sqLiteDatabase.close();
     }
 }

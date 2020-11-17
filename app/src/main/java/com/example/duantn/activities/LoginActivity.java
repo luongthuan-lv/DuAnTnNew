@@ -1,6 +1,5 @@
 package com.example.duantn.activities;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -9,7 +8,6 @@ import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -20,15 +18,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duantn.adapter.AdapterLanguage;
 import com.example.duantn.adapter.ClassSelectLanguage;
-import com.example.duantn.morder.KeyLangguage;
+import com.example.duantn.morder.Account;
+import com.example.duantn.morder.KeyLanguage;
+import com.example.duantn.sql.AccountDAO;
 import com.example.duantn.sql.LanguageDAO;
-import com.example.duantn.sql.MySqliteOpenHelper;
 import com.facebook.FacebookSdk;
 import com.example.duantn.R;
 import com.facebook.AccessToken;
@@ -44,8 +42,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
@@ -63,21 +59,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private LoginManager loginManager;
     private Button btn_facebook;
     private Button btn_google;
-    private LocationManager locationManager;
-    private MySqliteOpenHelper mySqliteOpenHelper;
     private LanguageDAO languageDAO;
-    private List<KeyLangguage> keyLangguageList;
-    private KeyLangguage keyLangguage;
+    private List<KeyLanguage> keyLanguageList;
+    private KeyLanguage keyLanguage;
     private ArrayList<ClassSelectLanguage> selectLanguageArrayList;
     private AdapterLanguage adapterLanguage;
     private int position_selected_language;
     private ImageView img_change_language;
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
-    private String urlAvartar;
-    private String titleUser;
-    private static final int REQUEST_CODE = 101;
-    private FusedLocationProviderClient fusedLocationProviderClient;
+    private String urlAvatar, name,id_user;
 
 
     @Override
@@ -85,8 +76,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initDialogLoading();
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         callbackFacebook();
@@ -115,21 +104,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void setNgonngu() {
-        mySqliteOpenHelper = new MySqliteOpenHelper(this);
-        mySqliteOpenHelper.createDataBase();
-        keyLangguage = new KeyLangguage();
+        keyLanguage = new KeyLanguage();
         languageDAO = new LanguageDAO(this);
-        keyLangguageList = languageDAO.getAll();
-        ganNgonngu(keyLangguageList.get(0).getValue());
+        keyLanguageList = languageDAO.getAll();
+        ganNgonngu(keyLanguageList.get(0).getValue());
         checkFlag();
     }
 
     private void changeLanguage(String key) {
-        keyLangguage.setPk("pk");
-        keyLangguage.setValue(key);
-        languageDAO.update(keyLangguage);
-        keyLangguageList = languageDAO.getAll();
-        ganNgonngu(keyLangguageList.get(0).getValue());
+        keyLanguage.setPk("pk");
+        keyLanguage.setValue(key);
+        languageDAO.update(keyLanguage);
+        keyLanguageList = languageDAO.getAll();
+        ganNgonngu(keyLanguageList.get(0).getValue());
         recreate();
     }
 
@@ -223,21 +210,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void checkFlag() {
-        if (keyLangguageList.get(0).getValue().equals("vi")) {
+        if (keyLanguageList.get(0).getValue().equals("vi")) {
             img_change_language.setImageResource(R.drawable.vietnam);
-        } else if (keyLangguageList.get(0).getValue().equals("ja")) {
+        } else if (keyLanguageList.get(0).getValue().equals("ja")) {
             img_change_language.setImageResource(R.drawable.japan);
-        } else if (keyLangguageList.get(0).getValue().equals("zh")) {
+        } else if (keyLanguageList.get(0).getValue().equals("zh")) {
             img_change_language.setImageResource(R.drawable.china);
-        } else if (keyLangguageList.get(0).getValue().equals("ko")) {
+        } else if (keyLanguageList.get(0).getValue().equals("ko")) {
             img_change_language.setImageResource(R.drawable.korea);
-        } else if (keyLangguageList.get(0).getValue().equals("fr")) {
+        } else if (keyLanguageList.get(0).getValue().equals("fr")) {
             img_change_language.setImageResource(R.drawable.france);
-        } else if (keyLangguageList.get(0).getValue().equals("de")) {
+        } else if (keyLanguageList.get(0).getValue().equals("de")) {
             img_change_language.setImageResource(R.drawable.germany);
-        } else if (keyLangguageList.get(0).getValue().equals("in")) {
+        } else if (keyLanguageList.get(0).getValue().equals("in")) {
             img_change_language.setImageResource(R.drawable.indonesia);
-        } else if (keyLangguageList.get(0).getValue().equals("ru")) {
+        } else if (keyLanguageList.get(0).getValue().equals("ru")) {
             img_change_language.setImageResource(R.drawable.russia);
         } else {
             img_change_language.setImageResource(R.drawable.american);
@@ -245,21 +232,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void checkNN() {
-        if (keyLangguageList.get(0).getValue().equals("vi")) {
+        if (keyLanguageList.get(0).getValue().equals("vi")) {
             position_selected_language = 0;
-        } else if (keyLangguageList.get(0).getValue().equals("ja")) {
+        } else if (keyLanguageList.get(0).getValue().equals("ja")) {
             position_selected_language = 1;
-        } else if (keyLangguageList.get(0).getValue().equals("zh")) {
+        } else if (keyLanguageList.get(0).getValue().equals("zh")) {
             position_selected_language = 3;
-        } else if (keyLangguageList.get(0).getValue().equals("ko")) {
+        } else if (keyLanguageList.get(0).getValue().equals("ko")) {
             position_selected_language = 4;
-        } else if (keyLangguageList.get(0).getValue().equals("fr")) {
+        } else if (keyLanguageList.get(0).getValue().equals("fr")) {
             position_selected_language = 5;
-        } else if (keyLangguageList.get(0).getValue().equals("de")) {
+        } else if (keyLanguageList.get(0).getValue().equals("de")) {
             position_selected_language = 6;
-        } else if (keyLangguageList.get(0).getValue().equals("in")) {
+        } else if (keyLanguageList.get(0).getValue().equals("in")) {
             position_selected_language = 7;
-        } else if (keyLangguageList.get(0).getValue().equals("ru")) {
+        } else if (keyLanguageList.get(0).getValue().equals("ru")) {
             position_selected_language = 8;
         } else {
             position_selected_language = 2;
@@ -291,21 +278,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
                 String personName = acct.getDisplayName();
-                String personEmail = acct.getEmail();
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
+                name = personName;
+                urlAvatar = String.valueOf(personPhoto);
+                id_user = personId;
 
-                titleUser = personName;
-                urlAvartar = String.valueOf(personPhoto);
-                Log.i("name", personName);
-                Log.i("email", personEmail);
-                Log.i("ID", personId);
-                Log.i("photo", String.valueOf(personPhoto));
+                saveAccount(id_user, urlAvatar,name);
             }
 
             Intent intent = new Intent(this, TourListActivity.class);
-            intent.putExtra("urlAvatar", urlAvartar);
-            intent.putExtra("title", titleUser);
+            intent.putExtra("urlAvatar", urlAvatar);
+            intent.putExtra("name", name);
+            intent.putExtra("id_user", id_user);
             startActivity(intent);
             dismissDialog();
 
@@ -358,8 +343,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.btn_google:
                 if (isConnected(false)) {
-                    initDialogLoading();
-                    showDialogLoading();
                     signInGoogle();
                 } else {
                     showDialogNoInternet();
@@ -393,26 +376,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         @Override
                         public void onCompleted(final JSONObject me, GraphResponse response) {
                             if (me != null) {
-                                String name = me.optString(getString(R.string.name));
+                                String personName = me.optString(getString(R.string.name));
                                 String id = me.optString(getString(R.string.id));
-                                String email = me.optString(getString(R.string.email));
                                 String link = me.optString(getString(R.string.link));
-                                String gender = me.optString(getString(R.string.gender));
                                 URL imageURL = extractFacebookIcon(id);
-                                Log.i("Login: ", name);
-                                Log.i("ID: ", id);
-                                Log.i("email: ", email);
-                                Log.i("imageURL: ", imageURL.toString());
-                                Log.i("link: ", link);
-                                Log.i("gender: ", gender);
-                                urlAvartar = String.valueOf(imageURL);
-                                titleUser = name;
-                                Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
-                                intent.putExtra("urlAvatar", urlAvartar);
-                                intent.putExtra("title", titleUser);
-                                startActivity(intent);
-                                dismissDialog();
+
+                                urlAvatar = String.valueOf(imageURL);
+                                name = personName;
+                                id_user = id;
+
+                                saveAccount(id_user, urlAvatar,name);
+
                             }
+                            Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
+                            intent.putExtra("urlAvatar", urlAvatar);
+                            intent.putExtra("name", name);
+                            intent.putExtra("id_user", id_user);
+                            startActivity(intent);
+                            dismissDialog();
                         }
                     });
             Bundle parameters = new Bundle();
