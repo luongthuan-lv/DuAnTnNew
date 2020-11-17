@@ -130,7 +130,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         urlAvatar = intent.getStringExtra("urlAvatar");
         name = intent.getStringExtra("name");
         id_user = intent.getStringExtra("id_user");
-        Log.e("TAG",name+" "+id_user+" "+urlAvatar);
         if (urlAvatar.equals("")) {
             Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
         } else {
