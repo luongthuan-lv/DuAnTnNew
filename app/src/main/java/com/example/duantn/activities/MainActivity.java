@@ -222,6 +222,54 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             "  }\n" +
             "]";
 
+    private String jsonn="[\n" +
+            "  {\n" +
+            "    \"latitude\": 21.065123,\n" +
+            "    \"longitude\": 105.789853,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Lăng Bác\",\n" +
+            "    \"content\": \"Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg\",\n" +
+            "      \"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg\",\n" +
+            "      \"https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg\",\n" +
+            "      \"https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.067292,\n" +
+            "    \"longitude\": 105.800575,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Cột cờ Hà Nội\",\n" +
+            "    \"content\": \"Kỳ đài Hà Nội hay còn được nhiều biết tới hơn với tên gọi Cột cờ Hà Nội nằm trong khuôn viên của bảo tàng lịch sử quân sự Việt Nam. Được đánh giá là công trình nguyên vẹn và hoành tráng nhất trong quần thể di tích Hoàng thành Thăng Long, Cột Cờ chính là điểm tham quan du lịch ở Hà Nội mà du khách không thể bỏ qua trong hành trình khám phá lịch sử của đất Hà Thành.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_tower%2C_Hanoi.jpg/250px-Flag_tower%2C_Hanoi.jpg\",\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/quocdai/082019/30/17/4151_cYt_cY_HN.jpg\",\n" +
+            "      \"https://upload.wikimedia.org/wikipedia/vi/1/17/C%E1%BB%99t_c%E1%BB%9D_H%C3%A0_N%E1%BB%99i_x%C6%B0a.jpg\",\n" +
+            "      \"https://lh3.googleusercontent.com/proxy/GlpfWnSUxBhIrH1XVKYflWoReAlupUARUUxkaB_aYpsEWKaDJ59kBqZJ5zAw9c3F12m8fwWgpF8hiN86ugj_qJZ_c3Av-QI\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.062686,\n" +
+            "    \"longitude\": 105.795092,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Văn Miếu - Quốc Tử Giám\",\n" +
+            "    \"content\": \"Nếu kể tên các địa điểm du lịch Hà Nội bậc nhất xưa và nay có lẽ ai cũng sẽ nghĩ ngay đến Văn Miếu Quốc Tử Giám. Đây là một quần thể kiến trúc văn hoá hàng đầu và là niềm tự hào của người dân Thủ đô khi nhắc đến truyền thống ngàn năm văn hiến của Thăng Long – Đông Đô – Hà Nội.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
+            "      \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg\",\n" +
+            "      \"https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412\"\n" +
+            "    ]\n" +
+            "  }\n" +
+            "]";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -246,7 +294,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         Gson gson = new Gson();
-        locationList = gson.fromJson(json,new TypeToken<List<ClassShowInformation>>(){}.getType());
+        locationList = gson.fromJson(jsonn,new TypeToken<List<ClassShowInformation>>(){}.getType());
 
 
         setAdapter();
@@ -609,7 +657,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             if (mGoogleMap != null) {
                 mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                 if(moveCamera){
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 20));
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 17));
                     getDistance(locationResult,mLocationIndex);
                 }
             }
@@ -619,8 +667,12 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
     private void getDistance(LocationResult locationResult,int a){
         float results[] = new float[10];
         Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(),locationList.get(a).getLatitude(), locationList.get(a).getLongitude(),results);
-        if(results[0]<200){
+        if(results[0]<50){
+            if (viewPager.getVisibility() == View.GONE) {
+                viewPager.setVisibility(View.VISIBLE);
+            }
             viewPager.setCurrentItem(mLocationIndex);
+
             mLocationIndex++;
             showToast(String.valueOf(results[0]));
             if(mLocationIndex==locationList.size()){
