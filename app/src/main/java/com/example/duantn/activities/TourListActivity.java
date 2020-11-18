@@ -217,9 +217,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void search() {
-        if (!edt_search.getText().toString().equals("")) {
             tourAdapter.getFilter().filter(edt_search.getText().toString());
-        }
     }
 
     @Override
