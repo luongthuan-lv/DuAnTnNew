@@ -64,7 +64,7 @@ public class SplashActivity extends BaseActivity {
                     Intent intent = new Intent(SplashActivity.this, TourListActivity.class);
                     intent.putExtra("urlAvatar", urlAvatar);
                     intent.putExtra("name", name);
-                    intent.putExtra("id_user", id_user);
+                    intent.putExtra("user_id", id_user);
                     startActivity(intent);
                     finish();
                 }

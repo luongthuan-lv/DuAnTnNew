@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,6 +53,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -93,13 +95,16 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
     private int colorIndex = 0;
     private PolylineOptions polylineOptions;
     private ArrayList<ClassShowInformation> locationList = new ArrayList<>();
+    private int mLocationIndex=0;
+    private boolean moveCamera=true;
+    private int itemIndex=0;
 
     private String json = "[\n" +
             "  {\n" +
             "    \"latitude\": 21.037000,\n" +
             "    \"longitude\": 105.834727,\n" +
             "    \"waypoints\": [\n" +
-            "      \"21.030980,105.834039\"\n" +
+            "      \n" +
             "    ],\n" +
             "    \"title\": \"Lăng Bác\",\n" +
             "    \"content\": \"Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.\",\n" +
@@ -217,6 +222,54 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             "  }\n" +
             "]";
 
+    private String jsonn="[\n" +
+            "  {\n" +
+            "    \"latitude\": 21.065123,\n" +
+            "    \"longitude\": 105.789853,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Lăng Bác\",\n" +
+            "    \"content\": \"Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg\",\n" +
+            "      \"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg\",\n" +
+            "      \"https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg\",\n" +
+            "      \"https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.067292,\n" +
+            "    \"longitude\": 105.800575,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Cột cờ Hà Nội\",\n" +
+            "    \"content\": \"Kỳ đài Hà Nội hay còn được nhiều biết tới hơn với tên gọi Cột cờ Hà Nội nằm trong khuôn viên của bảo tàng lịch sử quân sự Việt Nam. Được đánh giá là công trình nguyên vẹn và hoành tráng nhất trong quần thể di tích Hoàng thành Thăng Long, Cột Cờ chính là điểm tham quan du lịch ở Hà Nội mà du khách không thể bỏ qua trong hành trình khám phá lịch sử của đất Hà Thành.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_tower%2C_Hanoi.jpg/250px-Flag_tower%2C_Hanoi.jpg\",\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/quocdai/082019/30/17/4151_cYt_cY_HN.jpg\",\n" +
+            "      \"https://upload.wikimedia.org/wikipedia/vi/1/17/C%E1%BB%99t_c%E1%BB%9D_H%C3%A0_N%E1%BB%99i_x%C6%B0a.jpg\",\n" +
+            "      \"https://lh3.googleusercontent.com/proxy/GlpfWnSUxBhIrH1XVKYflWoReAlupUARUUxkaB_aYpsEWKaDJ59kBqZJ5zAw9c3F12m8fwWgpF8hiN86ugj_qJZ_c3Av-QI\"\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"latitude\": 21.062686,\n" +
+            "    \"longitude\": 105.795092,\n" +
+            "    \"waypoints\": [\n" +
+            "      \n" +
+            "    ],\n" +
+            "    \"title\": \"Văn Miếu - Quốc Tử Giám\",\n" +
+            "    \"content\": \"Nếu kể tên các địa điểm du lịch Hà Nội bậc nhất xưa và nay có lẽ ai cũng sẽ nghĩ ngay đến Văn Miếu Quốc Tử Giám. Đây là một quần thể kiến trúc văn hoá hàng đầu và là niềm tự hào của người dân Thủ đô khi nhắc đến truyền thống ngàn năm văn hiến của Thăng Long – Đông Đô – Hà Nội.\",\n" +
+            "    \"imageList\": [\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
+            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
+            "      \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg\",\n" +
+            "      \"https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412\"\n" +
+            "    ]\n" +
+            "  }\n" +
+            "]";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -239,8 +292,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         locationRequest.setInterval(50);
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
         Gson gson = new Gson();
-        locationList = gson.fromJson(json,new TypeToken<List<ClassShowInformation>>(){}.getType());
+        locationList = gson.fromJson(jsonn,new TypeToken<List<ClassShowInformation>>(){}.getType());
 
 
         setAdapter();
@@ -471,25 +525,21 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         mGoogleMap.getUiSettings().setCompassEnabled(true);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
         mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-//        mGoogleMap.setTrafficEnabled(true);
         mGoogleMap.setBuildingsEnabled(true);
         setViewPageAndMarker();
         addMarkerAllAndClick();
         if (polylineOptions != null) {
             mGoogleMap.addPolyline(polylineOptions);
         }
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             return;
         }
         mGoogleMap.setMyLocationEnabled(true);
-
         //onClickMap
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                stopLocationUpdate();
+                moveCamera=false;
                 if (viewPager.getVisibility() == View.VISIBLE) {
                     viewPager.setVisibility(View.GONE);
                 } else {
@@ -497,7 +547,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
                 }
             }
         });
-
         // onLoadMap
         googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
@@ -505,19 +554,14 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
                 dismissDialog();
             }
         });
-
         // onClickButtonMyLocation
         mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                startLocationUpdates();
+                moveCamera=true;
                 return false;
             }
         });
-
-        //
-
-
     }
 
     private void showCustomDialog(int position) {
@@ -575,6 +619,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                moveCamera=false;
                 viewPager.setVisibility(View.VISIBLE);
                 String indexMarker = String.valueOf(marker.getId().charAt(1));
                 int positionMarker = Integer.parseInt(indexMarker);
@@ -589,15 +634,18 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                stopLocationUpdate();
-                final LatLng position1 = new LatLng(locationList.get(position).getLatitude(), locationList.get(position).getLongitude());
-                MarkerOptions option = new MarkerOptions();
-                option.position(position1);
-                option.title(locationList.get(position).getTitle());
-                option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
-                final Marker maker = mGoogleMap.addMarker(option);
-                maker.showInfoWindow();
+                if(itemIndex!=0){
+                    moveCamera=false;
+                    final LatLng position1 = new LatLng(locationList.get(position).getLatitude(), locationList.get(position).getLongitude());
+                    MarkerOptions option = new MarkerOptions();
+                    option.position(position1);
+                    option.title(locationList.get(position).getTitle());
+                    option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
+                    final Marker maker = mGoogleMap.addMarker(option);
+                    maker.showInfoWindow();
+                }
+                itemIndex=1;
             }
         };
         viewPager.registerOnPageChangeCallback(pageChangeCallback);
@@ -609,12 +657,31 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             super.onLocationResult(locationResult);
             if (mGoogleMap != null) {
                 mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 20));
-
-
+                getDistance(locationResult,mLocationIndex);
+                if(moveCamera){
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 17));
+                }
             }
         }
     };
+
+    private void getDistance(LocationResult locationResult,int a){
+        float results[] = new float[10];
+        Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(),locationList.get(a).getLatitude(), locationList.get(a).getLongitude(),results);
+        if(results[0]<50){
+            if (viewPager.getVisibility() == View.GONE) {
+                viewPager.setVisibility(View.VISIBLE);
+            }
+            viewPager.setCurrentItem(mLocationIndex);
+
+
+
+            mLocationIndex++;
+            if(mLocationIndex==locationList.size()){
+                mLocationIndex=0;
+            }
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

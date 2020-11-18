@@ -54,46 +54,31 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private EditText edt_search;
     private ImageView btnSearch;
     private ImageView imgAvatar;
-    private String urlAvatar, name,id_user;
+    private String urlAvatar, name, id_user;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
 
-    private String json="[\n" +
+    private String json = "[\n" +
             "  {\n" +
-            "    \"id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_id\": \"135165415dsa45dsds\",\n" +
             "    \"tour_name\": \"Ha Noi City Tour\",\n" +
-            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
-            "    \"rating\": 5\n" +
+            "    \"avatar\": \"https://cdn.luatvietnam.vn/uploaded/Images/Original/2018/11/15/nhap-ho-khau-ha-noi_1511142628.jpeg\",\n" +
+            "    \"rating\": 4,\n" +
+            "    \"introduce\": \"Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố.\"\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": \"135165415dsa45dsds\",\n" +
-            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
-            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
-            "    \"rating\": 5\n" +
+            "    \"tour_id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_name\": \"Ha Long Tour\",\n" +
+            "    \"avatar\": \"https://image.plo.vn/Uploaded/2020/pcgpwivo/2020_05_15/kich-cau-du-lich-200515_umuu.jpg\",\n" +
+            "    \"rating\": 5,\n" +
+            "    \"introduce\": \"Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố.\"\n" +
             "  },\n" +
             "  {\n" +
-            "    \"id\": \"135165415dsa45dsds\",\n" +
-            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
-            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
-            "    \"rating\": 5\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"id\": \"135165415dsa45dsds\",\n" +
-            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
-            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
-            "    \"rating\": 5\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"id\": \"135165415dsa45dsds\",\n" +
-            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
-            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
-            "    \"rating\": 5\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"id\": \"135165415dsa45dsds\",\n" +
-            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
-            "    \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
-            "    \"rating\": 5\n" +
+            "    \"tour_id\": \"135165415dsa45dsds\",\n" +
+            "    \"tour_name\": \"Ba Na Hill\",\n" +
+            "    \"avatar\": \"https://d2sx1calt21doo.cloudfront.net/xxt/experience/image/3-jpg-1080x720-FIT-fe1fe6a204f8ebd899d9b7406e5f779e.jpeg\",\n" +
+            "    \"rating\": 3,\n" +
+            "    \"introduce\": \"Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố.\"\n" +
             "  }\n" +
             "]";
 
@@ -107,6 +92,12 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         edt_search = findViewById(R.id.edt_search);
         btnSearch = findViewById(R.id.btnSearch);
         imgAvatar = findViewById(R.id.imgAvatar);
+        findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               closeKeyboard();
+            }
+        });
         imgAvatar.setOnClickListener(this);
         findViewById(R.id.btnSearch).setOnClickListener(this);
         btnSearch.getLayoutParams().width = getSizeWithScale(45);
@@ -129,7 +120,8 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         getIntent_bundle();
         Gson gson = new Gson();
         tourList = new ArrayList<>();
-        tourList =  gson.fromJson(json, new TypeToken<List<Tour>>(){}.getType());
+        tourList = gson.fromJson(json, new TypeToken<List<Tour>>() {
+        }.getType());
         setAdapter();
         setViewPager2();
 
@@ -139,7 +131,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         Intent intent = getIntent();
         urlAvatar = intent.getStringExtra("urlAvatar");
         name = intent.getStringExtra("name");
-        id_user = intent.getStringExtra("id_user");
+        id_user = intent.getStringExtra("user_id");
         if (urlAvatar.equals("")) {
             Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
         } else {
@@ -147,18 +139,21 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-
     private void setAdapter() {
-        tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
+        tourAdapter = new TourAdapter(tourList, edt_search, this, new TourAdapter.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
                 if (isConnected(false)) {
                     Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("id_tour", tourList.get(position).getId());
+                    bundle.putString("tour_id", tourList.get(position).getTour_id());
+                    bundle.putString("tour_name", tourList.get(position).getTour_name());
+                    bundle.putString("avatar", tourList.get(position).getAvatar());
+                    bundle.putInt("rating", tourList.get(position).getRating());
+                    bundle.putString("introduce", tourList.get(position).getIntroduce());
                     intent.putExtra("urlAvatar", urlAvatar);
                     intent.putExtra("name", name);
-                    intent.putExtra("id_user", id_user);
+                    intent.putExtra("user_id", id_user);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else showDialogNoInternet();
@@ -197,11 +192,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             switch (v.getId()) {
                 case R.id.btnSearch:
                     search();
-                    InputMethodManager imm = (InputMethodManager) this
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm.isAcceptingText()) {
-                        closeKeyboard();
-                    }
+                    closeKeyboard();
                     break;
                 case R.id.imgAvatar:
                     showDialogLogout(this, name);
@@ -214,34 +205,20 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void closeKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) this
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isAcceptingText()) {
+            InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    private void createAlertDialog() {
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle(getResources().getString(R.string.search_error));
-        b.setCancelable(false);
-        b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                tourAdapter.getFilter().filter("");
-                edt_search.setText("");
-
-            }
-        });
-        AlertDialog al = b.create();
-        al.show();
-        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     private void search() {
-        tourAdapter.getFilter().filter(edt_search.getText().toString());
-        if (TourAdapter.result == 0) {
-            createAlertDialog();
+        if (!edt_search.getText().toString().equals("")) {
+            tourAdapter.getFilter().filter(edt_search.getText().toString());
         }
     }
 

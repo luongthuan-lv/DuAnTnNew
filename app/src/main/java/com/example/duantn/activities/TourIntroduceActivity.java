@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,7 +25,8 @@ import java.util.List;
 public class TourIntroduceActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private String id_tour;
+    private String tour_id,tour_name,avatar,introduce;
+    private int rating;
     private ShapeableImageView img_tour;
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
     private TextView tv_title_tour,tv_introduce;
@@ -35,15 +35,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private ImageView imgAvatar;
     private String urlAvatar,name,id_user;
 
-    public static Introduce introduce;
-
-    private String json = "{\n" +
-            "  \"id_tour\": \"135165415dsa45dsds\",\n" +
-            "  \"tour_name\": \"Ha Noi City Tour\",\n" +
-            "  \"avatar\": \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/lang-bac.jpg\",\n" +
-            "  \"rating\": 5,\n" +
-            "  \"introduce\": \"Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố.\"\n" +
-            "}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +53,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         imgAvatar = findViewById(R.id.imgAvatar);
         imgAvatar.setOnClickListener(this);
         getIntent_bundle();
-        Gson gson = new Gson();
-        introduce = gson.fromJson(json, Introduce.class);
 
         setView();
     }
@@ -74,27 +63,36 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         if (bundle != null) {
             urlAvatar = intent.getStringExtra("urlAvatar");
             name = intent.getStringExtra("name");
-            id_user = intent.getStringExtra("id_user");
+            id_user = intent.getStringExtra("user_id");
             if (urlAvatar.equals("")) {
                 Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
             } else {
                 Glide.with(this).load(urlAvatar).transform(new RoundedCorners(80)).into(imgAvatar);
             }
+
+            tour_id = intent.getStringExtra("tour_id");
+            tour_name = intent.getStringExtra("tour_name");
+            avatar = intent.getStringExtra("avatar");
+            rating = intent.getIntExtra("rating",0);
+            introduce = intent.getStringExtra("introduce");
+
+
+
         }
     }
 
     private void setView() {
-        Glide.with(this).load(introduce.getAvatar()).into(img_tour);
-        tv_title_tour.setText(introduce.getTourName());
+        Glide.with(this).load(avatar).into(img_tour);
+        tv_title_tour.setText(tour_name);
         List<ImageView> imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
         for (int i = 0; i < imageViewList.size(); i++) {
             imageViewList.get(i).setImageResource(R.drawable.star2);
         }
-        for (int i = 0; i < introduce.getRating(); i++) {
+        for (int i = 0; i < rating; i++) {
             imageViewList.get(i).setImageResource(R.drawable.star);
         }
 
-        tv_introduce.setText(introduce.getIntroduce());
+        tv_introduce.setText(introduce);
     }
 
     @Override
@@ -124,7 +122,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         });
         b.setNegativeButton(getResources().getString(R.string.label_btn_Cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
+                nextActivity(MainActivity.class);
             }
         });
         AlertDialog al = b.create();
