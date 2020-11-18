@@ -67,7 +67,7 @@
             android:id="@+id/btnSearch"
             android:layout_width="@dimen/none_width_height"
             android:layout_height="@dimen/none_width_height"
-            android:src="@drawable/icon_search"/>
+            android:src="@drawable/ic_search"/>
 
     </LinearLayout>
 
