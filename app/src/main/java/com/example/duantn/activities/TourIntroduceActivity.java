@@ -117,7 +117,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         });
         b.setNegativeButton(getResources().getString(R.string.label_btn_Cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
+                nextActivity(MainActivity.class);
             }
         });
         AlertDialog al = b.create();
