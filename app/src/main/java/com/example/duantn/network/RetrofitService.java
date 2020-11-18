@@ -2,7 +2,7 @@ package com.example.duantn.network;
 
 
 
-import com.example.duantn.gson.Example;
+import com.example.duantn.api_map_direction.Example;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

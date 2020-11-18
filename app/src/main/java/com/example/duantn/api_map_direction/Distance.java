@@ -1,10 +1,10 @@
 
-package com.example.duantn.gson;
+package com.example.duantn.api_map_direction;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Duration {
+public class Distance {
 
     @SerializedName("text")
     @Expose
