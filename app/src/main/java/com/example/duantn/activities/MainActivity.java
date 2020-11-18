@@ -656,9 +656,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             super.onLocationResult(locationResult);
             if (mGoogleMap != null) {
                 mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                getDistance(locationResult,mLocationIndex);
                 if(moveCamera){
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 17));
-                    getDistance(locationResult,mLocationIndex);
                 }
             }
         }
@@ -667,13 +667,14 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
     private void getDistance(LocationResult locationResult,int a){
         float results[] = new float[10];
         Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(),locationList.get(a).getLatitude(), locationList.get(a).getLongitude(),results);
-        if(results[0]<50){
+        if(results[0]<200){
             if (viewPager.getVisibility() == View.GONE) {
                 viewPager.setVisibility(View.VISIBLE);
             }
             viewPager.setCurrentItem(mLocationIndex);
 
             mLocationIndex++;
+            Log.e("locationIndex",mLocationIndex+"");
             showToast(String.valueOf(results[0]));
             if(mLocationIndex==locationList.size()){
                 mLocationIndex=0;
