@@ -291,7 +291,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Intent intent = new Intent(this, TourListActivity.class);
             intent.putExtra("urlAvatar", urlAvatar);
             intent.putExtra("name", name);
-            intent.putExtra("id_user", id_user);
+            intent.putExtra("user_id", id_user);
             startActivity(intent);
 
 
@@ -393,7 +393,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
                             intent.putExtra("urlAvatar", urlAvatar);
                             intent.putExtra("name", name);
-                            intent.putExtra("id_user", id_user);
+                            intent.putExtra("user_id", id_user);
                             startActivity(intent);
                             dismissDialog();
                         }

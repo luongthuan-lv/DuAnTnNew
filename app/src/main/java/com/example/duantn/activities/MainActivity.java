@@ -608,9 +608,9 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
             super.onLocationResult(locationResult);
             if (mGoogleMap != null) {
                 mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                getDistance(locationResult,mLocationIndex);
                 if(moveCamera){
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 20));
+                    getDistance(locationResult,mLocationIndex);
                 }
             }
         }
