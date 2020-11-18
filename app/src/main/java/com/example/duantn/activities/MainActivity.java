@@ -677,7 +677,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
 
 
             mLocationIndex++;
-            showToast(String.valueOf(results[0]));
             if(mLocationIndex==locationList.size()){
                 mLocationIndex=0;
             }
