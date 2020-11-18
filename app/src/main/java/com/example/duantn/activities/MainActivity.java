@@ -539,6 +539,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                moveCamera=false;
                 if (viewPager.getVisibility() == View.VISIBLE) {
                     viewPager.setVisibility(View.GONE);
                 } else {
@@ -557,7 +558,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback{
         mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                moveCamera=false;
+                moveCamera=true;
                 return false;
             }
         });
