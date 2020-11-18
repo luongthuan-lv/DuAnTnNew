@@ -44,11 +44,11 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private EditText edt_search;
     private ImageView btnSearch;
     private ImageView imgAvatar;
-    private String urlAvatar, name,id_user;
+    private String urlAvatar, name, id_user;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
 
-    private String json="[\n" +
+    private String json = "[\n" +
             "  {\n" +
             "    \"tour_id\": \"135165415dsa45dsds\",\n" +
             "    \"tour_name\": \"Ha Noi City Tour\",\n" +
@@ -82,6 +82,12 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         edt_search = findViewById(R.id.edt_search);
         btnSearch = findViewById(R.id.btnSearch);
         imgAvatar = findViewById(R.id.imgAvatar);
+        findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               closeKeyboard();
+            }
+        });
         imgAvatar.setOnClickListener(this);
         findViewById(R.id.btnSearch).setOnClickListener(this);
         btnSearch.getLayoutParams().width = getSizeWithScale(45);
@@ -104,7 +110,8 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         getIntent_bundle();
         Gson gson = new Gson();
         tourList = new ArrayList<>();
-        tourList =  gson.fromJson(json, new TypeToken<List<Tour>>(){}.getType());
+        tourList = gson.fromJson(json, new TypeToken<List<Tour>>() {
+        }.getType());
         setAdapter();
         setViewPager2();
 
@@ -122,9 +129,8 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-
     private void setAdapter() {
-        tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
+        tourAdapter = new TourAdapter(tourList, edt_search, this, new TourAdapter.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
                 if (isConnected(false)) {
@@ -176,11 +182,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             switch (v.getId()) {
                 case R.id.btnSearch:
                     search();
-                    InputMethodManager imm = (InputMethodManager) this
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm.isAcceptingText()) {
-                        closeKeyboard();
-                    }
+                    closeKeyboard();
                     break;
                 case R.id.imgAvatar:
                     showDialogLogout(this, name);
@@ -192,34 +194,22 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void closeKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) this
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isAcceptingText()) {
+            InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
-    }
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
 
-    private void createAlertDialog() {
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle(getResources().getString(R.string.search_error));
-        b.setCancelable(false);
-        b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                tourAdapter.getFilter().filter("");
-                edt_search.setText("");
 
-            }
-        });
-        AlertDialog al = b.create();
-        al.show();
-        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
     }
 
     private void search() {
-        tourAdapter.getFilter().filter(edt_search.getText().toString());
-        if (TourAdapter.result == 0) {
-            createAlertDialog();
+        if (!edt_search.getText().toString().equals("")) {
+            tourAdapter.getFilter().filter(edt_search.getText().toString());
         }
     }
 

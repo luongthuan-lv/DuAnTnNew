@@ -1,11 +1,14 @@
 package com.example.duantn.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -29,18 +32,19 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
     private List<Tour> tourList;
     private Context context;
     private List<Tour> tourList2;
-    public static int result;
+    private EditText edt_search;
 
     public interface OnClickItemListener {
         void onClicked(int position);
         void onSwitched(boolean isChecked);
     }
     private OnClickItemListener onClickItemListener;
-    public TourAdapter(List<Tour> tourList, Context context, OnClickItemListener onClickItemListener) {
+    public TourAdapter(List<Tour> tourList,EditText edt_search, Context context, OnClickItemListener onClickItemListener) {
         this.tourList = tourList;
         this.context = context;
         this.onClickItemListener = onClickItemListener;
         this.tourList2 = new ArrayList<>(tourList);
+        this.edt_search=edt_search;
     }
 
     @NonNull
@@ -95,7 +99,9 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
             }
             FilterResults results = new FilterResults();
             results.values = tours;
-            result  = tours.size();
+            if(tours.size()==0){
+                createAlertDialog();
+            }
             return results;
         }
         @Override
@@ -126,5 +132,22 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
             img_star4 = itemView.findViewById(R.id.img_star4);
             img_star5 = itemView.findViewById(R.id.img_star5);
         }
+    }
+
+    private void createAlertDialog() {
+        AlertDialog.Builder b = new AlertDialog.Builder(context);
+        b.setTitle(context.getString(R.string.search_error));
+        b.setCancelable(false);
+        b.setPositiveButton(context.getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                edt_search.getText().clear();
+                getFilter().filter("");
+
+            }
+        });
+        AlertDialog al = b.create();
+        al.show();
+        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.color_btn_alertDialog));
     }
 }
