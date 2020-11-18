@@ -203,8 +203,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
-
-
     }
 
     private void search() {
