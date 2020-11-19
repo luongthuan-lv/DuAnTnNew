@@ -42,6 +42,25 @@ public class BaseActivity extends AppCompatActivity {
     private AccountDAO accountDAO;
     private Account account;
 
+    private static String languageCode;
+    private static String voiceName;
+
+    public static String getLanguageCode() {
+        return languageCode;
+    }
+
+    public static void setLanguageCode(String languageCode) {
+        BaseActivity.languageCode = languageCode;
+    }
+
+    public static String getVoiceName() {
+        return voiceName;
+    }
+
+    public static void setVoiceName(String voiceName) {
+        BaseActivity.voiceName = voiceName;
+    }
+
     public void saveAccount(String id, String urlAvatar, String name){
         accountDAO = new AccountDAO(this);
         account = new Account();

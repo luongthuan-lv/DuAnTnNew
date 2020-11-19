@@ -22,10 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duantn.adapter.AdapterLanguage;
-import com.example.duantn.adapter.ClassSelectLanguage;
-import com.example.duantn.morder.Account;
+import com.example.duantn.morder.ClassSelectLanguage;
 import com.example.duantn.morder.KeyLanguage;
-import com.example.duantn.sql.AccountDAO;
 import com.example.duantn.sql.LanguageDAO;
 import com.example.duantn.sql.MySqliteOpenHelper;
 import com.example.duantn.view.CustomButton;
@@ -114,7 +112,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         languageDAO = new LanguageDAO(this);
         keyLanguageList = languageDAO.getAll();
         ganNgonngu(keyLanguageList.get(0).getValue());
-        checkFlag();
+        checkFlagAndLanguageCode();
     }
 
     private void changeLanguage(String key) {
@@ -215,25 +213,43 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-    private void checkFlag() {
+    private void checkFlagAndLanguageCode() {
         if (keyLanguageList.get(0).getValue().equals("vi")) {
             img_change_language.setImageResource(R.drawable.vietnam);
+            setLanguageCode("vi-VN");
+            setVoiceName("vi-VN-Wavenet-C");
         } else if (keyLanguageList.get(0).getValue().equals("ja")) {
             img_change_language.setImageResource(R.drawable.japan);
+            setLanguageCode("ja-JP");
+            setVoiceName("ja-JP-Wavenet-B");
         } else if (keyLanguageList.get(0).getValue().equals("zh")) {
             img_change_language.setImageResource(R.drawable.china);
+            setLanguageCode("yue-HK");
+            setVoiceName("yue-HK-Standard-C");
         } else if (keyLanguageList.get(0).getValue().equals("ko")) {
             img_change_language.setImageResource(R.drawable.korea);
+            setLanguageCode("ko-KR");
+            setVoiceName("ko-KR-Wavenet-A");
         } else if (keyLanguageList.get(0).getValue().equals("fr")) {
             img_change_language.setImageResource(R.drawable.france);
+            setLanguageCode("fr-FR");
+            setVoiceName("fr-FR-Standard-C");
         } else if (keyLanguageList.get(0).getValue().equals("de")) {
             img_change_language.setImageResource(R.drawable.germany);
+            setLanguageCode("de-DE");
+            setVoiceName("de-DE-Standard-F");
         } else if (keyLanguageList.get(0).getValue().equals("in")) {
             img_change_language.setImageResource(R.drawable.indonesia);
+            setLanguageCode("id-ID");
+            setVoiceName("id-ID-Standard-A");
         } else if (keyLanguageList.get(0).getValue().equals("ru")) {
             img_change_language.setImageResource(R.drawable.russia);
+            setLanguageCode("ru-RU");
+            setVoiceName("ru-RU-Standard-A");
         } else {
             img_change_language.setImageResource(R.drawable.american);
+            setLanguageCode("en-GB");
+            setVoiceName("en-GB-Standard-A");
         }
     }
 

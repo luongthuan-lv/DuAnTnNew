@@ -76,8 +76,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             rating = intent.getIntExtra("rating",0);
             introduce = intent.getStringExtra("introduce");
 
-
-
         }
     }
 
@@ -117,12 +115,20 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         b.setMessage(getResources().getString(R.string.content_alert));
         b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                nextActivity(MainActivity.class);
+                Intent intent = new Intent(TourIntroduceActivity.this,MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("enableAudio",true);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         b.setNegativeButton(getResources().getString(R.string.label_btn_Cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                nextActivity(MainActivity.class);
+                Intent intent = new Intent(TourIntroduceActivity.this,MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("enableAudio",false);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         AlertDialog al = b.create();
