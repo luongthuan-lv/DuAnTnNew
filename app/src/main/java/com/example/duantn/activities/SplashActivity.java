@@ -41,7 +41,8 @@ public class SplashActivity extends BaseActivity {
         setNgonngu();
         setAccount();
     }
-    private void setAccount(){
+
+    private void setAccount() {
         accountDAO = new AccountDAO(this);
         accountList = accountDAO.getAll();
         urlAvatar = accountList.get(0).getUrl_avt();
@@ -76,7 +77,9 @@ public class SplashActivity extends BaseActivity {
         languageDAO = new LanguageDAO(this);
         keyLanguageList = languageDAO.getAll();
         ganNgonngu(keyLanguageList.get(0).getValue());
+        checkLanguageCode();
     }
+
     private void ganNgonngu(String language) {
         Locale locale = new Locale(language);
         Configuration configuration = new Configuration();
@@ -84,6 +87,37 @@ public class SplashActivity extends BaseActivity {
         getBaseContext().getResources().updateConfiguration(
                 configuration, getBaseContext().getResources().getDisplayMetrics()
         );
+    }
+
+    private void checkLanguageCode() {
+        if (keyLanguageList.get(0).getValue().equals("vi")) {
+            setLanguageCode("vi-VN");
+            setVoiceName("vi-VN-Wavenet-C");
+        } else if (keyLanguageList.get(0).getValue().equals("ja")) {
+            setLanguageCode("ja-JP");
+            setVoiceName("ja-JP-Wavenet-B");
+        } else if (keyLanguageList.get(0).getValue().equals("zh")) {
+            setLanguageCode("yue-HK");
+            setVoiceName("yue-HK-Standard-C");
+        } else if (keyLanguageList.get(0).getValue().equals("ko")) {
+            setLanguageCode("ko-KR");
+            setVoiceName("ko-KR-Wavenet-A");
+        } else if (keyLanguageList.get(0).getValue().equals("fr")) {
+            setLanguageCode("fr-FR");
+            setVoiceName("fr-FR-Standard-C");
+        } else if (keyLanguageList.get(0).getValue().equals("de")) {
+            setLanguageCode("de-DE");
+            setVoiceName("de-DE-Standard-F");
+        } else if (keyLanguageList.get(0).getValue().equals("in")) {
+            setLanguageCode("id-ID");
+            setVoiceName("id-ID-Standard-A");
+        } else if (keyLanguageList.get(0).getValue().equals("ru")) {
+            setLanguageCode("ru-RU");
+            setVoiceName("ru-RU-Standard-A");
+        } else {
+            setLanguageCode("en-GB");
+            setVoiceName("en-GB-Standard-A");
+        }
     }
 }
 

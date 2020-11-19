@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,19 +21,23 @@ import java.util.List;
 public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSlideShowInformation.ViewHolder> {
     private List<ClassShowInformation> locationList;
     private Context context;
-
+    private boolean enableAudio;
     public interface OnClickItemListener {
         void onClicked(int position);
 
         void onSwitched(boolean isChecked);
+
+        void onClickEnableAudio(int position);
+        void onClickDisableAudio(int position);
     }
 
     private OnClickItemListener onClickItemListener;
 
-    public AdapterSlideShowInformation(List<ClassShowInformation> locationList, Context context, OnClickItemListener onClickItemListener) {
+    public AdapterSlideShowInformation(List<ClassShowInformation> locationList,boolean enableAudio, Context context, OnClickItemListener onClickItemListener) {
         this.locationList = locationList;
         this.context = context;
         this.onClickItemListener = onClickItemListener;
+        this.enableAudio=enableAudio;
     }
 
     @NonNull
@@ -48,6 +53,41 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
         holder.tvTitle.setText(locationList.get(position).getTitle());
         Glide.with(context).load(locationList.get(position).getImageList().get(0)).into(holder.imgFirstly);
 
+        if(enableAudio){
+            holder.btn_audio.setVisibility(View.VISIBLE);
+            holder.btn_audio.setImageResource(R.drawable.ic_not_audio);
+
+            if(locationList.get(position).isAudio()==true){
+                holder.btn_audio.setImageResource(R.drawable.ic_audio);
+                holder.btn_audio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onClickItemListener != null){
+                            onClickItemListener.onClickDisableAudio(position);
+                        }
+                    }
+                });
+            }else {
+                holder.btn_audio.setImageResource(R.drawable.ic_not_audio);
+                holder.btn_audio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for(int i=0;i<locationList.size();i++){
+                            if(locationList.get(i).isAudio()==true){
+                                locationList.get(i).setAudio(false);
+                                notifyItemChanged(i);
+                            }
+                        }
+                        if (onClickItemListener != null){
+                            onClickItemListener.onClickEnableAudio(position);
+                        }
+                    }
+                });
+            }
+
+        } else {
+            holder.btn_audio.setVisibility(View.GONE);
+        }
         holder.tvSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,12 +113,14 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
         private ShapeableImageView imgFirstly;
         private TextView tvTitle;
         private TextView tvSeeMore;
+        private ImageView btn_audio;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvInformation = itemView.findViewById(R.id.tvInformation);
             imgFirstly = itemView.findViewById(R.id.imgFirstly);
+            btn_audio = itemView.findViewById(R.id.btn_audio);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvSeeMore = itemView.findViewById(R.id.tvSeeMore);
 

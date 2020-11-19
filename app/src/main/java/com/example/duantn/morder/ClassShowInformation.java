@@ -9,18 +9,8 @@ public class ClassShowInformation {
     private String content;
     private List<String> waypoints;
     private List<String> imageList;
+    private boolean audio=false;
 
-    public ClassShowInformation(double latitude, double longitude, String title, String content, List<String> waypoints) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.title = title;
-        this.content = content;
-        this.waypoints = waypoints;
-    }
-
-    public ClassShowInformation(List<String> imageList) {
-        this.imageList = imageList;
-    }
 
     public List<String> getWaypoints() {
         return waypoints;
@@ -70,4 +60,11 @@ public class ClassShowInformation {
         this.content = content;
     }
 
+    public boolean isAudio() {
+        return audio;
+    }
+
+    public void setAudio(boolean audio) {
+        this.audio = audio;
+    }
 }

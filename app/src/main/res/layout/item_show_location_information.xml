@@ -66,11 +66,12 @@
           android:background="@color/colorWhite" />
 
       <ImageView
+          android:id="@+id/btn_audio"
           android:padding="@dimen/padding_05"
           android:layout_marginRight="@dimen/margin_20dp"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/ic_audio"
+          android:src="@drawable/ic_not_audio"
           app:layout_constraintTop_toBottomOf="@+id/tvInformation"
           app:layout_constraintEnd_toEndOf="parent" />
 
