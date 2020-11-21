@@ -25,6 +25,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
     private int colorIndex = 0;
     private PolylineOptions polylineOptions;
     private ArrayList<ClassShowInformation> locationList = new ArrayList<>();
-    private int mLocationIndex = 0;
+    private int mLocationIndex;
     private boolean moveCamera = true;
     private int itemIndex = 0;
     private boolean enableAudio;
@@ -566,7 +567,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
             super.onLocationResult(locationResult);
             if (mGoogleMap != null) {
                 mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                getDistance(locationResult, mLocationIndex);
+                getDistance(locationResult);
                 if (moveCamera) {
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 17));
                 }
@@ -574,10 +575,23 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         }
     };
 
-    private void getDistance(LocationResult locationResult, int a) {
+    private void getDistance(LocationResult locationResult) {
+
+        float[][] a = new float[locationList.size()][10];
+        for (int i = 0; i < a.length; i++) {
+            Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), locationList.get(i).getLatitude(), locationList.get(i).getLongitude(), a[i]);
+        }
+        float min = a[0][0];
+        for (int i = 0; i < a.length; i++) {
+            if (a[i][0] < min) {
+                min = a[i][0];
+                mLocationIndex = i;
+            }
+        }
+
         float results[] = new float[10];
-        Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), locationList.get(a).getLatitude(), locationList.get(a).getLongitude(), results);
-        if (results[0] < 50) {
+        Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), locationList.get(mLocationIndex).getLatitude(), locationList.get(mLocationIndex).getLongitude(), results);
+        if (results[0] < 50 && locationList.get(mLocationIndex).isVisited() == false) {
             if (viewPager.getVisibility() == View.GONE) {
                 viewPager.setVisibility(View.VISIBLE);
             }
@@ -594,10 +608,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
                 slideShowInformation.notifyItemChanged(mLocationIndex);
                 mPresenter.startSpeak(locationList.get(mLocationIndex).getContent());
             }
-            mLocationIndex++;
-            if (mLocationIndex == locationList.size()) {
-                mLocationIndex = 0;
-            }
+
+            locationList.get(mLocationIndex).setVisited(true);
         }
     }
 
@@ -641,6 +653,17 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
     protected void onStop() {
         super.onStop();
         stopLocationUpdate();
+        if(enableAudio){
+            mPresenter.pauseSpeak();
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(enableAudio){
+            mPresenter.resumeSpeak();
+        }
     }
 
     @Override

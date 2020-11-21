@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.google.gson.Gson;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +27,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private TextView tv_title_tour, tv_introduce;
     private Button btn_start;
     private ImageView imgAvatar;
-    private String urlAvatar,name,id_user;
+    private String urlAvatar,name, user_id;
 
 
     @Override
@@ -58,7 +57,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         if (bundle != null) {
             urlAvatar = intent.getStringExtra("urlAvatar");
             name = intent.getStringExtra("name");
-            id_user = intent.getStringExtra("user_id");
+            user_id = intent.getStringExtra("user_id");
             if (urlAvatar.equals("")) {
                 Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
             } else {

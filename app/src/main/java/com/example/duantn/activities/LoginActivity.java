@@ -66,7 +66,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView img_change_language;
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
-    private String urlAvatar, name,id_user;
+    private String urlAvatar, name, user_id;
 
 
     @Override
@@ -299,15 +299,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 Uri personPhoto = acct.getPhotoUrl();
                 name = personName;
                 urlAvatar = String.valueOf(personPhoto);
-                id_user = personId;
+                user_id = personId;
 
-                saveAccount(id_user, urlAvatar,name);
+                saveAccount(user_id, urlAvatar,name);
             }
 
             Intent intent = new Intent(this, TourListActivity.class);
             intent.putExtra("urlAvatar", urlAvatar);
             intent.putExtra("name", name);
-            intent.putExtra("user_id", id_user);
+            intent.putExtra("user_id", user_id);
             startActivity(intent);
 
 
@@ -401,15 +401,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                                 urlAvatar = String.valueOf(imageURL);
                                 name = personName;
-                                id_user = id;
+                                user_id = id;
 
-                                saveAccount(id_user, urlAvatar,name);
+                                saveAccount(user_id, urlAvatar,name);
 
                             }
                             Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
                             intent.putExtra("urlAvatar", urlAvatar);
                             intent.putExtra("name", name);
-                            intent.putExtra("user_id", id_user);
+                            intent.putExtra("user_id", user_id);
                             startActivity(intent);
                             dismissDialog();
                         }

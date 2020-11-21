@@ -10,6 +10,7 @@ public class ClassShowInformation {
     private List<String> waypoints;
     private List<String> imageList;
     private boolean audio=false;
+    private boolean visited = false;
 
 
     public List<String> getWaypoints() {
@@ -66,5 +67,13 @@ public class ClassShowInformation {
 
     public void setAudio(boolean audio) {
         this.audio = audio;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 }
