@@ -193,17 +193,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void closeKeyboard() {
-        InputMethodManager imm = (InputMethodManager) this
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isAcceptingText()) {
-            InputMethodManager inputManager = (InputMethodManager)
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
 
     private void search() {
             tourAdapter.getFilter().filter(edt_search.getText().toString());

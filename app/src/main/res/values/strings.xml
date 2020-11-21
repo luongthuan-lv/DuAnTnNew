@@ -40,8 +40,8 @@
     <string name="label1_btn_get_started">Get Started</string>
     <string name="title_alert">Would you like to hear the entire trip schedule?</string>
     <string name="content_alert">We will announce all the historical information that you will go through, hoping you will have a better experience.</string>
-    <string name="label_btn_OK">Ok</string>
-    <string name="label_btn_Cancel">Cancel</string>
+    <string name="label_btn_Yes">Yes</string>
+    <string name="label_btn_No">No</string>
     <string name="search_error">Cannot find the travel you entered, please search again!</string>
     <string name="hint_edtSearch">Search...</string>
     <string name="hint_edt_note">Note</string>
@@ -52,4 +52,6 @@
     <string name="text_dialog_warning_internet">Please check your internet connection!</string>
     <string name="title_dialog_warning_internet">Looks like you don\'t have an Internet connection</string>
     <string name="text_btn_close">Close</string>
+    <string name="label_btn_Ok">Ok</string>
+    <string name="label_btn_Cancel">Cancel</string>
 </resources>

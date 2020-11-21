@@ -6,8 +6,8 @@
     <string name="label1_btn_get_started">Начать</string>
     <string name="title_alert">Хотите узнать полный график поездки?</string>
     <string name="content_alert">Мы объявим всю историческую информацию, которую вы пройдете, в надежде, что вы получите лучший опыт.</string>
-    <string name="label_btn_OK">Согласен</string>
-    <string name="label_btn_Cancel">Отмена</string>
+    <string name="label_btn_Yes">да</string>
+    <string name="label_btn_No">Нет</string>
     <string name="search_error">Не можете найти указанную поездку, повторите поиск!</string>
     <string name="hint_edtSearch">Поиск...</string>
     <string name="hint_edt_note">Заметка</string>
@@ -18,4 +18,6 @@
     <string name="text_dialog_warning_internet">Пожалуйста, проверьте подключение к интернету!</string>
     <string name="title_dialog_warning_internet">Похоже, у вас нет подключения к Интернету</string>
     <string name="text_btn_close">близко</string>
+    <string name="label_btn_Ok">дать согласие</string>
+    <string name="label_btn_Cancel">Отмена</string>
 </resources>

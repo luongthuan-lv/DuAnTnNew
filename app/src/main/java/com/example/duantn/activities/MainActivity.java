@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,7 +76,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends BaseActivity implements OnMapReadyCallback, MainContract.IView {
+public class MainActivity extends BaseActivity implements OnMapReadyCallback, MainContract.IView,View.OnClickListener {
     private int LOCATION_REQUEST_CODE = 10001;
     private GoogleMap mGoogleMap;
     private LocationManager locationManager;
@@ -172,6 +173,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         }
         viewPager = findViewById(R.id.viewPager);
         viewPager.getLayoutParams().height = getSizeWithScale(139);
+        findViewById(R.id.btn_feedback).setOnClickListener(this);
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(50);
         locationRequest.setFastestInterval(50);
@@ -307,7 +309,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         btn_submit = alertLayout.findViewById(R.id.btn_submit);
         edt_note.setImeOptions(EditorInfo.IME_ACTION_DONE);
         imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
-
         for (int i = 0; i < imageViewList.size(); i++) {
             imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
         }
@@ -319,10 +320,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
                     for (int i = 0; i < imageViewList.size(); i++) {
                         imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
                     }
-
                     for (int j = 0; j < finalI + 1; j++) {
                         imageViewList.get(j).setImageResource(R.drawable.selected_star);
-                        //ket qua rating
                         rating = j + 1;
                     }
                 }
@@ -336,9 +335,12 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isConnected(false)) {
+                    sendFeedback(edt_note);
+                } else {
+                    showDialogNoInternet();
+                }
                 dialog.dismiss();
-                sendFeedback(edt_note);
-
             }
         });
         dialog.show();
@@ -565,26 +567,31 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         @Override
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
-            if (mGoogleMap != null) {
-                mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                getDistance(locationResult);
-                if (moveCamera) {
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 17));
+            if (isConnected(false)) {
+                if (mGoogleMap != null) {
+                    mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                    getDistance(locationResult);
+                    if (moveCamera) {
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 17));
+                    }
                 }
+            } else {
+                showDialogNoInternet();
             }
+
         }
     };
 
     private void getDistance(LocationResult locationResult) {
 
-        float[][] a = new float[locationList.size()][10];
-        for (int i = 0; i < a.length; i++) {
-            Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), locationList.get(i).getLatitude(), locationList.get(i).getLongitude(), a[i]);
+        float[][] arr = new float[locationList.size()][10];
+        for (int i = 0; i < arr.length; i++) {
+            Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), locationList.get(i).getLatitude(), locationList.get(i).getLongitude(), arr[i]);
         }
-        float min = a[0][0];
-        for (int i = 0; i < a.length; i++) {
-            if (a[i][0] < min) {
-                min = a[i][0];
+        float min = arr[0][0];
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i][0] < min) {
+                min = arr[i][0];
                 mLocationIndex = i;
             }
         }
@@ -713,4 +720,16 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         startActivityForResult(checkIntent, TEXT_TO_SPEECH_CODE);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (isConnected(false)) {
+            switch (v.getId()) {
+                case R.id.btn_feedback:
+                    createDialogRating();
+                    break;
+            }
+        } else {
+            showDialogNoInternet();
+        }
+    }
 }

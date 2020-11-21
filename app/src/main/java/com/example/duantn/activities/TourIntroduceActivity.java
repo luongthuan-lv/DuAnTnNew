@@ -107,7 +107,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle(getResources().getString(R.string.title_alert));
         b.setMessage(getResources().getString(R.string.content_alert));
-        b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
+        b.setPositiveButton(getResources().getString(R.string.label_btn_Yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Intent intent = new Intent(TourIntroduceActivity.this,MainActivity.class);
                 Bundle bundle = new Bundle();
@@ -116,7 +116,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                 startActivity(intent);
             }
         });
-        b.setNegativeButton(getResources().getString(R.string.label_btn_Cancel), new DialogInterface.OnClickListener() {
+        b.setNegativeButton(getResources().getString(R.string.label_btn_No), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Intent intent = new Intent(TourIntroduceActivity.this,MainActivity.class);
                 Bundle bundle = new Bundle();
