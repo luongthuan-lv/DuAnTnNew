@@ -185,7 +185,6 @@ public class BaseActivity extends AppCompatActivity {
         al.show();
         al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorRed));
         al.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
-
     }
 
     public boolean isConnected(boolean connected) {
