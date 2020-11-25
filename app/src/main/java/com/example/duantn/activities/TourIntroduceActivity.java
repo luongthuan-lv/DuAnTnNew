@@ -14,8 +14,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
 import com.example.duantn.view.CustomButton;
 import com.example.duantn.view.CustomImageButton;
-import com.facebook.login.LoginManager;
-import com.example.duantn.morder.Introduce;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.Arrays;
@@ -30,7 +28,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
     private TextView tv_title_tour,tv_introduce;
     private CustomButton btn_start;
-    private CustomImageButton imgAvata;
     private ImageView imgAvatar;
     private String urlAvatar,name, user_id;
 

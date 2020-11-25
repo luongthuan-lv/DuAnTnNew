@@ -70,14 +70,12 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
                    onClickItemListener.onClicked(position);
            }
        });
-
     }
 
     @Override
     public int getItemCount() {
         return tourList.size();
     }
-
 
     private Filter filter = new Filter() {
         @Override
@@ -139,7 +137,6 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
                 dialog.dismiss();
                 edt_search.getText().clear();
                 getFilter().filter("");
-
             }
         });
         AlertDialog al = b.create();

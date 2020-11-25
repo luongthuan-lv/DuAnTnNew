@@ -8,6 +8,7 @@ import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -59,8 +60,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private LoginManager loginManager;
     private Button btn_facebook;
     private Button btn_google;
-    private CustomButton btn_facebook;
-    private CustomButton btn_google;
     private LocationManager locationManager;
     private MySqliteOpenHelper mySqliteOpenHelper;
     private LanguageDAO languageDAO;
@@ -87,7 +86,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
 
         btn_google = findViewById(R.id.btn_google);
         btn_facebook = findViewById(R.id.btn_facebook);

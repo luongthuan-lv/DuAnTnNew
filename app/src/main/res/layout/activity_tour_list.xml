@@ -8,7 +8,6 @@
     android:background="@drawable/main_background"
     tools:context=".activities.TourListActivity">
 
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glH30"
         android:layout_width="match_parent"
@@ -22,8 +21,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.95"/>
-
-
 
     <TextView
         android:id="@+id/tv_Title"
@@ -71,9 +68,6 @@
 
     </LinearLayout>
 
-
-
-
     <androidx.viewpager2.widget.ViewPager2
         android:paddingHorizontal="@dimen/paddingHViewPager"
         android:id="@+id/viewPager2"
@@ -93,4 +87,5 @@
         android:id="@+id/imgAvatar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

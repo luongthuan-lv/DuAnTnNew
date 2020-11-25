@@ -27,11 +27,11 @@
     <string name="fields" translatable="false">fields</string>
     <string name="fields_name" translatable="false">id,name,link,email</string>
     <string name="data" translatable="false">data</string>
-<!--        <string name="facebook_app_id" translatable="false">383267972718761</string>-->
-<!--        <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>-->
+        <string name="facebook_app_id" translatable="false">383267972718761</string>
+        <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>
 
-    <string name="facebook_app_id" translatable="false">332122717968078</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb332122717968078</string>
+<!--    <string name="facebook_app_id" translatable="false">332122717968078</string>-->
+<!--    <string name="fb_login_protocol_scheme" translatable="false">fb332122717968078</string>-->
 
 
     // can dich
