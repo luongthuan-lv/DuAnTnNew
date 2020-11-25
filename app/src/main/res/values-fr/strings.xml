@@ -6,8 +6,8 @@
     <string name="label1_btn_get_started">Commencer</string>
     <string name="title_alert">Souhaitez-vous connaître l\'horaire complet du voyage?</string>
     <string name="content_alert">Nous annoncerons toutes les informations historiques que vous passerez en revue, en espérant que vous aurez une meilleure expérience.</string>
-    <string name="label_btn_OK">D\'accord</string>
-    <string name="label_btn_Cancel">Annuler</string>
+    <string name="label_btn_Yes">Oui</string>
+    <string name="label_btn_No">Non</string>
     <string name="search_error">Impossible de trouver le voyage que vous avez entré, veuillez rechercher à nouveau</string>
     <string name="hint_edtSearch">Chercher...</string>
     <string name="hint_edt_note">Remarque</string>
@@ -18,4 +18,6 @@
     <string name="text_dialog_warning_internet">S\'il vous plait, vérifiez votre connexion internet!</string>
     <string name="title_dialog_warning_internet">Il semble que vous ñ\'ayez pas de connexion Internet</string>
     <string name="text_btn_close">Proche</string>
+    <string name="label_btn_Ok">D\'accord</string>
+    <string name="label_btn_Cancel">Annuler</string>
 </resources>

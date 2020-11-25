@@ -6,8 +6,8 @@
     <string name="label1_btn_get_started">开始吧</string>
     <string name="title_alert">您想听听整个行程吗？</string>
     <string name="content_alert">我们将公布您将要经历的所有历史信息，希望您会有更好的体验。</string>
-    <string name="label_btn_OK">好的</string>
-    <string name="label_btn_Cancel">取消</string>
+    <string name="label_btn_Yes">是</string>
+    <string name="label_btn_No">没有</string>
     <string name="search_error">找不到您输入的旅行，请再次搜索！</string>
     <string name="hint_edtSearch">搜索...</string>
     <string name="hint_edt_note">注意</string>
@@ -18,4 +18,6 @@
     <string name="text_dialog_warning_internet">请检查您的互联网连接！</string>
     <string name="title_dialog_warning_internet">看起来您没有互联网连接</string>
     <string name="text_btn_close">关</string>
+    <string name="label_btn_Ok">好</string>
+    <string name="label_btn_Cancel">取消</string>
 </resources>

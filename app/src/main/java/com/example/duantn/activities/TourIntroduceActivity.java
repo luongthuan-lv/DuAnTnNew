@@ -17,7 +17,6 @@ import com.example.duantn.view.CustomImageButton;
 import com.facebook.login.LoginManager;
 import com.example.duantn.morder.Introduce;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.google.gson.Gson;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +32,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private CustomButton btn_start;
     private CustomImageButton imgAvata;
     private ImageView imgAvatar;
-    private String urlAvatar,name,id_user;
+    private String urlAvatar,name, user_id;
 
 
     @Override
@@ -63,7 +62,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         if (bundle != null) {
             urlAvatar = intent.getStringExtra("urlAvatar");
             name = intent.getStringExtra("name");
-            id_user = intent.getStringExtra("user_id");
+            user_id = intent.getStringExtra("user_id");
             if (urlAvatar.equals("")) {
                 Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
             } else {
@@ -113,7 +112,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle(getResources().getString(R.string.title_alert));
         b.setMessage(getResources().getString(R.string.content_alert));
-        b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
+        b.setPositiveButton(getResources().getString(R.string.label_btn_Yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Intent intent = new Intent(TourIntroduceActivity.this,MainActivity.class);
                 Bundle bundle = new Bundle();
@@ -122,7 +121,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                 startActivity(intent);
             }
         });
-        b.setNegativeButton(getResources().getString(R.string.label_btn_Cancel), new DialogInterface.OnClickListener() {
+        b.setNegativeButton(getResources().getString(R.string.label_btn_No), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Intent intent = new Intent(TourIntroduceActivity.this,MainActivity.class);
                 Bundle bundle = new Bundle();

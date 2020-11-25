@@ -6,8 +6,8 @@
     <string name="label1_btn_get_started">Mulai</string>
     <string name="title_alert">Mau dengar keseluruhan jadwal perjalanannya?</string>
     <string name="content_alert">Kami akan mengumumkan semua informasi sejarah yang akan Anda lalui, berharap Anda akan mendapatkan pengalaman yang lebih baik.</string>
-    <string name="label_btn_OK">Setuju</string>
-    <string name="label_btn_Cancel">Membatalkan</string>
+    <string name="label_btn_Yes">Iya</string>
+    <string name="label_btn_No">Tidak</string>
     <string name="search_error">Tidak dapat menemukan perjalanan yang Anda masukkan, harap cari lagi!</string>
     <string name="hint_edtSearch">Cari...</string>
     <string name="hint_edt_note">Catatan</string>
@@ -18,4 +18,6 @@
     <string name="text_dialog_warning_internet">Silakan periksa koneksi internet Anda!</string>
     <string name="title_dialog_warning_internet">Sepertinya Anda tidak memiliki koneksi internet</string>
     <string name="text_btn_close">Menutup</string>
+    <string name="label_btn_Ok">Baik</string>
+    <string name="label_btn_Cancel">Membatalkan</string>
 </resources>

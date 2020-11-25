@@ -6,8 +6,8 @@
     <string name="label1_btn_get_started">Bắt đầu</string>
     <string name="title_alert">Bạn có muốn nghe toàn bộ lịch trình chuyến đi không?</string>
     <string name="content_alert">Chúng tôi sẽ thông báo toàn bộ thông tin địa điểm,lịch sử mà quý khách sẽ đi qua, hi vọng quý khách sẽ có một trải nghiệm tốt hơn.</string>
-    <string name="label_btn_OK">Đồng ý</string>
-    <string name="label_btn_Cancel">Hủy</string>
+    <string name="label_btn_Yes">Đồng ý</string>
+    <string name="label_btn_No">Không</string>
     <string name="search_error">Không thể tìm thấy chuyến đi bạn đã nhập, vui lòng tìm kiếm lại!</string>
     <string name="hint_edtSearch">Tìm kiếm..</string>
     <string name="hint_edt_note">Ghi chú</string>
@@ -18,4 +18,6 @@
     <string name="text_dialog_warning_internet">Xin vui lòng kiểm tra kết nối Internet của bạn!</string>
     <string name="title_dialog_warning_internet">Có vẻ như bạn chưa có kết nối Internet</string>
     <string name="text_btn_close">Đóng</string>
+    <string name="label_btn_Ok">Đồng ý</string>
+    <string name="label_btn_Cancel">Hủy</string>
 </resources>

@@ -1,15 +1,10 @@
 package com.example.duantn.activities;
 
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.example.duantn.R;
 import com.example.duantn.morder.Account;
@@ -18,7 +13,6 @@ import com.example.duantn.sql.AccountDAO;
 import com.example.duantn.sql.LanguageDAO;
 import com.example.duantn.sql.MySqliteOpenHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,7 +21,7 @@ public class SplashActivity extends BaseActivity {
     private MySqliteOpenHelper mySqliteOpenHelper;
     private List<Account> accountList;
     private AccountDAO accountDAO;
-    private String urlAvatar, name, id_user;
+    private String urlAvatar, name, user_id;
     private LanguageDAO languageDAO;
     private List<KeyLanguage> keyLanguageList;
 
@@ -46,7 +40,7 @@ public class SplashActivity extends BaseActivity {
         accountDAO = new AccountDAO(this);
         accountList = accountDAO.getAll();
         urlAvatar = accountList.get(0).getUrl_avt();
-        id_user = accountList.get(0).getId();
+        user_id = accountList.get(0).getId();
         name = accountList.get(0).getName();
         if (accountList.get(0).getId().equals("")) {
             Handler handler = new Handler();
@@ -65,7 +59,7 @@ public class SplashActivity extends BaseActivity {
                     Intent intent = new Intent(SplashActivity.this, TourListActivity.class);
                     intent.putExtra("urlAvatar", urlAvatar);
                     intent.putExtra("name", name);
-                    intent.putExtra("user_id", id_user);
+                    intent.putExtra("user_id", user_id);
                     startActivity(intent);
                     finish();
                 }

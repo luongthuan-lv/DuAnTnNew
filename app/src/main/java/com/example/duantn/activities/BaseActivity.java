@@ -11,13 +11,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -33,8 +30,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
-import java.util.Arrays;
 
 public class BaseActivity extends AppCompatActivity {
     private Activity context;
@@ -161,7 +156,7 @@ public class BaseActivity extends AppCompatActivity {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle(title);
         b.setMessage(getResources().getString(R.string.logout));
-        b.setPositiveButton(getResources().getString(R.string.label_btn_OK), new DialogInterface.OnClickListener() {
+        b.setPositiveButton(getResources().getString(R.string.label_btn_Ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 initDialogLoading();
                 showDialogLoading();
@@ -222,5 +217,16 @@ public class BaseActivity extends AppCompatActivity {
         });
         dialog.show();
 
+    }
+    public void closeKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isAcceptingText()) {
+            InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

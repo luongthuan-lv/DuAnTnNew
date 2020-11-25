@@ -6,8 +6,8 @@
     <string name="label1_btn_get_started">Loslegen</string>
     <string name="title_alert">Möchten Sie den gesamten Reiseplan hören?</string>
     <string name="content_alert">Wir werden alle historischen Informationen bekannt geben, die Sie durchgehen werden, in der Hoffnung, dass Sie eine bessere Erfahrung machen werden.</string>
-    <string name="label_btn_OK">Zustimmen</string>
-    <string name="label_btn_Cancel">Stornieren</string>
+    <string name="label_btn_Yes">Ja</string>
+    <string name="label_btn_No">Nein</string>
     <string name="search_error">Die eingegebene Reise kann nicht gefunden werden. Bitte suchen Sie erneut!</string>
     <string name="hint_edtSearch">Suche...</string>
     <string name="hint_edt_note">Hinweis</string>
@@ -18,4 +18,6 @@
     <string name="text_dialog_warning_internet">Bitte überprüfe deine Internetverbindung!</string>
     <string name="title_dialog_warning_internet">Sieht so aus, als hätten Sie keine Internetverbindung</string>
     <string name="text_btn_close">Schließen sie</string>
+    <string name="label_btn_Ok">Zustimmen</string>
+    <string name="label_btn_Cancel">Stornieren</string>
 </resources>

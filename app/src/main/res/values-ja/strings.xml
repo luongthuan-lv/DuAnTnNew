@@ -6,8 +6,8 @@
     <string name="label1_btn_get_started">ベギン</string>
     <string name="title_alert">旅行スケジュール全体を聞きたいですか？</string>
     <string name="content_alert">より良い体験ができることを願って、あなたが経験するすべての歴史的情報を発表します。</string>
-    <string name="label_btn_OK">同意する</string>
-    <string name="label_btn_Cancel">キャンセル</string>
+    <string name="label_btn_Yes">はい</string>
+    <string name="label_btn_No">番号</string>
     <string name="search_error">入力した旅行が見つかりません。もう一度検索してください。</string>
     <string name="hint_edtSearch">探す...</string>
     <string name="hint_edt_note">注意</string>
@@ -18,4 +18,6 @@
     <string name="text_dialog_warning_internet">インターネット接続を確認してください！</string>
     <string name="title_dialog_warning_internet">インターネットに接続していないようです</string>
     <string name="text_btn_close">閉じる</string>
+    <string name="label_btn_Ok">同意する</string>
+    <string name="label_btn_Cancel">キャンセル</string>
 </resources>
