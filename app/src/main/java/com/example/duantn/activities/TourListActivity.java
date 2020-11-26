@@ -64,12 +64,11 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
 
     private ViewPager2 viewPager2;
-    private List<Tour> tourList = new ArrayList<>();
+    private List<Tour> tourList;
     private TourAdapter tourAdapter;
     private EditText edt_search;
     private ImageView btnSearch;
     private ImageView imgAvatar;
-    private String urlAvatar, name, id_user;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
 
@@ -89,7 +88,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               closeKeyboard();
+                closeKeyboard();
             }
         });
         imgAvatar.setOnClickListener(this);
@@ -112,20 +111,19 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             }
         });
         getIntent_bundle();
+        tourList = new ArrayList<>();
+        setAdapter();
+        setViewPager2();
         getRetrofit();
 
 
     }
 
     private void getIntent_bundle() {
-        Intent intent = getIntent();
-        urlAvatar = intent.getStringExtra("urlAvatar");
-        name = intent.getStringExtra("name");
-        id_user = intent.getStringExtra("user_id");
-        if (urlAvatar.equals("")) {
+        if (getUrlAvt().equals("")) {
             Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
         } else {
-            Glide.with(this).load(urlAvatar).transform(new RoundedCorners(80)).into(imgAvatar);
+            Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
         }
     }
 
@@ -139,23 +137,23 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         retrofitService.getTourList(getIdLanguage()).enqueue(new Callback<List<Tour>>() {
             @Override
             public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourList = response.body();
-                setAdapter();
-                setViewPager2();
+
+                if (response.body().size() != 0) {
+                    int currentSize = tourList.size();
+                    tourList.addAll(response.body());
+                    tourAdapter.notifyItemRangeInserted(currentSize, tourList.size() - 1);
+                }
+
+                dismissDialog();
             }
 
             @Override
             public void onFailure(Call<List<Tour>> call, Throwable t) {
                 Toast.makeText(TourListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                setAdapter();
-                setViewPager2();
             }
         });
 
     }
-
-
-
 
     private void setAdapter() {
         tourAdapter = new TourAdapter(tourList, edt_search, this, new TourAdapter.OnClickItemListener() {
@@ -169,9 +167,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     bundle.putString("avatar", tourList.get(position).getAvatar());
                     bundle.putInt("rating", 5);
                     bundle.putString("router", tourList.get(position).getRouter());
-                    intent.putExtra("urlAvatar", urlAvatar);
-                    intent.putExtra("name", name);
-                    intent.putExtra("user_id", id_user);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else showDialogNoInternet();
@@ -202,7 +197,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             }
         });
         viewPager2.setPageTransformer(compositePageTransformer);
-        dismissDialog();
     }
 
     @Override
@@ -214,7 +208,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     closeKeyboard();
                     break;
                 case R.id.imgAvatar:
-                    showDialogLogout(this, name);
+                    showDialogLogout(this, getFullName());
                     break;
 
             }
@@ -222,8 +216,9 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             showDialogNoInternet();
         }
     }
+
     private void search() {
-            tourAdapter.getFilter().filter(edt_search.getText().toString());
+        tourAdapter.getFilter().filter(edt_search.getText().toString());
     }
 
     @Override
@@ -231,6 +226,5 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         super.onBackPressed();
         finishAffinity();
     }
-
 }
 

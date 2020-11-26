@@ -110,6 +110,8 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
         getIntent_bundle();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         initDialogLoading();
         showDialogLoading();
         viewPager = findViewById(R.id.viewPager);
@@ -120,6 +122,10 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         addColor();
+
+        locationList = new ArrayList<>();
+        setAdapter();
+        setViewPager();
         getRetrofit();
 
     }
@@ -148,18 +154,20 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
         retrofitService.getTourInfor(getIdLanguage(),getIdTour()).enqueue(new Callback<List<TourInfor>>() {
             @Override
             public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
-                locationList = response.body();
-                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    OnGPS();
-                } else {
-                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-                    assert supportMapFragment != null;
-                    supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+                if(response.body().size()!=0){
+                    int currentSize = locationList.size();
+                    locationList.addAll(response.body());
+                    slideShowInformation.notifyItemRangeInserted(currentSize,locationList.size());
+                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        OnGPS();
+                    } else {
+                        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+                        assert supportMapFragment != null;
+                        supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+                    }
+                    getMapDirection(locationIndex, locationIndex + 1);
                 }
-                setAdapter();
-                setViewPager();
-                getMapDirection(locationIndex, locationIndex + 1);
+
             }
 
             @Override
@@ -481,14 +489,14 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
     private void addMarkerAllAndClick() {
         latLngs = new ArrayList<>();
         for (int i = 0; i < locationList.size(); i++) {
-            final LatLng position = new LatLng(Double.parseDouble(locationList.get(i).getLocation().getLat()), Double.parseDouble(locationList.get(i).getLocation().getLon()));
+            final LatLng latlng = new LatLng(Double.parseDouble(locationList.get(i).getLocation().getLat()), Double.parseDouble(locationList.get(i).getLocation().getLon()));
             MarkerOptions option = new MarkerOptions();
-            option.position(position);
+            option.position(latlng);
             option.title(locationList.get(i).getPlace());
             option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             final Marker maker = mGoogleMap.addMarker(option);
             maker.showInfoWindow();
-            latLngs.add(position);
+            latLngs.add(latlng);
         }
 
 
@@ -512,12 +520,12 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
                 super.onPageSelected(position);
                 if (itemIndex != 0) {
                     moveCamera = false;
-                    final LatLng position1 = new LatLng(Double.parseDouble(locationList.get(position).getLocation().getLat()), Double.parseDouble(locationList.get(position).getLocation().getLon()));
+                    final LatLng latlng = new LatLng(Double.parseDouble(locationList.get(position).getLocation().getLat()), Double.parseDouble(locationList.get(position).getLocation().getLon()));
                     MarkerOptions option = new MarkerOptions();
-                    option.position(position1);
+                    option.position(latlng);
                     option.title(locationList.get(position).getPlace());
                     option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
                     final Marker maker = mGoogleMap.addMarker(option);
                     maker.showInfoWindow();
                 }

@@ -57,10 +57,10 @@ public class SplashActivity extends BaseActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        setUrlAvt(urlAvatar);
+                        setFullName(name);
+                        setUserId(user_id);
                         Intent intent = new Intent(SplashActivity.this, TourListActivity.class);
-                        intent.putExtra("urlAvatar", urlAvatar);
-                        intent.putExtra("name", name);
-                        intent.putExtra("user_id", user_id);
                         startActivity(intent);
                         finish();
                     }

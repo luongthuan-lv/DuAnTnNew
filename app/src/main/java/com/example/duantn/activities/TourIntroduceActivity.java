@@ -29,7 +29,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private TextView tv_title_tour,tv_introduce;
     private CustomButton btn_start;
     private ImageView imgAvatar;
-    private String urlAvatar,name, user_id;
 
 
     @Override
@@ -57,18 +56,15 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            urlAvatar = intent.getStringExtra("urlAvatar");
-            name = intent.getStringExtra("name");
-            user_id = intent.getStringExtra("user_id");
-            if (urlAvatar.equals("")) {
+            if (getUrlAvt().equals("")) {
                 Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
             } else {
-                Glide.with(this).load(urlAvatar).transform(new RoundedCorners(80)).into(imgAvatar);
+                Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
             }
-            tour_name = intent.getStringExtra("tour_name");
-            avatar = intent.getStringExtra("avatar");
-            rating = intent.getIntExtra("rating",0);
-            router = intent.getStringExtra("router");
+            tour_name = bundle.getString("tour_name");
+            avatar = bundle.getString("avatar");
+            rating = bundle.getInt("rating",0);
+            router = bundle.getString("router");
 
         }
     }
@@ -95,7 +91,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                     createAlertDialog();
                     break;
                 case R.id.imgAvatar:
-                    showDialogLogout(this, name);
+                    showDialogLogout(this, getFullName());
             }
         } else {
             showDialogNoInternet();

@@ -71,7 +71,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView img_change_language;
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
-    private String urlAvatar, name, user_id;
 
 
     @Override
@@ -310,17 +309,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String personName = acct.getDisplayName();
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
-                name = personName;
-                urlAvatar = String.valueOf(personPhoto);
-                user_id = personId;
 
-                saveAccount(user_id, urlAvatar,name);
+                saveAccount(personId, String.valueOf(personPhoto),personName);
+                setUrlAvt(String.valueOf(personPhoto));
+                setFullName(personName);
+                setUserId(personId);
             }
-
             Intent intent = new Intent(this, TourListActivity.class);
-            intent.putExtra("urlAvatar", urlAvatar);
-            intent.putExtra("name", name);
-            intent.putExtra("user_id", user_id);
             startActivity(intent);
 
 
@@ -412,17 +407,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 String link = me.optString(getString(R.string.link));
                                 URL imageURL = extractFacebookIcon(id);
 
-                                urlAvatar = String.valueOf(imageURL);
-                                name = personName;
-                                user_id = id;
-
-                                saveAccount(user_id, urlAvatar,name);
+                                saveAccount(id, String.valueOf(imageURL),personName);
+                                setUrlAvt(String.valueOf(imageURL));
+                                setFullName(personName);
+                                setUserId(id);
 
                             }
                             Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
-                            intent.putExtra("urlAvatar", urlAvatar);
-                            intent.putExtra("name", name);
-                            intent.putExtra("user_id", user_id);
                             startActivity(intent);
                             dismissDialog();
                         }
