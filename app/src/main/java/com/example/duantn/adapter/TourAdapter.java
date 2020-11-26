@@ -24,23 +24,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> implements Filterable {
+public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder>  {
     private List<Tour> tourList;
     private Context context;
-    private List<Tour> tourList2;
-    private EditText edt_search;
 
     public interface OnClickItemListener {
         void onClicked(int position);
         void onSwitched(boolean isChecked);
     }
     private OnClickItemListener onClickItemListener;
-    public TourAdapter(List<Tour> tourList,EditText edt_search, Context context, OnClickItemListener onClickItemListener) {
+    public TourAdapter(List<Tour> tourList, Context context, OnClickItemListener onClickItemListener) {
         this.tourList = tourList;
         this.context = context;
         this.onClickItemListener = onClickItemListener;
-        this.tourList2 = new ArrayList<>(tourList);
-        this.edt_search=edt_search;
     }
 
     @NonNull
@@ -77,40 +73,6 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
         return tourList.size();
     }
 
-    private Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<Tour> tours = new ArrayList<>();
-            if (constraint == null || constraint.length() == 0) {
-                tours.addAll(tourList2);
-            } else {
-                    String fillterParent = constraint.toString().toLowerCase().trim();
-                    for (Tour item : tourList2) {
-                        if (item.getCateName().toLowerCase().contains(fillterParent)) {
-                            tours.add(item);
-                        }
-                }
-            }
-            FilterResults results = new FilterResults();
-            results.values = tours;
-            if(tours.size()==0){
-                createAlertDialog();
-            }
-            return results;
-        }
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            tourList.clear();
-            tourList.addAll((List) results.values);
-            notifyDataSetChanged();
-        }
-    };
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ShapeableImageView img_tour;
         private TextView tv_tour_title;
@@ -128,19 +90,5 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
         }
     }
 
-    private void createAlertDialog() {
-        AlertDialog.Builder b = new AlertDialog.Builder(context);
-        b.setTitle(context.getString(R.string.search_error));
-        b.setCancelable(false);
-        b.setPositiveButton(context.getString(R.string.label_btn_Yes), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                edt_search.getText().clear();
-                getFilter().filter("");
-            }
-        });
-        AlertDialog al = b.create();
-        al.show();
-        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.color_btn_alertDialog));
-    }
+
 }

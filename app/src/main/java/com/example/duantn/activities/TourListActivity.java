@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,11 +62,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TourListActivity extends BaseActivity implements View.OnClickListener {
+public class TourListActivity extends BaseActivity implements View.OnClickListener, Filterable {
 
 
     private ViewPager2 viewPager2;
     private List<Tour> tourList;
+    private List<Tour> tourList2;
     private TourAdapter tourAdapter;
     private EditText edt_search;
     private ImageView btnSearch;
@@ -142,6 +145,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     int currentSize = tourList.size();
                     tourList.addAll(response.body());
                     tourAdapter.notifyItemRangeInserted(currentSize, tourList.size() - 1);
+                    tourList2 = new ArrayList<>(tourList);
                 }
 
                 dismissDialog();
@@ -156,7 +160,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void setAdapter() {
-        tourAdapter = new TourAdapter(tourList, edt_search, this, new TourAdapter.OnClickItemListener() {
+        tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
                 if (isConnected(false)) {
@@ -218,13 +222,64 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void search() {
-        tourAdapter.getFilter().filter(edt_search.getText().toString());
+        getFilter().filter(edt_search.getText().toString());
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Tour> tours = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                tours.addAll(tourList2);
+            } else {
+                String fillterParent = constraint.toString().toLowerCase().trim();
+                for (Tour item : tourList2) {
+                    if (item.getCateName().toLowerCase().contains(fillterParent)) {
+                        tours.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = tours;
+            if(tours.size()==0){
+                createAlertDialog();
+            }
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            tourList.clear();
+            tourList.addAll((List) results.values);
+            tourAdapter.notifyDataSetChanged();
+        }
+    };
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+
+    private void createAlertDialog() {
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(getString(R.string.search_error));
+        b.setCancelable(false);
+        b.setPositiveButton(getString(R.string.label_btn_Yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                edt_search.getText().clear();
+                getFilter().filter("");
+            }
+        });
+        AlertDialog al = b.create();
+        al.show();
+        al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
     }
 }
 
