@@ -22,7 +22,7 @@ import java.util.List;
 public class TourIntroduceActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private String tour_id,tour_name,avatar,introduce;
+    private String tour_name,avatar,router;
     private int rating;
     private ShapeableImageView img_tour;
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
@@ -65,18 +65,16 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             } else {
                 Glide.with(this).load(urlAvatar).transform(new RoundedCorners(80)).into(imgAvatar);
             }
-
-            tour_id = intent.getStringExtra("tour_id");
             tour_name = intent.getStringExtra("tour_name");
             avatar = intent.getStringExtra("avatar");
             rating = intent.getIntExtra("rating",0);
-            introduce = intent.getStringExtra("introduce");
+            router = intent.getStringExtra("router");
 
         }
     }
 
     private void setView() {
-        Glide.with(this).load(avatar).into(img_tour);
+        Glide.with(this).load("https://webtourintro.herokuapp.com/"+avatar).into(img_tour);
         tv_title_tour.setText(tour_name);
         List<ImageView> imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
         for (int i = 0; i < imageViewList.size(); i++) {
@@ -86,7 +84,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             imageViewList.get(i).setImageResource(R.drawable.star);
         }
 
-        tv_introduce.setText(introduce);
+        tv_introduce.setText(router);
     }
 
     @Override
@@ -111,6 +109,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         b.setMessage(getResources().getString(R.string.content_alert));
         b.setPositiveButton(getResources().getString(R.string.label_btn_Yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
                 Intent intent = new Intent(TourIntroduceActivity.this,MainActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("enableAudio",true);
@@ -120,6 +119,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         });
         b.setNegativeButton(getResources().getString(R.string.label_btn_No), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
                 Intent intent = new Intent(TourIntroduceActivity.this,MainActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("enableAudio",false);

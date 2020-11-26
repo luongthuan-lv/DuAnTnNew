@@ -52,14 +52,14 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.tv_tour_title.setText(tourList.get(position).getTour_name());
-        Glide.with(context).load(tourList.get(position).getAvatar()).into(holder.img_tour);
+        holder.tv_tour_title.setText(tourList.get(position).getCateName());
+        Glide.with(context).load("https://webtourintro.herokuapp.com/"+tourList.get(position).getAvatar()).into(holder.img_tour);
 
        List<ImageView> imageViewList = Arrays.asList(new ImageView[]{holder.img_star1, holder.img_star2, holder.img_star3, holder.img_star4, holder.img_star5});
         for (int i=0;i<imageViewList.size();i++){
             imageViewList.get(i).setImageResource(R.drawable.star2);
         }
-       for (int i=0;i<tourList.get(position).getRating();i++){
+       for (int i=0;i<5;i++){
            imageViewList.get(i).setImageResource(R.drawable.star);
        }
 
@@ -86,7 +86,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> im
             } else {
                     String fillterParent = constraint.toString().toLowerCase().trim();
                     for (Tour item : tourList2) {
-                        if (item.getTour_name().toLowerCase().contains(fillterParent)) {
+                        if (item.getCateName().toLowerCase().contains(fillterParent)) {
                             tours.add(item);
                         }
                 }

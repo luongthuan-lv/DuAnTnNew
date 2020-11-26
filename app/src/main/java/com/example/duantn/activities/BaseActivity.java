@@ -39,6 +39,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private static String languageCode;
     private static String voiceName;
+    private static String idLanguage;
+    private static String idTour;
 
     public static String getLanguageCode() {
         return languageCode;
@@ -54,6 +56,22 @@ public class BaseActivity extends AppCompatActivity {
 
     public static void setVoiceName(String voiceName) {
         BaseActivity.voiceName = voiceName;
+    }
+
+    public static String getIdLanguage() {
+        return idLanguage;
+    }
+
+    public static void setIdLanguage(String idLanguage) {
+        BaseActivity.idLanguage = idLanguage;
+    }
+
+    public static String getIdTour() {
+        return idTour;
+    }
+
+    public static void setIdTour(String idTour) {
+        BaseActivity.idTour = idTour;
     }
 
     public void saveAccount(String id, String urlAvatar, String name){

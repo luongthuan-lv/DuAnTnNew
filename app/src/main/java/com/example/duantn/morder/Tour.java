@@ -1,26 +1,33 @@
+
 package com.example.duantn.morder;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Tour {
-    private String tour_id;
-    private String tour_name;
+
+    @SerializedName("_id")
+    @Expose
+    private String id;
+    @SerializedName("avatar")
+    @Expose
     private String avatar;
-    private int rating;
-    private String introduce;
+    @SerializedName("cate_name")
+    @Expose
+    private String cateName;
+    @SerializedName("router")
+    @Expose
+    private String router;
+    @SerializedName("lang_id")
+    @Expose
+    private String langId;
 
-    public String getTour_id() {
-        return tour_id;
+    public String getId() {
+        return id;
     }
 
-    public void setTour_id(String tour_id) {
-        this.tour_id = tour_id;
-    }
-
-    public String getTour_name() {
-        return tour_name;
-    }
-
-    public void setTour_name(String tour_name) {
-        this.tour_name = tour_name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAvatar() {
@@ -31,19 +38,28 @@ public class Tour {
         this.avatar = avatar;
     }
 
-    public int getRating() {
-        return rating;
+    public String getCateName() {
+        return cateName;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setCateName(String cateName) {
+        this.cateName = cateName;
     }
 
-    public String getIntroduce() {
-        return introduce;
+    public String getRouter() {
+        return router;
     }
 
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
+    public void setRouter(String router) {
+        this.router = router;
     }
+
+    public String getLangId() {
+        return langId;
+    }
+
+    public void setLangId(String langId) {
+        this.langId = langId;
+    }
+
 }

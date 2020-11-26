@@ -216,38 +216,47 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             img_change_language.setImageResource(R.drawable.vietnam);
             setLanguageCode("vi-VN");
             setVoiceName("vi-VN-Wavenet-C");
+            setIdLanguage("5fb6b5077dd56b4ca491373f");
         } else if (keyLanguageList.get(0).getValue().equals("ja")) {
             img_change_language.setImageResource(R.drawable.japan);
             setLanguageCode("ja-JP");
             setVoiceName("ja-JP-Wavenet-B");
+            setIdLanguage("5fb29e155fea350ad4f0073a");
         } else if (keyLanguageList.get(0).getValue().equals("zh")) {
             img_change_language.setImageResource(R.drawable.china);
             setLanguageCode("yue-HK");
             setVoiceName("yue-HK-Standard-C");
+            setIdLanguage("5fb29df35fea350ad4f00737");
         } else if (keyLanguageList.get(0).getValue().equals("ko")) {
             img_change_language.setImageResource(R.drawable.korea);
             setLanguageCode("ko-KR");
             setVoiceName("ko-KR-Wavenet-A");
+            setIdLanguage("5fb29de95fea350ad4f00736");
         } else if (keyLanguageList.get(0).getValue().equals("fr")) {
             img_change_language.setImageResource(R.drawable.france);
             setLanguageCode("fr-FR");
             setVoiceName("fr-FR-Standard-C");
+            setIdLanguage("5fb29dfd5fea350ad4f00738");
         } else if (keyLanguageList.get(0).getValue().equals("de")) {
             img_change_language.setImageResource(R.drawable.germany);
             setLanguageCode("de-DE");
             setVoiceName("de-DE-Standard-F");
+            setIdLanguage("5fb29e1d5fea350ad4f0073b");
         } else if (keyLanguageList.get(0).getValue().equals("in")) {
             img_change_language.setImageResource(R.drawable.indonesia);
             setLanguageCode("id-ID");
             setVoiceName("id-ID-Standard-A");
+            setIdLanguage("5fb29e0a5fea350ad4f00739");
         } else if (keyLanguageList.get(0).getValue().equals("ru")) {
             img_change_language.setImageResource(R.drawable.russia);
             setLanguageCode("ru-RU");
             setVoiceName("ru-RU-Standard-A");
+            setIdLanguage("5fb29e285fea350ad4f0073c");
         } else {
             img_change_language.setImageResource(R.drawable.american);
             setLanguageCode("en-GB");
             setVoiceName("en-GB-Standard-A");
+            setIdLanguage("5fb6b50f7dd56b4ca4913740");
         }
     }
 

@@ -14,6 +14,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -26,12 +27,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
+import com.example.duantn.morder.TourInfor;
+import com.example.duantn.network.RetrofitService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.example.duantn.view.CustomImageButton;
@@ -40,6 +44,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
@@ -48,11 +54,17 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class TourListActivity extends BaseActivity implements View.OnClickListener {
 
 
     private ViewPager2 viewPager2;
-    private List<Tour> tourList;
+    private List<Tour> tourList = new ArrayList<>();
     private TourAdapter tourAdapter;
     private EditText edt_search;
     private ImageView btnSearch;
@@ -61,35 +73,14 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
 
-    private String json = "[\n" +
-            "  {\n" +
-            "    \"tour_id\": \"135165415dsa45dsds\",\n" +
-            "    \"tour_name\": \"Ha Noi City Tour\",\n" +
-            "    \"avatar\": \"https://cdn.luatvietnam.vn/uploaded/Images/Original/2018/11/15/nhap-ho-khau-ha-noi_1511142628.jpeg\",\n" +
-            "    \"rating\": 4,\n" +
-            "    \"introduce\": \"Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố.\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"tour_id\": \"135165415dsa45dsds\",\n" +
-            "    \"tour_name\": \"Ha Long Tour\",\n" +
-            "    \"avatar\": \"https://image.plo.vn/Uploaded/2020/pcgpwivo/2020_05_15/kich-cau-du-lich-200515_umuu.jpg\",\n" +
-            "    \"rating\": 5,\n" +
-            "    \"introduce\": \"Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố.\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"tour_id\": \"135165415dsa45dsds\",\n" +
-            "    \"tour_name\": \"Ba Na Hill\",\n" +
-            "    \"avatar\": \"https://d2sx1calt21doo.cloudfront.net/xxt/experience/image/3-jpg-1080x720-FIT-fe1fe6a204f8ebd899d9b7406e5f779e.jpeg\",\n" +
-            "    \"rating\": 3,\n" +
-            "    \"introduce\": \"Đi qua các điểm danh lam thắng cảnh nổi tiếng của thành phố: Bảo tàng lịch sử quân đội Việt Nam - Hoàng thành Thăng Long - Đền Quán Thánh - Chùa Trấn Quốc - Lăng Chủ tịch Hồ Chí Minh - Văn Miếu - Nhà tù Hỏa Lò - Nhà thờ Lớn - Bảo tàng Phụ nữ Việt Nam và dừng chân tại điểm Nhà hát Lớn thành phố.\"\n" +
-            "  }\n" +
-            "]";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_list);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+        initDialogLoading();
+        showDialogLoading();
         viewPager2 = findViewById(R.id.viewPager2);
         edt_search = findViewById(R.id.edt_search);
         btnSearch = findViewById(R.id.btnSearch);
@@ -121,12 +112,8 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             }
         });
         getIntent_bundle();
-        Gson gson = new Gson();
-        tourList = new ArrayList<>();
-        tourList = gson.fromJson(json, new TypeToken<List<Tour>>() {
-        }.getType());
-        setAdapter();
-        setViewPager2();
+        getRetrofit();
+
 
     }
 
@@ -142,18 +129,46 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+    private void getRetrofit() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tourintro.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
+
+        retrofitService.getTourList(getIdLanguage()).enqueue(new Callback<List<Tour>>() {
+            @Override
+            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
+                tourList = response.body();
+                setAdapter();
+                setViewPager2();
+            }
+
+            @Override
+            public void onFailure(Call<List<Tour>> call, Throwable t) {
+                Toast.makeText(TourListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                setAdapter();
+                setViewPager2();
+            }
+        });
+
+    }
+
+
+
+
     private void setAdapter() {
         tourAdapter = new TourAdapter(tourList, edt_search, this, new TourAdapter.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
                 if (isConnected(false)) {
+                    setIdTour(tourList.get(position).getId());
                     Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("tour_id", tourList.get(position).getTour_id());
-                    bundle.putString("tour_name", tourList.get(position).getTour_name());
+                    bundle.putString("tour_name", tourList.get(position).getCateName());
                     bundle.putString("avatar", tourList.get(position).getAvatar());
-                    bundle.putInt("rating", tourList.get(position).getRating());
-                    bundle.putString("introduce", tourList.get(position).getIntroduce());
+                    bundle.putInt("rating", 5);
+                    bundle.putString("router", tourList.get(position).getRouter());
                     intent.putExtra("urlAvatar", urlAvatar);
                     intent.putExtra("name", name);
                     intent.putExtra("user_id", id_user);
@@ -187,6 +202,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             }
         });
         viewPager2.setPageTransformer(compositePageTransformer);
+        dismissDialog();
     }
 
     @Override

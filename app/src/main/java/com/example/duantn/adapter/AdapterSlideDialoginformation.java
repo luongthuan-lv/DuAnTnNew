@@ -8,20 +8,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.duantn.R;
-import com.example.duantn.morder.ClassShowInformation;
+import com.example.duantn.morder.TourInfor;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterSlideDialoginformation.ViewHolder>  {
-    private List<ClassShowInformation> locationList;
+    private List<String> avatars;
     private Context context;
 
 
-    public AdapterSlideDialoginformation(List<ClassShowInformation> locationList, Context context) {
-        this.locationList = locationList;
+    public AdapterSlideDialoginformation(List<String> avatars, Context context) {
+        this.avatars = avatars;
         this.context = context;
     }
 
@@ -34,7 +35,7 @@ public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterS
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSlideDialoginformation.ViewHolder holder, final int position) {
-            Picasso.with(context).load(locationList.get(position).getImageList().get(0)).into(holder.imgItemDialog);
+            Glide.with(context).load("https://webtourintro.herokuapp.com/"+avatars.get(position)).into(holder.imgItemDialog);
 
     }
 
@@ -46,7 +47,7 @@ public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterS
     @Override
     public int getItemCount() {
 
-        return locationList.size();
+        return avatars.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

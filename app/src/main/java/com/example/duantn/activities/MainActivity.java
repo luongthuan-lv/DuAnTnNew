@@ -30,7 +30,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,12 +40,12 @@ import android.widget.Toast;
 
 import com.example.duantn.MainContract;
 import com.example.duantn.MainPresenter;
+import com.example.duantn.morder.TourInfor;
 import com.example.duantn.network.RetrofitService;
 import com.example.duantn.R;
 import com.example.duantn.adapter.AdapterSlideDialoginformation;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
 import com.example.duantn.api_map_direction.Example;
-import com.example.duantn.morder.ClassShowInformation;
 import com.example.duantn.morder.Colors;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -62,8 +61,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +74,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends BaseActivity implements OnMapReadyCallback, MainContract.IView,View.OnClickListener {
+public class MainActivity extends BaseActivity implements  MainContract.IView,View.OnClickListener,OnMapReadyCallback {
     private int LOCATION_REQUEST_CODE = 10001;
     private GoogleMap mGoogleMap;
     private LocationManager locationManager;
@@ -98,62 +95,13 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
     private List<Colors> colorsList;
     private int colorIndex = 0;
     private PolylineOptions polylineOptions;
-    private ArrayList<ClassShowInformation> locationList = new ArrayList<>();
     private int mLocationIndex;
     private boolean moveCamera = true;
     private int itemIndex = 0;
     private boolean enableAudio;
-
-    private String json = "[\n" +
-            "  {\n" +
-            "    \"latitude\": 21.065123,\n" +
-            "    \"longitude\": 105.789853,\n" +
-            "    \"waypoints\": [\n" +
-            "      \n" +
-            "    ],\n" +
-            "    \"title\": \"Lăng Bác\",\n" +
-            "    \"content\": \"Lăng Bác là nơi lưu giữ thi hài của vị lãnh tụ kính yêu. Bên ngoài lăng là những hàng tre xanh bát ngát. Lăng chủ tích mở cửa vào sáng thứ 3,4,5,7 và chủ nhật. Khi vào viếng lăng Bác, bạn chú ý ăn mặc chỉnh tề, không đem theo các thiết bị điện tử ghi hành và giữ trật tự trong lăng.\",\n" +
-            "    \"imageList\": [\n" +
-            "      \"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg\",\n" +
-            "      \"https://www.bqllang.gov.vn/images/NAM_2019/THANG_1/31-1/22.jpg\",\n" +
-            "      \"https://dulichnamha.com/wp-content/uploads/2016/10/lang-bac-co-mo-cua-thu-7-chu-nhat-khong.jpg\",\n" +
-            "      \"https://nemtv.vn/wp-content/uploads/2019/02/hinh-anh-lang-bac-nemtv-07.jpg\"\n" +
-            "    ]\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"latitude\": 21.067292,\n" +
-            "    \"longitude\": 105.800575,\n" +
-            "    \"waypoints\": [\n" +
-            "      \n" +
-            "    ],\n" +
-            "    \"title\": \"Cột cờ Hà Nội\",\n" +
-            "    \"content\": \"Kỳ đài Hà Nội hay còn được nhiều biết tới hơn với tên gọi Cột cờ Hà Nội nằm trong khuôn viên của bảo tàng lịch sử quân sự Việt Nam. Được đánh giá là công trình nguyên vẹn và hoành tráng nhất trong quần thể di tích Hoàng thành Thăng Long, Cột Cờ chính là điểm tham quan du lịch ở Hà Nội mà du khách không thể bỏ qua trong hành trình khám phá lịch sử của đất Hà Thành.\",\n" +
-            "    \"imageList\": [\n" +
-            "      \"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_tower%2C_Hanoi.jpg/250px-Flag_tower%2C_Hanoi.jpg\",\n" +
-            "      \"https://laodongthudo.vn/stores/news_dataimages/quocdai/082019/30/17/4151_cYt_cY_HN.jpg\",\n" +
-            "      \"https://upload.wikimedia.org/wikipedia/vi/1/17/C%E1%BB%99t_c%E1%BB%9D_H%C3%A0_N%E1%BB%99i_x%C6%B0a.jpg\",\n" +
-            "      \"https://lh3.googleusercontent.com/proxy/GlpfWnSUxBhIrH1XVKYflWoReAlupUARUUxkaB_aYpsEWKaDJ59kBqZJ5zAw9c3F12m8fwWgpF8hiN86ugj_qJZ_c3Av-QI\"\n" +
-            "    ]\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"latitude\": 21.062686,\n" +
-            "    \"longitude\": 105.795092,\n" +
-            "    \"waypoints\": [\n" +
-            "      \n" +
-            "    ],\n" +
-            "    \"title\": \"Văn Miếu - Quốc Tử Giám\",\n" +
-            "    \"content\": \"Nếu kể tên các địa điểm du lịch Hà Nội bậc nhất xưa và nay có lẽ ai cũng sẽ nghĩ ngay đến Văn Miếu Quốc Tử Giám. Đây là một quần thể kiến trúc văn hoá hàng đầu và là niềm tự hào của người dân Thủ đô khi nhắc đến truyền thống ngàn năm văn hiến của Thăng Long – Đông Đô – Hà Nội.\",\n" +
-            "    \"imageList\": [\n" +
-            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
-            "      \"https://laodongthudo.vn/stores/news_dataimages/ngocthang/012020/30/13/2337_b1a29f49-f486-45b3-ae99-f8d661ff8cb6.jpg\",\n" +
-            "      \"https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/dai-trung-mon.jpg\",\n" +
-            "      \"https://i0.wp.com/maskonline.vn/wp-content/uploads/2018/05/vm_2_1.jpg?resize=640%2C412\"\n" +
-            "    ]\n" +
-            "  }\n" +
-            "]";
-
     private static final int TEXT_TO_SPEECH_CODE = 0x100;
     private MainContract.IPresenter mPresenter;
+    private static List<TourInfor> locationList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,14 +112,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         initDialogLoading();
         showDialogLoading();
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            OnGPS();
-        } else {
-            SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-            assert supportMapFragment != null;
-            supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
-        }
         viewPager = findViewById(R.id.viewPager);
         viewPager.getLayoutParams().height = getSizeWithScale(139);
         findViewById(R.id.btn_feedback).setOnClickListener(this);
@@ -179,15 +119,8 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         locationRequest.setInterval(50);
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        Gson gson = new Gson();
-        locationList = gson.fromJson(json, new TypeToken<List<ClassShowInformation>>() {
-        }.getType());
-
-        setAdapter();
-        setViewPager();
         addColor();
-        getRetrofit(locationIndex, locationIndex + 1);
-
+        getRetrofit();
 
     }
 
@@ -204,18 +137,48 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         }
     }
 
-    private void getRetrofit(int location1, int location2) {
+
+    private void getRetrofit() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tourintro.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
+
+        retrofitService.getTourInfor(getIdLanguage(),getIdTour()).enqueue(new Callback<List<TourInfor>>() {
+            @Override
+            public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
+                locationList = response.body();
+                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    OnGPS();
+                } else {
+                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+                    assert supportMapFragment != null;
+                    supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+                }
+                setAdapter();
+                setViewPager();
+                getMapDirection(locationIndex, locationIndex + 1);
+            }
+
+            @Override
+            public void onFailure(Call<List<TourInfor>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void getMapDirection(int location1, int location2) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://maps.googleapis.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
 
-        String waypoints = "";
-        for (int i = 0; i < locationList.get(locationIndex).getWaypoints().size(); i++) {
-            waypoints += locationList.get(locationIndex).getWaypoints().get(i) + "|";
-        }
-        retrofitService.getHttp(getLatLng(location1), getLatLng(location2), waypoints, api_key).enqueue(new Callback<Example>() {
+
+        retrofitService.getMapDirection(getLatLng(location1), getLatLng(location2), "", api_key).enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
 
@@ -235,10 +198,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
                 if (locationIndex < locationList.size() - 2) {
                     locationIndex++;
-                    getRetrofit(locationIndex, locationIndex + 1);
+                    getMapDirection(locationIndex, locationIndex + 1);
                 } else if (locationIndex == locationList.size() - 2) {
                     locationIndex++;
-                    getRetrofit(locationIndex, 0);
+                    getMapDirection(locationIndex, 0);
                 }
             }
 
@@ -289,7 +252,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
     private String getLatLng(int i) {
 
-        String latLng = locationList.get(i).getLatitude() + "," + locationList.get(i).getLongitude();
+        String latLng = Double.parseDouble(locationList.get(i).getLocation().getLat()) + "," + Double.parseDouble(locationList.get(i).getLocation().getLon());
 
         return latLng;
     }
@@ -382,7 +345,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
             public void onClickEnableAudio(int position) {
                 locationList.get(position).setAudio(true);
                 slideShowInformation.notifyItemChanged(position);
-                mPresenter.startSpeak(locationList.get(position).getContent());
+                mPresenter.startSpeak(locationList.get(position).getInformation());
             }
 
             @Override
@@ -483,10 +446,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         TextView tvContent = dialogView.findViewById(R.id.tvDialogContent);
         CardView cvDialog = dialogView.findViewById(R.id.cvDialog);
 
-        tvContent.setText(locationList.get(position).getContent());
+        tvContent.setText(locationList.get(position).getInformation());
         tvContent.setMovementMethod(new ScrollingMovementMethod());
         final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);
-        AdapterSlideDialoginformation adapterSlideDialoginformation = new AdapterSlideDialoginformation(locationList, this);
+        AdapterSlideDialoginformation adapterSlideDialoginformation = new AdapterSlideDialoginformation(locationList.get(position).getAvatar(), this);
         viewPager.setAdapter(adapterSlideDialoginformation);
 
         final Handler handler = new Handler();
@@ -518,10 +481,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
     private void addMarkerAllAndClick() {
         latLngs = new ArrayList<>();
         for (int i = 0; i < locationList.size(); i++) {
-            final LatLng position = new LatLng(locationList.get(i).getLatitude(), locationList.get(i).getLongitude());
+            final LatLng position = new LatLng(Double.parseDouble(locationList.get(i).getLocation().getLat()), Double.parseDouble(locationList.get(i).getLocation().getLon()));
             MarkerOptions option = new MarkerOptions();
             option.position(position);
-            option.title(locationList.get(i).getTitle());
+            option.title(locationList.get(i).getPlace());
             option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             final Marker maker = mGoogleMap.addMarker(option);
             maker.showInfoWindow();
@@ -549,10 +512,10 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
                 super.onPageSelected(position);
                 if (itemIndex != 0) {
                     moveCamera = false;
-                    final LatLng position1 = new LatLng(locationList.get(position).getLatitude(), locationList.get(position).getLongitude());
+                    final LatLng position1 = new LatLng(Double.parseDouble(locationList.get(position).getLocation().getLat()), Double.parseDouble(locationList.get(position).getLocation().getLon()));
                     MarkerOptions option = new MarkerOptions();
                     option.position(position1);
-                    option.title(locationList.get(position).getTitle());
+                    option.title(locationList.get(position).getPlace());
                     option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                     mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position1, 15));
                     final Marker maker = mGoogleMap.addMarker(option);
@@ -587,7 +550,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
         float[][] arr = new float[locationList.size()][10];
         for (int i = 0; i < arr.length; i++) {
-            Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), locationList.get(i).getLatitude(), locationList.get(i).getLongitude(), arr[i]);
+            Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), Double.parseDouble(locationList.get(i).getLocation().getLat()),  Double.parseDouble(locationList.get(i).getLocation().getLon()), arr[i]);
         }
         float min = arr[0][0];
         for (int i = 0; i < arr.length; i++) {
@@ -598,7 +561,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
         }
 
         float results[] = new float[10];
-        Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), locationList.get(mLocationIndex).getLatitude(), locationList.get(mLocationIndex).getLongitude(), results);
+        Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(),  Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLat()),  Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLon()), results);
         if (results[0] < 50 && locationList.get(mLocationIndex).isVisited() == false) {
             if (viewPager.getVisibility() == View.GONE) {
                 viewPager.setVisibility(View.VISIBLE);
@@ -614,7 +577,7 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
                 }
                 locationList.get(mLocationIndex).setAudio(true);
                 slideShowInformation.notifyItemChanged(mLocationIndex);
-                mPresenter.startSpeak(locationList.get(mLocationIndex).getContent());
+                mPresenter.startSpeak(locationList.get(mLocationIndex).getInformation());
             }
 
             locationList.get(mLocationIndex).setVisited(true);
@@ -635,13 +598,6 @@ public class MainActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
