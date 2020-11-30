@@ -95,6 +95,11 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             }
         });
         imgAvatar.setOnClickListener(this);
+        if (getUrlAvt().equals("null")) {
+            Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
+        } else {
+            Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
+        }
         findViewById(R.id.btnSearch).setOnClickListener(this);
         btnSearch.getLayoutParams().width = getSizeWithScale(45);
         btnSearch.getLayoutParams().height = getSizeWithScale(45);
@@ -113,21 +118,12 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 return false;
             }
         });
-        getIntent_bundle();
         tourList = new ArrayList<>();
         setAdapter();
         setViewPager2();
         getRetrofit();
 
 
-    }
-
-    private void getIntent_bundle() {
-        if (getUrlAvt().equals("")) {
-            Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
-        } else {
-            Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
-        }
     }
 
     private void getRetrofit() {

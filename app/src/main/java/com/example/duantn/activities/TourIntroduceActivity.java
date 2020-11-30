@@ -47,6 +47,11 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         btn_start.setOnClickListener(this);
         imgAvatar = findViewById(R.id.imgAvatar);
         imgAvatar.setOnClickListener(this);
+        if (getUrlAvt().equals("null")) {
+            Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
+        } else {
+            Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
+        }
         getIntent_bundle();
 
         setView();
@@ -56,11 +61,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            if (getUrlAvt().equals("")) {
-                Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
-            } else {
-                Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
-            }
             tour_name = bundle.getString("tour_name");
             avatar = bundle.getString("avatar");
             rating = bundle.getInt("rating",0);

@@ -314,6 +314,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 setUrlAvt(String.valueOf(personPhoto));
                 setFullName(personName);
                 setUserId(personId);
+                Log.e("TAG",personPhoto+"");
             }
             Intent intent = new Intent(this, TourListActivity.class);
             startActivity(intent);
@@ -411,6 +412,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 setUrlAvt(String.valueOf(imageURL));
                                 setFullName(personName);
                                 setUserId(id);
+                                Log.e("TAG",String.valueOf(imageURL));
 
                             }
                             Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
