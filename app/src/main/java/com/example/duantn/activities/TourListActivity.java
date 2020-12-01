@@ -138,9 +138,9 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 if (response.body().size() != 0) {
                     int currentSize = tourList.size();
                     tourList.addAll(response.body());
+                    tourList2 = new ArrayList<>(tourList);
                     tourAdapter.isShimmer = false;
                     tourAdapter.notifyDataSetChanged();
-                    tourList2 = new ArrayList<>(tourList);
                 }
 
             }
