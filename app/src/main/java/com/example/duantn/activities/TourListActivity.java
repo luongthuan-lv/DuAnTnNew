@@ -81,8 +81,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_tour_list);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-        initDialogLoading();
-        showDialogLoading();
         viewPager2 = findViewById(R.id.viewPager2);
         edt_search = findViewById(R.id.edt_search);
         btnSearch = findViewById(R.id.btnSearch);
@@ -140,11 +138,11 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 if (response.body().size() != 0) {
                     int currentSize = tourList.size();
                     tourList.addAll(response.body());
-                    tourAdapter.notifyItemRangeInserted(currentSize, tourList.size() - 1);
+                    tourAdapter.isShimmer = false;
+                    tourAdapter.notifyDataSetChanged();
                     tourList2 = new ArrayList<>(tourList);
                 }
 
-                dismissDialog();
             }
 
             @Override

@@ -17,4 +17,5 @@
     <color name="color_text_dialog_waring">#5C5F63</color>
     <color name="color_text_btn_warning">#2A7DE9</color>
     <color name="color_bg_btn_close_warning">#5C5F63</color>
+    <color name="colorShimmer">#E4E2E2</color>
 </resources>
