@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
 import com.example.duantn.R;
 import com.example.duantn.morder.Tour;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -64,6 +65,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder>  {
 
             holder.shimmerFrameLayout.stopShimmer();
             holder.shimmerFrameLayout.setShimmer(null);
+
         }
 
 

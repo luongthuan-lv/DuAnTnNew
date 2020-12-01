@@ -61,6 +61,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +76,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends BaseActivity implements  MainContract.IView,View.OnClickListener,OnMapReadyCallback {
+public class MainActivity extends BaseActivity implements MainContract.IView, View.OnClickListener, OnMapReadyCallback {
     private int LOCATION_REQUEST_CODE = 10001;
     private GoogleMap mGoogleMap;
     private LocationManager locationManager;
@@ -102,7 +104,7 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
     private static final int TEXT_TO_SPEECH_CODE = 0x100;
     private MainContract.IPresenter mPresenter;
     private static List<TourInfor> locationList = new ArrayList<>();
-
+    private boolean enableDialog = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +124,13 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         addColor();
-
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            OnGPS();
+        } else {
+            SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+            assert supportMapFragment != null;
+            supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+        }
         locationList = new ArrayList<>();
         setAdapter();
         setViewPager();
@@ -151,13 +159,13 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
 
-        retrofitService.getTourInfor(getIdLanguage(),getIdTour()).enqueue(new Callback<List<TourInfor>>() {
+        retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
             @Override
             public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
-                if(response.body().size()!=0){
+                if (response.body().size() != 0) {
                     int currentSize = locationList.size();
                     locationList.addAll(response.body());
-                    slideShowInformation.notifyItemRangeInserted(currentSize,locationList.size());
+                    slideShowInformation.notifyItemRangeInserted(currentSize, locationList.size());
                     if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                         OnGPS();
                     } else {
@@ -558,19 +566,22 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
 
         float[][] arr = new float[locationList.size()][10];
         for (int i = 0; i < arr.length; i++) {
-            Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), Double.parseDouble(locationList.get(i).getLocation().getLat()),  Double.parseDouble(locationList.get(i).getLocation().getLon()), arr[i]);
+            Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), Double.parseDouble(locationList.get(i).getLocation().getLat()), Double.parseDouble(locationList.get(i).getLocation().getLon()), arr[i]);
         }
-        float min = arr[0][0];
+            float min = arr[0][0];
         for (int i = 0; i < arr.length; i++) {
             if (arr[i][0] < min) {
                 min = arr[i][0];
                 mLocationIndex = i;
             }
+            if(min == arr[0][0]){
+                mLocationIndex=0;
+            }
         }
 
         float results[] = new float[10];
-        Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(),  Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLat()),  Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLon()), results);
-        if (results[0] < 50 && locationList.get(mLocationIndex).isVisited() == false) {
+        Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLat()), Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLon()), results);
+        if (results[0] < 500 && locationList.get(mLocationIndex).isVisited() == false) {
             if (viewPager.getVisibility() == View.GONE) {
                 viewPager.setVisibility(View.VISIBLE);
             }
@@ -589,6 +600,12 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
             }
 
             locationList.get(mLocationIndex).setVisited(true);
+        }
+        if (enableDialog == false && mLocationIndex == locationList.size() - 1) {
+            if (results[0] > 1000 && locationList.get(mLocationIndex).isVisited() == true) {
+                createDialogRating();
+                enableDialog = true;
+            }
         }
     }
 
@@ -625,7 +642,7 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
     protected void onStop() {
         super.onStop();
         stopLocationUpdate();
-        if(enableAudio){
+        if (enableAudio) {
             mPresenter.pauseSpeak();
         }
     }
@@ -633,7 +650,7 @@ public class MainActivity extends BaseActivity implements  MainContract.IView,Vi
     @Override
     protected void onRestart() {
         super.onRestart();
-        if(enableAudio){
+        if (enableAudio) {
             mPresenter.resumeSpeak();
         }
     }
