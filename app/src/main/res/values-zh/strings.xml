@@ -8,7 +8,6 @@
     <string name="content_alert">我们将公布您将要经历的所有历史信息，希望您会有更好的体验。</string>
     <string name="label_btn_Yes">是</string>
     <string name="label_btn_No">没有</string>
-    <string name="search_error">找不到您输入的旅行，请再次搜索！</string>
     <string name="hint_edtSearch">搜索...</string>
     <string name="hint_edt_note">注意</string>
     <string name="label_btn_Submit">提交</string>

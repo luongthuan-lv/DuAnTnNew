@@ -17,6 +17,7 @@
             android:paddingTop="@dimen/padding_img_tour">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:transitionName="transition1"
                 android:id="@+id/img_tour"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

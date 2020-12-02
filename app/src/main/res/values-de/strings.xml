@@ -8,7 +8,6 @@
     <string name="content_alert">Wir werden alle historischen Informationen bekannt geben, die Sie durchgehen werden, in der Hoffnung, dass Sie eine bessere Erfahrung machen werden.</string>
     <string name="label_btn_Yes">Ja</string>
     <string name="label_btn_No">Nein</string>
-    <string name="search_error">Die eingegebene Reise kann nicht gefunden werden. Bitte suchen Sie erneut!</string>
     <string name="hint_edtSearch">Suche...</string>
     <string name="hint_edt_note">Hinweis</string>
     <string name="label_btn_Submit">Einreichen</string>

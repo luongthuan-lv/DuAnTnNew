@@ -8,7 +8,6 @@
     <string name="content_alert">Kami akan mengumumkan semua informasi sejarah yang akan Anda lalui, berharap Anda akan mendapatkan pengalaman yang lebih baik.</string>
     <string name="label_btn_Yes">Iya</string>
     <string name="label_btn_No">Tidak</string>
-    <string name="search_error">Tidak dapat menemukan perjalanan yang Anda masukkan, harap cari lagi!</string>
     <string name="hint_edtSearch">Cari...</string>
     <string name="hint_edt_note">Catatan</string>
     <string name="label_btn_Submit">Kirimkan</string>

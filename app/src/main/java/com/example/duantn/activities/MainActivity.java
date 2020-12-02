@@ -105,6 +105,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private MainContract.IPresenter mPresenter;
     private static List<TourInfor> locationList = new ArrayList<>();
     private boolean enableDialog = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,13 +125,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         addColor();
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            OnGPS();
-        } else {
-            SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-            assert supportMapFragment != null;
-            supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
-        }
         locationList = new ArrayList<>();
         setAdapter();
         setViewPager();
@@ -568,14 +562,14 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         for (int i = 0; i < arr.length; i++) {
             Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), Double.parseDouble(locationList.get(i).getLocation().getLat()), Double.parseDouble(locationList.get(i).getLocation().getLon()), arr[i]);
         }
-            float min = arr[0][0];
+        float min = arr[0][0];
         for (int i = 0; i < arr.length; i++) {
             if (arr[i][0] < min) {
                 min = arr[i][0];
                 mLocationIndex = i;
             }
-            if(min == arr[0][0]){
-                mLocationIndex=0;
+            if (min == arr[0][0]) {
+                mLocationIndex = 0;
             }
         }
 

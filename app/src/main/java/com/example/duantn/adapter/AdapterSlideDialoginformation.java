@@ -52,8 +52,6 @@ public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterS
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ShapeableImageView imgItemDialog;
-
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgItemDialog = itemView.findViewById(R.id.imgsInformation);

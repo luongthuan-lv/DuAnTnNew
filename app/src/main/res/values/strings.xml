@@ -27,12 +27,12 @@
     <string name="fields" translatable="false">fields</string>
     <string name="fields_name" translatable="false">id,name,link,email</string>
     <string name="data" translatable="false">data</string>
-    <string name="facebook_app_id" translatable="false">383267972718761</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>
+<!--    <string name="facebook_app_id" translatable="false">383267972718761</string>-->
+<!--    <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>-->
 
 <!--    id cua ducanh-->
-<!--    <string name="facebook_app_id" translatable="false">332122717968078</string>-->
-<!--    <string name="fb_login_protocol_scheme" translatable="false">fb332122717968078</string>-->
+    <string name="facebook_app_id" translatable="false">332122717968078</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb332122717968078</string>
 
 
     // can dich
@@ -43,7 +43,6 @@
     <string name="content_alert">We will announce all the historical information that you will go through, hoping you will have a better experience.</string>
     <string name="label_btn_Yes">Yes</string>
     <string name="label_btn_No">No</string>
-    <string name="search_error">Cannot find the travel you entered, please search again!</string>
     <string name="hint_edtSearch">Search...</string>
     <string name="hint_edt_note">Note</string>
     <string name="label_btn_Submit">Submit</string>
@@ -55,4 +54,7 @@
     <string name="text_btn_close">Close</string>
     <string name="label_btn_Ok">Ok</string>
     <string name="label_btn_Cancel">Cancel</string>
+    <string name="tv_titleDetail">Detail</string>
+    <string name="tv_titleComment">Comment</string>
+    <string name="tv_titleTravelRoute">Travel route</string>
 </resources>

@@ -8,7 +8,6 @@
     <string name="content_alert">Мы объявим всю историческую информацию, которую вы пройдете, в надежде, что вы получите лучший опыт.</string>
     <string name="label_btn_Yes">да</string>
     <string name="label_btn_No">Нет</string>
-    <string name="search_error">Не можете найти указанную поездку, повторите поиск!</string>
     <string name="hint_edtSearch">Поиск...</string>
     <string name="hint_edt_note">Заметка</string>
     <string name="label_btn_Submit">представить</string>

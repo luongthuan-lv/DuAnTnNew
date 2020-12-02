@@ -55,4 +55,6 @@
     <dimen name="textSize_title_warning">17sp</dimen>
     <dimen name="width_height_ic_warning">25dp</dimen>
     <dimen name="textSize_text_warning">15sp</dimen>
+    <dimen name="textSize_title_tour_introduce">16sp</dimen>
+    <dimen name="textSize_content_tour_introduce">12sp</dimen>
 </resources>

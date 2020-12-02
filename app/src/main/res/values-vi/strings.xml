@@ -8,7 +8,6 @@
     <string name="content_alert">Chúng tôi sẽ thông báo toàn bộ thông tin địa điểm,lịch sử mà quý khách sẽ đi qua, hi vọng quý khách sẽ có một trải nghiệm tốt hơn.</string>
     <string name="label_btn_Yes">Đồng ý</string>
     <string name="label_btn_No">Không</string>
-    <string name="search_error">Không thể tìm thấy chuyến đi bạn đã nhập, vui lòng tìm kiếm lại!</string>
     <string name="hint_edtSearch">Tìm kiếm..</string>
     <string name="hint_edt_note">Ghi chú</string>
     <string name="label_btn_Submit">Gửi</string>

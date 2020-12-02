@@ -8,7 +8,6 @@
     <string name="content_alert">Nous annoncerons toutes les informations historiques que vous passerez en revue, en espérant que vous aurez une meilleure expérience.</string>
     <string name="label_btn_Yes">Oui</string>
     <string name="label_btn_No">Non</string>
-    <string name="search_error">Impossible de trouver le voyage que vous avez entré, veuillez rechercher à nouveau</string>
     <string name="hint_edtSearch">Chercher...</string>
     <string name="hint_edt_note">Remarque</string>
     <string name="label_btn_Submit">Soumettre</string>

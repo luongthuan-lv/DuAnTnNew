@@ -18,4 +18,6 @@
     <color name="color_text_btn_warning">#2A7DE9</color>
     <color name="color_bg_btn_close_warning">#5C5F63</color>
     <color name="colorShimmer">#E4E2E2</color>
+    <color name="textColor_detail">#096894</color>
+    <color name="bg_line">#d5c9c9</color>
 </resources>
