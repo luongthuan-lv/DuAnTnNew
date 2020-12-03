@@ -38,7 +38,7 @@
     <dimen name="textSize_title_rating">17sp</dimen>
     <dimen name="paddingH_title_rating">30dp</dimen>
     <dimen name="width_height_logo_bus">120dp</dimen>
-    <dimen name="img_start_rating">60dp</dimen>
+    <dimen name="img_start_rating">40dp</dimen>
     <dimen name="marginTop_edt_note">20dp</dimen>
     <dimen name="marginH_edt_note">5dp</dimen>
     <dimen name="marginV_edit_note">10dp</dimen>

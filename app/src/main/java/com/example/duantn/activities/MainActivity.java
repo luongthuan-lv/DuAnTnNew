@@ -46,6 +46,7 @@ import com.example.duantn.adapter.AdapterSlideDialoginformation;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
 import com.example.duantn.api_map_direction.Example;
 import com.example.duantn.morder.Colors;
+import com.example.duantn.view.CustomImageButton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -81,7 +82,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
     private ArrayList<LatLng> latLngs;
-    private ViewPager2 viewPager;
+    private ViewPager2 viewPager2;
     private AdapterSlideShowInformation slideShowInformation;
     private List<ImageView> imageViewList;
     private int rating;
@@ -100,7 +101,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private boolean enableAudio;
     private static final int TEXT_TO_SPEECH_CODE = 0x100;
     private MainContract.IPresenter mPresenter;
-    private  List<TourInfor> locationList=  TourIntroduceActivity.locationList;
+    private List<TourInfor> locationList;
     private boolean enableDialog = false;
 
     @Override
@@ -110,32 +111,27 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         initDialogLoading();
         showDialogLoading();
         getIntentExtras();
+        initView();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            OnGPS();
-        } else {
-            SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-            assert supportMapFragment != null;
-            supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
-        }
-        viewPager = findViewById(R.id.viewPager);
-        viewPager.getLayoutParams().height = getSizeWithScale(139);
-        findViewById(R.id.btn_feedback).setOnClickListener(this);
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(50);
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        addColor();
-//        locationList = new ArrayList<>();
-
-        getMapDirection(locationIndex, locationIndex + 1);
         setAdapter();
         setViewPager();
+        getRetrofit();
 
     }
 
+    private void initView(){
+        findViewById(R.id.btn_feedback).setOnClickListener(this);
+        viewPager2 = findViewById(R.id.viewPager2);
+        viewPager2.getLayoutParams().height = getSizeWithScale(139);
+        addColor();
+        findViewById(R.id.btnPre).setOnClickListener(this);
+    }
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
@@ -158,10 +154,10 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             @Override
             public void onMapClick(LatLng latLng) {
                 moveCamera = false;
-                if (viewPager.getVisibility() == View.VISIBLE) {
-                    viewPager.setVisibility(View.GONE);
+                if (viewPager2.getVisibility() == View.VISIBLE) {
+                    viewPager2.setVisibility(View.GONE);
                 } else {
-                    viewPager.setVisibility(View.VISIBLE);
+                    viewPager2.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -182,7 +178,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         });
     }
 
-
     private void getIntentExtras() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -196,40 +191,39 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         }
     }
 
+    private void getRetrofit() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tourintro.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
 
-//    private void getRetrofit() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("https://tourintro.herokuapp.com/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-//
-//        retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
-//            @Override
-//            public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
-//                if (response.body().size() != 0) {
-//                    int currentSize = locationList.size();
-//                    locationList.addAll(response.body());
-//                    slideShowInformation.notifyItemRangeInserted(currentSize, locationList.size());
-//                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//                        OnGPS();
-//                    } else {
-//                        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-//                        assert supportMapFragment != null;
-//                        supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
-//                    }
-//                    getMapDirection(locationIndex, locationIndex + 1);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<TourInfor>> call, Throwable t) {
-//                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//    }
+        retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
+            @Override
+            public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
+                if (response.body().size() != 0) {
+                    int currentSize = locationList.size();
+                    locationList.addAll(response.body());
+                    slideShowInformation.notifyItemRangeInserted(currentSize, locationList.size());
+                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        OnGPS();
+                    } else {
+                        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+                        assert supportMapFragment != null;
+                        supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+                    }
+                    getMapDirection(locationIndex, locationIndex + 1);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<TourInfor>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     private void getMapDirection(int location1, int location2) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -263,7 +257,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                     getMapDirection(locationIndex, 0);
                 }
             }
-
             @Override
             public void onFailure(Call<Example> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -312,6 +305,89 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private String getLatLng(int i) {
         String latLng = Double.parseDouble(locationList.get(i).getLocation().getLat()) + "," + Double.parseDouble(locationList.get(i).getLocation().getLon());
         return latLng;
+    }
+
+
+    private void sendFeedback(EditText edt) {
+        contentFeedback = edt.getText().toString().trim();
+        showToast(contentFeedback + "\n" + rating + " sao");
+    }
+
+    private void addColor() {
+        colorsList = new ArrayList<>();
+        colorsList.add(new Colors(Color.GRAY));
+        colorsList.add(new Colors(Color.RED));
+        colorsList.add(new Colors(Color.GREEN));
+        colorsList.add(new Colors(Color.BLUE));
+        colorsList.add(new Colors(Color.YELLOW));
+        colorsList.add(new Colors(Color.CYAN));
+        colorsList.add(new Colors(Color.MAGENTA));
+    }
+
+    private void setAdapter() {
+        locationList = new ArrayList<>();
+        slideShowInformation = new AdapterSlideShowInformation(locationList, enableAudio, this, new AdapterSlideShowInformation.OnClickItemListener() {
+            @Override
+            public void onClicked(int position) {
+                if (isConnected(false)) {
+                    showCustomDialog(position);
+                } else showDialogNoInternet();
+            }
+
+            @Override
+            public void onSwitched(boolean isChecked) {
+
+            }
+
+            @Override
+            public void onClickEnableAudio(int position) {
+                locationList.get(position).setAudio(true);
+                slideShowInformation.notifyItemChanged(position);
+                mPresenter.startSpeak(locationList.get(position).getInformation());
+            }
+
+            @Override
+            public void onClickDisableAudio(int position) {
+                locationList.get(position).setAudio(false);
+                slideShowInformation.notifyItemChanged(position);
+                mPresenter.stopSpeak();
+            }
+        });
+    }
+
+    private void setViewPager() {
+        viewPager2.setAdapter(slideShowInformation);
+        viewPager2.setClipToPadding(false);
+        viewPager2.setClipChildren(false);
+        viewPager2.setOffscreenPageLimit(3);
+        viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+        compositePageTransformer.addTransformer(new MarginPageTransformer(50));
+        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                float r = 1 - Math.abs(position);
+                page.setScaleY(0.80f + r * 0.2f);
+            }
+        });
+        viewPager2.setPageTransformer(compositePageTransformer);
+    }
+
+    private void OnGPS() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void createDialogRating() {
@@ -367,99 +443,16 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         dialog.show();
 
     }
-
-    private void sendFeedback(EditText edt) {
-        contentFeedback = edt.getText().toString().trim();
-        showToast(contentFeedback + "\n" + rating + " sao");
-    }
-
-    private void addColor() {
-        colorsList = new ArrayList<>();
-        colorsList.add(new Colors(Color.GRAY));
-        colorsList.add(new Colors(Color.RED));
-        colorsList.add(new Colors(Color.GREEN));
-        colorsList.add(new Colors(Color.BLUE));
-        colorsList.add(new Colors(Color.YELLOW));
-        colorsList.add(new Colors(Color.CYAN));
-        colorsList.add(new Colors(Color.MAGENTA));
-    }
-
-    private void setAdapter() {
-        slideShowInformation = new AdapterSlideShowInformation(locationList, enableAudio, this, new AdapterSlideShowInformation.OnClickItemListener() {
-            @Override
-            public void onClicked(int position) {
-                if (isConnected(false)) {
-                    showCustomDialog(position);
-                } else showDialogNoInternet();
-            }
-
-            @Override
-            public void onSwitched(boolean isChecked) {
-
-            }
-
-            @Override
-            public void onClickEnableAudio(int position) {
-                locationList.get(position).setAudio(true);
-                slideShowInformation.notifyItemChanged(position);
-                mPresenter.startSpeak(locationList.get(position).getInformation());
-            }
-
-            @Override
-            public void onClickDisableAudio(int position) {
-                locationList.get(position).setAudio(false);
-                slideShowInformation.notifyItemChanged(position);
-                mPresenter.stopSpeak();
-            }
-        });
-    }
-
-    private void setViewPager() {
-        viewPager.setAdapter(slideShowInformation);
-        viewPager.setClipToPadding(false);
-        viewPager.setClipChildren(false);
-        viewPager.setOffscreenPageLimit(3);
-
-        viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(50));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.80f + r * 0.2f);
-            }
-        });
-        viewPager.setPageTransformer(compositePageTransformer);
-
-
-    }
-
-    private void OnGPS() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
     private void showCustomDialog(int position) {
         ViewGroup viewGroup = findViewById(android.R.id.content);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_show_information, viewGroup, false);
         TextView tvContent = dialogView.findViewById(R.id.tvDialogContent);
+        TextView tvTitle = dialogView.findViewById(R.id.tv_Title);
         CardView cvDialog = dialogView.findViewById(R.id.cvDialog);
 
         tvContent.setText(locationList.get(position).getInformation());
         tvContent.setMovementMethod(new ScrollingMovementMethod());
+        tvTitle.setText(locationList.get(position).getPlace());
         final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);
         AdapterSlideDialoginformation adapterSlideDialoginformation = new AdapterSlideDialoginformation(locationList.get(position).getAvatar(), this);
         viewPager.setAdapter(adapterSlideDialoginformation);
@@ -468,7 +461,12 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         final Runnable Update = new Runnable() {
             public void run() {
                 currentPage = viewPager.getCurrentItem() + 1;
-                viewPager.setCurrentItem(currentPage, true);
+                if(currentPage ==locationList.get(position).getAvatar().size()){
+                    currentPage=0;
+                    viewPager.setCurrentItem(currentPage, true);
+                }else {
+                    viewPager.setCurrentItem(currentPage, true);
+                }
             }
         };
         timer = new Timer();
@@ -482,9 +480,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
         Dialog dialog = new Dialog(this, R.style.dialogNotice);
         cvDialog.getLayoutParams().width = getSizeWithScale(340);
-        cvDialog.getLayoutParams().height = getSizeWithScale(519);
-        tvContent.getLayoutParams().width = getSizeWithScale(331);
-        tvContent.getLayoutParams().height = getSizeWithScale(261);
+        cvDialog.getLayoutParams().height = getSizeWithScale(600);
         dialog.setContentView(dialogView);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
@@ -508,10 +504,10 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             @Override
             public boolean onMarkerClick(Marker marker) {
                 moveCamera = false;
-                viewPager.setVisibility(View.VISIBLE);
+                viewPager2.setVisibility(View.VISIBLE);
                 String indexMarker = String.valueOf(marker.getId().charAt(1));
                 int positionMarker = Integer.parseInt(indexMarker);
-                viewPager.setCurrentItem(positionMarker);
+                viewPager2.setCurrentItem(positionMarker);
                 return false;
             }
         });
@@ -536,7 +532,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 itemIndex = 1;
             }
         };
-        viewPager.registerOnPageChangeCallback(pageChangeCallback);
+        viewPager2.registerOnPageChangeCallback(pageChangeCallback);
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -577,10 +573,10 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         float results[] = new float[10];
         Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLat()), Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLon()), results);
         if (results[0] < 500 && locationList.get(mLocationIndex).isVisited() == false) {
-            if (viewPager.getVisibility() == View.GONE) {
-                viewPager.setVisibility(View.VISIBLE);
+            if (viewPager2.getVisibility() == View.GONE) {
+                viewPager2.setVisibility(View.VISIBLE);
             }
-            viewPager.setCurrentItem(mLocationIndex);
+            viewPager2.setCurrentItem(mLocationIndex);
 
             if (enableAudio) {
                 for (int i = 0; i < locationList.size(); i++) {
@@ -703,6 +699,9 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             switch (v.getId()) {
                 case R.id.btn_feedback:
                     createDialogRating();
+                    break;
+                case R.id.btnPre:
+                    onBackPressed();
                     break;
             }
         } else {

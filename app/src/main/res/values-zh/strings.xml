@@ -9,7 +9,7 @@
     <string name="label_btn_Yes">是</string>
     <string name="label_btn_No">没有</string>
     <string name="hint_edtSearch">搜索...</string>
-    <string name="hint_edt_note">注意</string>
+    <string name="hint_edt_comment">评论</string>
     <string name="label_btn_Submit">提交</string>
     <string name="title_dialog_rating">为了提高我们的服务质量，请告诉我们您的经验。</string>
     <string name="lblSeeMore">查看更多</string>
@@ -19,4 +19,5 @@
     <string name="text_btn_close">关</string>
     <string name="label_btn_Ok">好</string>
     <string name="label_btn_Cancel">取消</string>
+    <string name="tv_titleTravelRoute">行程时间表</string>
 </resources>

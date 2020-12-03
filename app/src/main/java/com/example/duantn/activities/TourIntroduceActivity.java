@@ -3,15 +3,19 @@ package com.example.duantn.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +26,7 @@ import com.example.duantn.adapter.ShowLocationInformation;
 import com.example.duantn.morder.Feedback;
 import com.example.duantn.morder.TourInfor;
 import com.example.duantn.network.RetrofitService;
+import com.example.duantn.network.Url;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
@@ -42,7 +47,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private int rating,ratingFeedback;
     private ImageView img_tour;
     private TextView textViewRoute;
-    private ImageView imgAvatar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ShowLocationInformation showLocationInformation;
     private RecyclerView rv1, rv2;
@@ -57,8 +61,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_introduce);
-        initDialogLoading();
-        showDialogLoading();
         getIntentExtras();
         initView();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -85,12 +87,11 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
     private void initView() {
         img_tour = findViewById(R.id.img_tour);
-        Glide.with(this).load("https://webtourintro.herokuapp.com/" + avatar).into(img_tour);
+        Glide.with(this).load(Url.urlImage + avatar).into(img_tour);
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(tour_name);
         textViewRoute = findViewById(R.id.textViewRoute);
         textViewRoute.setText(route);
-        findViewById(R.id.btn_start).setOnClickListener(this);
 
         img_star1 = findViewById(R.id.img_star1);
         img_star2 = findViewById(R.id.img_star2);
@@ -112,8 +113,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         imgf_star5 = findViewById(R.id.imgf_star5);
 
         List<ImageView> imageViewList2 = Arrays.asList(new ImageView[]{imgf_star1, imgf_star2, imgf_star3, imgf_star4, imgf_star5});
-        imageViewList2.get(0).setImageResource(R.drawable.selected_star);
-        for (int i = 1; i < imageViewList2.size(); i++) {
+        for (int i = 0; i < imageViewList2.size(); i++) {
             imageViewList2.get(i).setImageResource(R.drawable.no_selected_star);
         }
         for (int i = 0; i < imageViewList2.size(); i++) {
@@ -139,8 +139,13 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         locationList = new ArrayList<>();
         showLocationInformation = new ShowLocationInformation(locationList, this, new ShowLocationInformation.OnClickItemListener() {
             @Override
-            public void onClicked(int position) {
-
+            public void onClicked(int position, ImageView imageView) {
+                Intent intent = new Intent(TourIntroduceActivity.this,LocationDeitailActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(TourIntroduceActivity.this,imageView, ViewCompat.getTransitionName(imageView));
+                Bundle bundle = new Bundle();
+                bundle.putInt("position",position);
+                intent.putExtras(bundle);
+                startActivity(intent,options.toBundle());
             }
 
             @Override
@@ -178,12 +183,13 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
             @Override
             public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
-                if (response.body().size() != 0) {
-                    int currentSize = locationList.size();
+                if (response.body().size() > 0) {
                     locationList.addAll(response.body());
-                    showLocationInformation.notifyItemRangeInserted(currentSize, locationList.size());
+                    showLocationInformation.isShimmer=false;
+                    showLocationInformation.notifyDataSetChanged();
+
                     rv2.setAdapter(feedbackAdapter);
-                    dismissDialog();
+                    findViewById(R.id.btn_start).setOnClickListener(TourIntroduceActivity.this::onClick);
                 }
 
             }

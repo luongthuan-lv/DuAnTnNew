@@ -1,6 +1,7 @@
 package com.example.duantn.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.example.duantn.R;
 
 import com.example.duantn.morder.TourInfor;
+import com.example.duantn.network.Url;
+import com.example.duantn.view.CustomImageButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
@@ -24,13 +27,10 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
     private boolean enableAudio;
     public interface OnClickItemListener {
         void onClicked(int position);
-
         void onSwitched(boolean isChecked);
-
         void onClickEnableAudio(int position);
         void onClickDisableAudio(int position);
     }
-
     private OnClickItemListener onClickItemListener;
 
     public AdapterSlideShowInformation(List<TourInfor> locationList,boolean enableAudio, Context context, OnClickItemListener onClickItemListener) {
@@ -51,7 +51,7 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
     public void onBindViewHolder(@NonNull AdapterSlideShowInformation.ViewHolder holder, final int position) {
         holder.tvInformation.setText(locationList.get(position).getInformation());
         holder.tvTitle.setText(locationList.get(position).getPlace());
-        Glide.with(context).load("https://webtourintro.herokuapp.com/"+locationList.get(position).getAvatar().get(0)).into(holder.imgFirstly);
+        Glide.with(context).load(Url.urlImage+locationList.get(position).getAvatar().get(0)).into(holder.imgFirstly);
 
         if(enableAudio){
             holder.btn_audio.setVisibility(View.VISIBLE);

@@ -39,7 +39,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TourListActivity extends BaseActivity implements View.OnClickListener, Filterable,SearchView.OnQueryTextListener {
+public class TourListActivity extends BaseActivity implements View.OnClickListener, Filterable, SearchView.OnQueryTextListener {
 
 
     private ViewPager2 viewPager2;
@@ -66,14 +66,10 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    private void initView(){
+    private void initView() {
         imgAvatar = findViewById(R.id.imgAvatar);
         imgAvatar.setOnClickListener(this);
-        if (getUrlAvt().equals("")) {
-            Glide.with(this).load(R.drawable.img_avatar).transform(new RoundedCorners(80)).into(imgAvatar);
-        } else {
-            Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
-        }
+        Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
         searchView = findViewById(R.id.searchView);
         searchView.getLayoutParams().width = getSizeWithScale(245);
         searchView.getLayoutParams().height = getSizeWithScale(40);
@@ -97,6 +93,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     tourAdapter.notifyDataSetChanged();
                 }
             }
+
             @Override
             public void onFailure(Call<List<Tour>> call, Throwable t) {
                 Toast.makeText(TourListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -112,14 +109,14 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 if (isConnected(false)) {
                     setIdTour(tourList.get(position).getId());
                     Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(TourListActivity.this,img_tour, ViewCompat.getTransitionName(img_tour));
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(TourListActivity.this, img_tour, ViewCompat.getTransitionName(img_tour));
                     Bundle bundle = new Bundle();
                     bundle.putString("tour_name", tourList.get(position).getCateName());
                     bundle.putString("avatar", tourList.get(position).getAvatar());
                     bundle.putInt("rating", 3);
                     bundle.putString("router", tourList.get(position).getRouter());
                     intent.putExtras(bundle);
-                    startActivity(intent,options.toBundle());
+                    startActivity(intent, options.toBundle());
                 } else showDialogNoInternet();
             }
 
@@ -187,6 +184,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             results.values = tours;
             return results;
         }
+
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             tourList.clear();

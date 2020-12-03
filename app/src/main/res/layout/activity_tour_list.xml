@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
+    android:background="@drawable/bg_vhl"
     tools:context=".activities.TourListActivity">
 
     <TextView
@@ -20,22 +20,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
-
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/edt_search"-->
-    <!--        android:layout_width="@dimen/none_width_height"-->
-    <!--        android:layout_height="@dimen/none_width_height"-->
-    <!--        android:background="@drawable/bg_edit_search"-->
-    <!--        android:hint="@string/hint_edtSearch"-->
-    <!--        android:inputType="text"-->
-    <!--        android:paddingLeft="@dimen/paddingH_edt_search"-->
-    <!--        android:paddingRight="@dimen/paddingH_edt_search"-->
-    <!--        android:textColor="@color/black_overlay"-->
-    <!--        android:textSize="@dimen/textSize_edt_search" />-->
-
-
+        app:layout_constraintVertical_bias="0.07" />
 
     <SearchView
         android:queryHint="@string/hint_edtSearch"
@@ -48,7 +33,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_Title"
-        app:layout_constraintVertical_bias="0.041" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glH90"

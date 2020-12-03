@@ -9,7 +9,7 @@
     <string name="label_btn_Yes">はい</string>
     <string name="label_btn_No">番号</string>
     <string name="hint_edtSearch">探す...</string>
-    <string name="hint_edt_note">注意</string>
+    <string name="hint_edt_comment">コメント</string>
     <string name="label_btn_Submit">送信</string>
     <string name="title_dialog_rating">私たちのサービスの質を向上させるために、あなたの経験を教えてください。</string>
     <string name="lblSeeMore">続きを見る</string>
@@ -19,4 +19,5 @@
     <string name="text_btn_close">閉じる</string>
     <string name="label_btn_Ok">同意する</string>
     <string name="label_btn_Cancel">キャンセル</string>
+    <string name="tv_titleTravelRoute">旅行のスケジュール</string>
 </resources>

@@ -80,7 +80,7 @@
             android:layout_marginTop="@dimen/marginTop_edt_note"
             android:background="@drawable/bg_edt_note"
             android:gravity="start"
-            android:hint="@string/hint_edt_note"
+            android:hint="@string/hint_edt_comment"
             android:paddingHorizontal="@dimen/marginH_edt_note"
             android:paddingVertical="@dimen/marginV_edit_note"
             android:textColor="@color/colorBlack" />

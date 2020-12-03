@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.duantn.R;
 import com.example.duantn.morder.TourInfor;
+import com.example.duantn.network.Url;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +36,7 @@ public class AdapterSlideDialoginformation extends RecyclerView.Adapter<AdapterS
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSlideDialoginformation.ViewHolder holder, final int position) {
-            Glide.with(context).load("https://webtourintro.herokuapp.com/"+avatars.get(position)).into(holder.imgItemDialog);
+            Glide.with(context).load(Url.urlImage+avatars.get(position)).into(holder.imgItemDialog);
 
     }
 

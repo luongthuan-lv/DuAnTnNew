@@ -9,7 +9,7 @@
     <string name="label_btn_Yes">예</string>
     <string name="label_btn_No">아니</string>
     <string name="hint_edtSearch">검색...</string>
-    <string name="hint_edt_note">노트</string>
+    <string name="hint_edt_comment">논평</string>
     <string name="label_btn_Submit">제출하다</string>
     <string name="title_dialog_rating">서비스 품질을 개선하기 위해 귀하의 경험을 알려주십시오.</string>
     <string name="lblSeeMore">인터넷 없음</string>
@@ -19,4 +19,5 @@
     <string name="text_btn_close">닫기</string>
     <string name="label_btn_Ok">확인</string>
     <string name="label_btn_Cancel">취소</string>
+    <string name="tv_titleTravelRoute">여행 일정</string>
 </resources>

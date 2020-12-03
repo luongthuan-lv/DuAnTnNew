@@ -9,7 +9,7 @@
     <string name="label_btn_Yes">Ja</string>
     <string name="label_btn_No">Nein</string>
     <string name="hint_edtSearch">Suche...</string>
-    <string name="hint_edt_note">Hinweis</string>
+    <string name="hint_edt_comment">Kommentar</string>
     <string name="label_btn_Submit">Einreichen</string>
     <string name="title_dialog_rating">Um die Qualität unseres Service zu verbessern, teilen Sie uns bitte Ihre Erfahrungen mit.</string>
     <string name="lblSeeMore">Mehr sehen</string>
@@ -19,4 +19,5 @@
     <string name="text_btn_close">Schließen sie</string>
     <string name="label_btn_Ok">Zustimmen</string>
     <string name="label_btn_Cancel">Stornieren</string>
+    <string name="tv_titleTravelRoute">Der Reiseplan</string>
 </resources>

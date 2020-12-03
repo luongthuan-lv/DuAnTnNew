@@ -9,14 +9,15 @@
     <string name="label_btn_Yes">Đồng ý</string>
     <string name="label_btn_No">Không</string>
     <string name="hint_edtSearch">Tìm kiếm..</string>
-    <string name="hint_edt_note">Ghi chú</string>
+    <string name="hint_edt_comment">Bình luận</string>
     <string name="label_btn_Submit">Gửi</string>
     <string name="title_dialog_rating">Nhằm nâng cao chất lượng dịch vụ của chúng tôi, vui lòng cho chúng tôi biết về trải nghiệm của bạn.</string>
-    <string name="lblSeeMore">Xêm thêm</string>
+    <string name="lblSeeMore">Xem thêm</string>
     <string name="logout">Bạn có muốn đăng xuất không?</string>
     <string name="text_dialog_warning_internet">Xin vui lòng kiểm tra kết nối Internet của bạn!</string>
     <string name="title_dialog_warning_internet">Có vẻ như bạn chưa có kết nối Internet</string>
     <string name="text_btn_close">Đóng</string>
     <string name="label_btn_Ok">Đồng ý</string>
     <string name="label_btn_Cancel">Hủy</string>
+    <string name="tv_titleTravelRoute">Lịch trình chuyến đi</string>
 </resources>

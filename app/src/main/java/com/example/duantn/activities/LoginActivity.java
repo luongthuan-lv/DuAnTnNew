@@ -309,9 +309,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String personName = acct.getDisplayName();
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
-
+                if( personPhoto==null){
+                    setUrlAvt("https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png");
+                } else {
+                    setUrlAvt(String.valueOf(personPhoto));
+                }
                 saveAccount(personId, String.valueOf(personPhoto),personName);
-                setUrlAvt(String.valueOf(personPhoto));
                 setFullName(personName);
                 setUserId(personId);
             }
