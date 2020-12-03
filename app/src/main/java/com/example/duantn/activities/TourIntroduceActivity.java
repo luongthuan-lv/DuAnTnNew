@@ -3,9 +3,7 @@ package com.example.duantn.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,8 +22,6 @@ import com.example.duantn.adapter.ShowLocationInformation;
 import com.example.duantn.morder.Feedback;
 import com.example.duantn.morder.TourInfor;
 import com.example.duantn.network.RetrofitService;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
@@ -50,7 +46,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ShowLocationInformation showLocationInformation;
     private RecyclerView rv1, rv2;
-    public static List<TourInfor> locationList = new ArrayList<>();
+    public static List<TourInfor> locationList;
     private List<Feedback> feedbackList = new ArrayList<>();
     private FeedbackAdapter feedbackAdapter;
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
@@ -63,14 +59,11 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_tour_introduce);
         initDialogLoading();
         showDialogLoading();
-        getIntent_bundle();
+        getIntentExtras();
+        initView();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        img_tour = findViewById(R.id.img_tour);
-        collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
-        findViewById(R.id.btn_start).setOnClickListener(this);
-        setView();
 
 
         setAdapter();
@@ -78,7 +71,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         getRetrofit();
     }
 
-    private void getIntent_bundle() {
+    private void getIntentExtras() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -90,11 +83,14 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    private void setView() {
+    private void initView() {
+        img_tour = findViewById(R.id.img_tour);
         Glide.with(this).load("https://webtourintro.herokuapp.com/" + avatar).into(img_tour);
+        collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(tour_name);
         textViewRoute = findViewById(R.id.textViewRoute);
         textViewRoute.setText(route);
+        findViewById(R.id.btn_start).setOnClickListener(this);
 
         img_star1 = findViewById(R.id.img_star1);
         img_star2 = findViewById(R.id.img_star2);
@@ -116,7 +112,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         imgf_star5 = findViewById(R.id.imgf_star5);
 
         List<ImageView> imageViewList2 = Arrays.asList(new ImageView[]{imgf_star1, imgf_star2, imgf_star3, imgf_star4, imgf_star5});
-        for (int i = 0; i < imageViewList2.size(); i++) {
+        imageViewList2.get(0).setImageResource(R.drawable.selected_star);
+        for (int i = 1; i < imageViewList2.size(); i++) {
             imageViewList2.get(i).setImageResource(R.drawable.no_selected_star);
         }
         for (int i = 0; i < imageViewList2.size(); i++) {
@@ -139,6 +136,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
 
     private void setAdapter() {
+        locationList = new ArrayList<>();
         showLocationInformation = new ShowLocationInformation(locationList, this, new ShowLocationInformation.OnClickItemListener() {
             @Override
             public void onClicked(int position) {

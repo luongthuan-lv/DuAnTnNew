@@ -25,7 +25,6 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +60,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,20 +100,26 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private boolean enableAudio;
     private static final int TEXT_TO_SPEECH_CODE = 0x100;
     private MainContract.IPresenter mPresenter;
-    private static List<TourInfor> locationList = new ArrayList<>();
+    private  List<TourInfor> locationList=  TourIntroduceActivity.locationList;
     private boolean enableDialog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getIntent_bundle();
+        initDialogLoading();
+        showDialogLoading();
+        getIntentExtras();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        initDialogLoading();
-        showDialogLoading();
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            OnGPS();
+        } else {
+            SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+            assert supportMapFragment != null;
+            supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+        }
         viewPager = findViewById(R.id.viewPager);
         viewPager.getLayoutParams().height = getSizeWithScale(139);
         findViewById(R.id.btn_feedback).setOnClickListener(this);
@@ -125,14 +128,62 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         locationRequest.setFastestInterval(50);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         addColor();
-        locationList = new ArrayList<>();
+//        locationList = new ArrayList<>();
+
+        getMapDirection(locationIndex, locationIndex + 1);
         setAdapter();
         setViewPager();
-        getRetrofit();
 
     }
 
-    private void getIntent_bundle() {
+
+    @Override
+    public void onMapReady(final GoogleMap googleMap) {
+        this.mGoogleMap = googleMap;
+        mGoogleMap.getUiSettings().setCompassEnabled(true);
+        mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mGoogleMap.setBuildingsEnabled(true);
+        setViewPageAndMarker();
+        addMarkerAllAndClick();
+        if (polylineOptions != null) {
+            mGoogleMap.addPolyline(polylineOptions);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mGoogleMap.setMyLocationEnabled(true);
+        //onClickMap
+        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                moveCamera = false;
+                if (viewPager.getVisibility() == View.VISIBLE) {
+                    viewPager.setVisibility(View.GONE);
+                } else {
+                    viewPager.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        // onLoadMap
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                dismissDialog();
+            }
+        });
+        // onClickButtonMyLocation
+        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                moveCamera = true;
+                return false;
+            }
+        });
+    }
+
+
+    private void getIntentExtras() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -146,39 +197,39 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     }
 
 
-    private void getRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://tourintro.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-
-        retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
-            @Override
-            public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
-                if (response.body().size() != 0) {
-                    int currentSize = locationList.size();
-                    locationList.addAll(response.body());
-                    slideShowInformation.notifyItemRangeInserted(currentSize, locationList.size());
-                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        OnGPS();
-                    } else {
-                        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-                        assert supportMapFragment != null;
-                        supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
-                    }
-                    getMapDirection(locationIndex, locationIndex + 1);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<TourInfor>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
+//    private void getRetrofit() {
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("https://tourintro.herokuapp.com/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
+//
+//        retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
+//            @Override
+//            public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
+//                if (response.body().size() != 0) {
+//                    int currentSize = locationList.size();
+//                    locationList.addAll(response.body());
+//                    slideShowInformation.notifyItemRangeInserted(currentSize, locationList.size());
+//                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//                        OnGPS();
+//                    } else {
+//                        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+//                        assert supportMapFragment != null;
+//                        supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+//                    }
+//                    getMapDirection(locationIndex, locationIndex + 1);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<TourInfor>> call, Throwable t) {
+//                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 
     private void getMapDirection(int location1, int location2) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -186,8 +237,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-
-
         retrofitService.getMapDirection(getLatLng(location1), getLatLng(location2), "", api_key).enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
@@ -261,9 +310,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     }
 
     private String getLatLng(int i) {
-
         String latLng = Double.parseDouble(locationList.get(i).getLocation().getLat()) + "," + Double.parseDouble(locationList.get(i).getLocation().getLon());
-
         return latLng;
     }
 
@@ -405,51 +452,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         alertDialog.show();
     }
 
-    @Override
-    public void onMapReady(final GoogleMap googleMap) {
-        this.mGoogleMap = googleMap;
-        mGoogleMap.getUiSettings().setCompassEnabled(true);
-        mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
-        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mGoogleMap.setBuildingsEnabled(true);
-        setViewPageAndMarker();
-        addMarkerAllAndClick();
-        if (polylineOptions != null) {
-            mGoogleMap.addPolyline(polylineOptions);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mGoogleMap.setMyLocationEnabled(true);
-        //onClickMap
-        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                moveCamera = false;
-                if (viewPager.getVisibility() == View.VISIBLE) {
-                    viewPager.setVisibility(View.GONE);
-                } else {
-                    viewPager.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        // onLoadMap
-        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                dismissDialog();
-            }
-        });
-        // onClickButtonMyLocation
-        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                moveCamera = true;
-                return false;
-            }
-        });
-    }
-
     private void showCustomDialog(int position) {
         ViewGroup viewGroup = findViewById(android.R.id.content);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_show_information, viewGroup, false);
@@ -557,7 +559,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     };
 
     private void getDistance(LocationResult locationResult) {
-
         float[][] arr = new float[locationList.size()][10];
         for (int i = 0; i < arr.length; i++) {
             Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), Double.parseDouble(locationList.get(i).getLocation().getLat()), Double.parseDouble(locationList.get(i).getLocation().getLon()), arr[i]);

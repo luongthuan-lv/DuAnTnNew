@@ -39,7 +39,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TourListActivity extends BaseActivity implements View.OnClickListener, Filterable {
+public class TourListActivity extends BaseActivity implements View.OnClickListener, Filterable,SearchView.OnQueryTextListener {
 
 
     private ViewPager2 viewPager2;
@@ -55,10 +55,18 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_list);
+        initView();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-        viewPager2 = findViewById(R.id.viewPager2);
-        searchView = findViewById(R.id.searchView);
+        tourList = new ArrayList<>();
+        setAdapter();
+        setViewPager2();
+        getRetrofit();
+
+
+    }
+
+    private void initView(){
         imgAvatar = findViewById(R.id.imgAvatar);
         imgAvatar.setOnClickListener(this);
         if (getUrlAvt().equals("")) {
@@ -66,27 +74,10 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         } else {
             Glide.with(this).load(getUrlAvt()).transform(new RoundedCorners(80)).into(imgAvatar);
         }
+        searchView = findViewById(R.id.searchView);
         searchView.getLayoutParams().width = getSizeWithScale(245);
         searchView.getLayoutParams().height = getSizeWithScale(40);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                getFilter().filter(newText);
-                return false;
-            }
-        });
-        tourList = new ArrayList<>();
-        setAdapter();
-        setViewPager2();
-        getRetrofit();
-
-
+        searchView.setOnQueryTextListener(this);
     }
 
     private void getRetrofit() {
@@ -99,16 +90,13 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         retrofitService.getTourList(getIdLanguage()).enqueue(new Callback<List<Tour>>() {
             @Override
             public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-
-                if (response.body().size() != 0) {
+                if (response.body().size() > 0) {
                     tourList.addAll(response.body());
                     tourList2 = new ArrayList<>(tourList);
                     tourAdapter.isShimmer = false;
                     tourAdapter.notifyDataSetChanged();
                 }
-
             }
-
             @Override
             public void onFailure(Call<List<Tour>> call, Throwable t) {
                 Toast.makeText(TourListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -143,6 +131,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void setViewPager2() {
+        viewPager2 = findViewById(R.id.viewPager2);
         viewPager2.setAdapter(tourAdapter);
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
@@ -168,7 +157,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                 case R.id.imgAvatar:
                     showDialogLogout(this, getFullName());
                     break;
-
             }
         } else {
             showDialogNoInternet();
@@ -212,5 +200,16 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         return filter;
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        getFilter().filter(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        getFilter().filter(newText);
+        return false;
+    }
 }
 
