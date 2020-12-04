@@ -5,8 +5,6 @@
     <string name="dummy_button" translatable="false">Dummy Button</string>
     <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
     <string name="loading" translatable="false">Loading</string>
-    <string name="title1_login" translatable="false">Travel Like</string>
-    <string name="title2_login" translatable="false">You Never</string>
     <string name="title3_login" translatable="false">Lost</string>
     <string name="LblVietNam" translatable="false">Tiếng Việt</string>
     <string name="LblJapan" translatable="false">日本語</string>
@@ -29,12 +27,12 @@
     <string name="data" translatable="false">data</string>
     <string name="transitionName1" translatable="false">transition1</string>
     <string name="transitionName2" translatable="false">transition2</string>
-    <!--    <string name="facebook_app_id" translatable="false">383267972718761</string>-->
-    <!--    <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>-->
+        <string name="facebook_app_id" translatable="false">383267972718761</string>
+        <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>
 
     <!--    id cua ducanh-->
-    <string name="facebook_app_id" translatable="false">332122717968078</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb332122717968078</string>
+<!--    <string name="facebook_app_id" translatable="false">332122717968078</string>-->
+<!--    <string name="fb_login_protocol_scheme" translatable="false">fb332122717968078</string>-->
 
 
     // can dich
