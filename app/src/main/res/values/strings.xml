@@ -5,7 +5,6 @@
     <string name="dummy_button" translatable="false">Dummy Button</string>
     <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
     <string name="loading" translatable="false">Loading</string>
-    <string name="title3_login" translatable="false">Lost</string>
     <string name="LblVietNam" translatable="false">Tiếng Việt</string>
     <string name="LblJapan" translatable="false">日本語</string>
     <string name="LblEnglish" translatable="false">English</string>
