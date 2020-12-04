@@ -110,7 +110,7 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvInformation;
-        private ShapeableImageView imgFirstly;
+        private ImageView imgFirstly;
         private TextView tvTitle;
         private TextView tvSeeMore;
         private ImageView btn_audio;

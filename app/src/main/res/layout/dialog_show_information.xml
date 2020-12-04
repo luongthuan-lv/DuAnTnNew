@@ -38,12 +38,13 @@
                 app:layout_constraintTop_toBottomOf="@id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/playfair_display_bold_italic"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/textSize_title_tour_introduce"
                 android:textStyle="bold" />
 
             <TextView
+                android:fontFamily="@font/duru_sans_regular"
                 android:id="@+id/tvDialogContent"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/none_width_height"

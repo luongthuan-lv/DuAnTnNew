@@ -59,13 +59,13 @@ public class ShowLocationInformation extends RecyclerView.Adapter<ShowLocationIn
             holder.tv_Title.setText((position + 1) + ". " + locationList.get(position).getPlace());
             holder.tv_Title.setBackground(null);
 
-            holder.tvDetail.setBackground(null);
-            holder.tvDetail.setText(context.getResources().getString(R.string.lblSeeMore));
+            holder.tvSeeMore.setBackground(null);
+            holder.tvSeeMore.setText(context.getResources().getString(R.string.lblSeeMore));
 
             holder.shimmerFrameLayout.stopShimmer();
             holder.shimmerFrameLayout.setShimmer(null);
 
-            holder.tvDetail.setOnClickListener(new View.OnClickListener() {
+            holder.tvSeeMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onClickItemListener != null)
@@ -91,7 +91,7 @@ public class ShowLocationInformation extends RecyclerView.Adapter<ShowLocationIn
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tv_Title, tvContent;
-        private TextView tvDetail;
+        private TextView tvSeeMore;
         private ImageView imageView;
         private ShimmerFrameLayout shimmerFrameLayout;
 
@@ -101,7 +101,7 @@ public class ShowLocationInformation extends RecyclerView.Adapter<ShowLocationIn
             tv_Title = itemView.findViewById(R.id.tv_Title);
             tvContent = itemView.findViewById(R.id.tvContent);
             imageView = itemView.findViewById(R.id.imageView);
-            tvDetail = itemView.findViewById(R.id.tvDetail);
+            tvSeeMore = itemView.findViewById(R.id.tvSeeMore);
         }
     }
 }

@@ -54,11 +54,11 @@
         <TextView
             android:layout_marginTop="@dimen/padding_05"
             android:background="@color/colorShimmer"
-            android:id="@+id/tvDetail"
+            android:id="@+id/tvSeeMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/duru_sans_regular"
-            android:textColor="@color/textColor_detail"
+            android:textColor="@color/colorTvSeeMore"
             android:textSize="14sp" />
 
     </LinearLayout>

@@ -127,8 +127,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
     private void initView(){
         findViewById(R.id.btn_feedback).setOnClickListener(this);
-        viewPager2 = findViewById(R.id.viewPager2);
-        viewPager2.getLayoutParams().height = getSizeWithScale(139);
         addColor();
         findViewById(R.id.btnPre).setOnClickListener(this);
     }
@@ -356,6 +354,8 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     }
 
     private void setViewPager() {
+        viewPager2 = findViewById(R.id.viewPager2);
+        viewPager2.getLayoutParams().height = getSizeWithScale(205);
         viewPager2.setAdapter(slideShowInformation);
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
@@ -480,7 +480,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
         Dialog dialog = new Dialog(this, R.style.dialogNotice);
         cvDialog.getLayoutParams().width = getSizeWithScale(340);
-        cvDialog.getLayoutParams().height = getSizeWithScale(600);
+        cvDialog.getLayoutParams().height = getSizeWithScale(519);
         dialog.setContentView(dialogView);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();

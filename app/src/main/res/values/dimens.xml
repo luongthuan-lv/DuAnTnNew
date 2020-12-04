@@ -31,7 +31,7 @@
     <dimen name="textSize_content_alert">16sp</dimen>
     <dimen name="radius_alert">20dp</dimen>
     <dimen name="marginTop_ht_alert">30dp</dimen>
-    <dimen name="mbCvInformation">30dp</dimen>
+    <dimen name="mbCvInformation">15dp</dimen>
     <dimen name="paddingtvInformation">10dp</dimen>
     <dimen name="paddingHViewPager">60dp</dimen>
     <dimen name="textSize_label_btl_login">14sp</dimen>
