@@ -309,14 +309,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String personName = acct.getDisplayName();
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
-                if( personPhoto==null){
-                    setUrlAvt("https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png");
+                String urlAvatar;
+                if (personPhoto == null) {
+                    urlAvatar = "https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png";
                 } else {
-                    setUrlAvt(String.valueOf(personPhoto));
+                    urlAvatar = String.valueOf(personPhoto);
                 }
-                saveAccount(personId, String.valueOf(personPhoto),personName);
+                saveAccount(personId, urlAvatar, personName);
                 setFullName(personName);
                 setUserId(personId);
+                setUrlAvt(urlAvatar);
             }
             Intent intent = new Intent(this, TourListActivity.class);
             startActivity(intent);
@@ -410,11 +412,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 String link = me.optString(getString(R.string.link));
                                 URL imageURL = extractFacebookIcon(id);
 
-                                saveAccount(id, String.valueOf(imageURL),personName);
+                                saveAccount(id, String.valueOf(imageURL), personName);
                                 setUrlAvt(String.valueOf(imageURL));
                                 setFullName(personName);
                                 setUserId(id);
-                                Log.e("TAG",String.valueOf(imageURL));
+                                Log.e("TAG", String.valueOf(imageURL));
 
                             }
                             Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
