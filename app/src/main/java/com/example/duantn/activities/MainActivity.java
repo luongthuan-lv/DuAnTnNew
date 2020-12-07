@@ -129,7 +129,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private void initView() {
         findViewById(R.id.btn_feedback).setOnClickListener(this);
         addColor();
-        findViewById(R.id.btnPre).setOnClickListener(this);
     }
 
     @Override
@@ -165,6 +164,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             @Override
             public void onMapLoaded() {
                 dismissDialog();
+                findViewById(R.id.btnPre).setOnClickListener(MainActivity.this::onClick);
             }
         });
         // onClickButtonMyLocation
@@ -739,5 +739,10 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         } else {
             showDialogNoInternet();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
