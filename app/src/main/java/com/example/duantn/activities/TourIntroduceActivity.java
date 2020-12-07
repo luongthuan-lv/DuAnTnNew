@@ -302,7 +302,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         al.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
         al.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.color_btn_alertDialog));
 
-
     }
 
     @Override

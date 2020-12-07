@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:text="@string/lblSeeMore"
-                android:textColor="@color/colorTvSeeMore"
+                android:textColor="@drawable/click_text_seemore"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvInformation" />

@@ -143,36 +143,12 @@ public class BaseActivity extends AppCompatActivity {
 
     private float screenDensity = 0;
 
-    public float getScreenDensity() {
-        if (screenDensity == 0)
-            screenDensity = getDisplayMetrics().density;
-        return screenDensity;
-    }
-
     private int screenWidth = 0;
 
     public int getScreenWidth() {
         if (screenWidth == 0)
             screenWidth = getDisplayMetrics().widthPixels;
         return screenWidth;
-    }
-
-    private int screenHeight = 0;
-
-    public int getScreenHeight() {
-        if (screenHeight == 0) {
-            int statusBarHeight = 0;
-            try {
-                int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-                if (resourceId > 0) {
-                    statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-                }
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-            screenHeight = getDisplayMetrics().heightPixels - statusBarHeight;
-        }
-        return screenHeight;
     }
 
     private float getScaleValue() {

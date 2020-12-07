@@ -29,7 +29,9 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/glH40"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.viewpager2.widget.ViewPager2>
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.viewpager2.widget.ViewPager2>
 
             <TextView
                 android:layout_marginTop="@dimen/padding_05"

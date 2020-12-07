@@ -52,13 +52,14 @@
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/textSize_content_tour_introduce" />
         <TextView
+            android:textStyle="bold"
             android:layout_marginTop="@dimen/padding_05"
             android:background="@color/colorShimmer"
             android:id="@+id/tvSeeMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/duru_sans_regular"
-            android:textColor="@color/colorTvSeeMore"
+            android:textColor="@drawable/click_text_seemore"
             android:textSize="14sp" />
 
     </LinearLayout>

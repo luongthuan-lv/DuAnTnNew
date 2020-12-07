@@ -104,7 +104,6 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
 
     @Override
     public int getItemCount() {
-
         return locationList.size();
     }
 
@@ -115,7 +114,6 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
         private TextView tvSeeMore;
         private ImageView btn_audio;
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvInformation = itemView.findViewById(R.id.tvInformation);
@@ -123,8 +121,6 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
             btn_audio = itemView.findViewById(R.id.btn_audio);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvSeeMore = itemView.findViewById(R.id.tvSeeMore);
-
-
         }
     }
 }
