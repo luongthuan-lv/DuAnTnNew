@@ -20,4 +20,6 @@
     <string name="label_btn_Ok">Zustimmen</string>
     <string name="label_btn_Cancel">Stornieren</string>
     <string name="tv_titleTravelRoute">Der Reiseplan</string>
+    <string name="warning_rating">Bitte bewerten Sie und teilen Sie uns Ihre Erfahrungen mit</string>
+    <string name="thanks">Vielen Dank, dass Sie uns Ihre Erfahrungen mitgeteilt haben</string>
 </resources>

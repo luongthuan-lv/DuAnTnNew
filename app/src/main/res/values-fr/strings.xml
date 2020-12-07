@@ -20,4 +20,6 @@
     <string name="label_btn_Ok">D\'accord</string>
     <string name="label_btn_Cancel">Annuler</string>
     <string name="tv_titleTravelRoute">L\'horaire du voyage</string>
+    <string name="warning_rating">Veuillez évaluer et nous faire part de votre expérience</string>
+    <string name="thanks">Merci de nous avoir fait part de votre expérience</string>
 </resources>

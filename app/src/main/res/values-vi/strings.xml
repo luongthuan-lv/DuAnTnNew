@@ -20,4 +20,6 @@
     <string name="label_btn_Ok">Đồng ý</string>
     <string name="label_btn_Cancel">Hủy</string>
     <string name="tv_titleTravelRoute">Lịch trình chuyến đi</string>
+    <string name="warning_rating">Vui lòng đánh giá và cho chúng tôi biết trải nghiệm của bạn</string>
+    <string name="thanks">Cảm ơn bạn đã cho chúng tôi biết trải nghiệm của bạn</string>
 </resources>

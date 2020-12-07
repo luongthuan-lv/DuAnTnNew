@@ -20,4 +20,6 @@
     <string name="label_btn_Ok">Baik</string>
     <string name="label_btn_Cancel">Membatalkan</string>
     <string name="tv_titleTravelRoute">Jadwal perjalanan</string>
+    <string name="warning_rating">Beri nilai dan beri tahu kami pengalaman Anda</string>
+    <string name="thanks">Terima kasih telah memberi tahu kami pengalaman Anda</string>
 </resources>

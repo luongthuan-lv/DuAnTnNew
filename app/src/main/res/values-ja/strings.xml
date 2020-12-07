@@ -20,4 +20,6 @@
     <string name="label_btn_Ok">同意する</string>
     <string name="label_btn_Cancel">キャンセル</string>
     <string name="tv_titleTravelRoute">旅行のスケジュール</string>
+    <string name="warning_rating">評価して、あなたの経験を教えてください</string>
+    <string name="thanks">あなたの経験を教えてくれてありがとう</string>
 </resources>

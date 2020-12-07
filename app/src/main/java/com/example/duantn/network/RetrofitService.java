@@ -2,13 +2,17 @@ package com.example.duantn.network;
 
 
 import com.example.duantn.api_map_direction.Example;
+import com.example.duantn.morder.Feedback;
 import com.example.duantn.morder.Tour;
 import com.example.duantn.morder.TourInfor;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface RetrofitService {
@@ -25,5 +29,19 @@ public interface RetrofitService {
     @GET("get-place-list")
     Call<List<TourInfor>> getTourInfor(@Query("language") String language,
                                        @Query("category") String category);
+
+    @GET("get-all-report")
+    Call<List<Feedback>> getReport(@Query("vehicle") String vehicle);
+
+
+    @POST("add-report")
+    @FormUrlEncoded
+    Call<String> postReport(@Field("user") String user,
+                                    @Field("vehicle") String vehicle,
+                                    @Field("star") int star,
+                                    @Field("report") String report,
+                                    @Field("name") String name,
+                                    @Field("avatar") String avatar,
+                                    @Field("date") String date);
 
 }

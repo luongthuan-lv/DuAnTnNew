@@ -31,11 +31,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 public class BaseActivity extends AppCompatActivity {
     private Activity context;
     private Dialog mProgressDialog;
     private AccountDAO accountDAO;
     private Account account;
+    private String currentDate;
+
+    public String getCurrentDate() {
+        return DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(Calendar.getInstance().getTime());
+    }
 
     private static String languageCode;
     private static String voiceName;

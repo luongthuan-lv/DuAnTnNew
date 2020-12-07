@@ -1,19 +1,25 @@
 package com.example.duantn.morder;
 
-public class Feedback {
-    private String urlAvatar;
-    private String username;
-    private String date;
-    private int rating;
-    private String content;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public Feedback(String urlAvatar, String username, String date, int rating, String content) {
-        this.urlAvatar = urlAvatar;
-        this.username = username;
-        this.date = date;
-        this.rating = rating;
-        this.content = content;
-    }
+public class Feedback {
+    @SerializedName("avatar")
+    @Expose
+    private String urlAvatar;
+    @SerializedName("username")
+    @Expose
+    private String username;
+    @SerializedName("date")
+    @Expose
+    private String date;
+    @SerializedName("star")
+    @Expose
+    private int star;
+    @SerializedName("report")
+    @Expose
+    private String report;
+
 
     public String getUrlAvatar() {
         return urlAvatar;
@@ -39,19 +45,19 @@ public class Feedback {
         this.date = date;
     }
 
-    public int getRating() {
-        return rating;
+    public int getStar() {
+        return star;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setStar(int star) {
+        this.star = star;
     }
 
-    public String getContent() {
-        return content;
+    public String getReport() {
+        return report;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setReport(String report) {
+        this.report = report;
     }
 }

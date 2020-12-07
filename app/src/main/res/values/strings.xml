@@ -50,4 +50,6 @@
     <string name="label_btn_Ok">Ok</string>
     <string name="label_btn_Cancel">Cancel</string>
     <string name="tv_titleTravelRoute">The trip schedule</string>
+    <string name="warning_rating">Please rate and let us know your experience</string>
+    <string name="thanks">Cảm ơn</string>
 </resources>

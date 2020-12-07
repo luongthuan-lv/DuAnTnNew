@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,17 +47,20 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
 
     private String tour_name, avatar, route;
-    private int rating,ratingFeedback;
+    private int rating, ratingFeedback;
     private ImageView img_tour;
     private TextView textViewRoute;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ShowLocationInformation showLocationInformation;
     private RecyclerView rv1, rv2;
     public static List<TourInfor> locationList;
-    private List<Feedback> feedbackList = new ArrayList<>();
+    private List<Feedback> feedbackList;
     private FeedbackAdapter feedbackAdapter;
     private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
     private ImageView imgf_star1, imgf_star2, imgf_star3, imgf_star4, imgf_star5;
+    private EditText edtFeedBack;
+    private Retrofit retrofit;
+    private RetrofitService retrofitService;
 
 
     @Override
@@ -66,10 +72,15 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://tourintro.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitService = retrofit.create(RetrofitService.class);
 
         setAdapter();
         setRecycleView();
+        setFeedBack();
         getRetrofit();
     }
 
@@ -111,7 +122,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         imgf_star3 = findViewById(R.id.imgf_star3);
         imgf_star4 = findViewById(R.id.imgf_star4);
         imgf_star5 = findViewById(R.id.imgf_star5);
-
         List<ImageView> imageViewList2 = Arrays.asList(new ImageView[]{imgf_star1, imgf_star2, imgf_star3, imgf_star4, imgf_star5});
         for (int i = 0; i < imageViewList2.size(); i++) {
             imageViewList2.get(i).setImageResource(R.drawable.no_selected_star);
@@ -131,7 +141,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                 }
             });
         }
-
+        edtFeedBack = findViewById(R.id.edtFeedBack);
+        findViewById(R.id.btnSendFeedback).setOnClickListener(this);
     }
 
 
@@ -140,12 +151,12 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         showLocationInformation = new ShowLocationInformation(locationList, this, new ShowLocationInformation.OnClickItemListener() {
             @Override
             public void onClicked(int position, ImageView imageView) {
-                Intent intent = new Intent(TourIntroduceActivity.this,LocationDeitailActivity.class);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(TourIntroduceActivity.this,imageView, ViewCompat.getTransitionName(imageView));
+                Intent intent = new Intent(TourIntroduceActivity.this, LocationDeitailActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(TourIntroduceActivity.this, imageView, ViewCompat.getTransitionName(imageView));
                 Bundle bundle = new Bundle();
-                bundle.putInt("position",position);
+                bundle.putInt("position", position);
                 intent.putExtras(bundle);
-                startActivity(intent,options.toBundle());
+                startActivity(intent, options.toBundle());
             }
 
             @Override
@@ -153,12 +164,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
             }
         });
-        feedbackList.add(new Feedback("","Nguyễn Đức Anh","12/04/2000",3,"OK"));
-        feedbackList.add(new Feedback("","Nguyễn Văn Cường","12/03/2020",4,"Đẹp"));
-        feedbackList.add(new Feedback("","Nguyễn Văn B","22/12/2018",5,"Mượt"));
-        feedbackList.add(new Feedback("","Nguyễn Văn C","17/11/2019",1,"Lag"));
-        feedbackList.add(new Feedback("","Nguyễn Văn X","12/04/2000",5,"OK"));
-        feedbackAdapter = new FeedbackAdapter(feedbackList,this);
+        feedbackList = new ArrayList<>();
     }
 
     private void setRecycleView() {
@@ -167,29 +173,26 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         rv1.setLayoutManager(linearLayoutManager);
         rv1.setAdapter(showLocationInformation);
 
-
         rv2 = findViewById(R.id.rv2);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         rv2.setLayoutManager(linearLayoutManager2);
     }
 
+    private void setFeedBack() {
+        feedbackAdapter = new FeedbackAdapter(feedbackList, this);
+        rv2.setAdapter(feedbackAdapter);
+    }
+
     private void getRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://tourintro.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
 
         retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
             @Override
             public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
                 if (response.body().size() > 0) {
                     locationList.addAll(response.body());
-                    showLocationInformation.isShimmer=false;
+                    showLocationInformation.isShimmer = false;
                     showLocationInformation.notifyDataSetChanged();
-
-                    rv2.setAdapter(feedbackAdapter);
-                    findViewById(R.id.btn_start).setOnClickListener(TourIntroduceActivity.this::onClick);
+                    findViewById(R.id.btn_start).setOnClickListener(TourIntroduceActivity.this);
                 }
 
             }
@@ -200,6 +203,49 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             }
         });
 
+        retrofitService.getReport(getIdTour()).enqueue(new Callback<List<Feedback>>() {
+            @Override
+            public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
+                if (response.body().size() > 0) {
+                    feedbackList.addAll(response.body());
+                    feedbackAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Feedback>> call, Throwable t) {
+                Toast.makeText(TourIntroduceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void postRetrofit() {
+        retrofitService.postReport(getUserId(), getIdTour(), ratingFeedback, edtFeedBack.getText().toString().trim(), getFullName(), getUrlAvt(), getCurrentDate()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                retrofitService.getReport(getIdTour()).enqueue(new Callback<List<Feedback>>() {
+                    @Override
+                    public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
+                        if (response.body().size() > 0) {
+                            feedbackList = new ArrayList<>();
+                            feedbackList = response.body();
+                            setFeedBack();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Feedback>> call, Throwable t) {
+                        Toast.makeText(TourIntroduceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(TourIntroduceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -210,11 +256,19 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                 case R.id.btn_start:
                     createAlertDialog();
                     break;
-                case R.id.imgAvatar:
-                    showDialogLogout(this, getFullName());
+                case R.id.btnSendFeedback:
+                    if (ratingFeedback <= 0 || edtFeedBack.getText().toString().trim().equals("")) {
+                        showToast(getResources().getString(R.string.warning_rating));
+                    } else {
+                        showToast(getResources().getString(R.string.thanks));
+                        postRetrofit();
+                    }
+                    break;
             }
         } else {
             showDialogNoInternet();
+
+
         }
     }
 

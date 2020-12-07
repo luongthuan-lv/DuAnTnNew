@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,8 +14,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.duantn.R;
 import com.example.duantn.morder.Feedback;
-import com.example.duantn.morder.TourInfor;
-import com.example.duantn.view.CustomImageButton;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,11 +36,8 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull FeedbackAdapter.ViewHolder holder, final int position) {
-
-        Glide.with(context).load("https://scontent.fhan3-3.fna.fbcdn.net/v/t1.30497-1/c59.0.200.200a/p200x200/84628273_176159830277856_972693363922829312_n.jpg?_nc_cat=1&ccb=2&_nc_sid=12b3be&_nc_ohc=pPz2fWywQCIAX9WwqLk&_nc_ht=scontent.fhan3-3.fna&tp=27&oh=8fed6e5fb4a075348b9c8758efc14a90&oe=5FEB0DB9").transform(new RoundedCorners(80)).into(holder.imageView);
-
-
-        holder.tv_content.setText(feedbackList.get(position).getContent());
+        Glide.with(context).load(feedbackList.get(position).getUrlAvatar()).transform(new RoundedCorners(80)).into(holder.imageView);
+        holder.tv_content.setText(feedbackList.get(position).getReport());
         holder.tv_date.setText(feedbackList.get(position).getDate());
         holder.tv_username.setText(feedbackList.get(position).getUsername());
 
@@ -51,7 +45,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         for (int i = 0; i < imageViewList.size(); i++) {
             imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
         }
-        for (int i = 0; i < feedbackList.get(position).getRating(); i++) {
+        for (int i = 0; i < feedbackList.get(position).getStar(); i++) {
             imageViewList.get(i).setImageResource(R.drawable.selected_star);
         }
 

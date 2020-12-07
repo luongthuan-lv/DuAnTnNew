@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.example.duantn.MainContract;
 import com.example.duantn.MainPresenter;
+import com.example.duantn.morder.Feedback;
 import com.example.duantn.morder.TourInfor;
 import com.example.duantn.network.RetrofitService;
 import com.example.duantn.R;
@@ -125,7 +126,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
     }
 
-    private void initView(){
+    private void initView() {
         findViewById(R.id.btn_feedback).setOnClickListener(this);
         addColor();
         findViewById(R.id.btnPre).setOnClickListener(this);
@@ -255,6 +256,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                     getMapDirection(locationIndex, 0);
                 }
             }
+
             @Override
             public void onFailure(Call<Example> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -307,8 +309,17 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
 
     private void sendFeedback(EditText edt) {
-        contentFeedback = edt.getText().toString().trim();
-        showToast(contentFeedback + "\n" + rating + " sao");
+        if(isConnected(false)){
+            if(rating <= 0 || edt.getText().toString().trim().equals("")){
+                showToast(getResources().getString(R.string.warning_rating));
+            } else {
+                showToast(getResources().getString(R.string.thanks));
+                postRetrofit(edt);
+            }
+        } else {
+            showDialogNoInternet();
+        }
+
     }
 
     private void addColor() {
@@ -443,6 +454,27 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         dialog.show();
 
     }
+
+
+    private void postRetrofit(EditText edtFeedBack) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://tourintro.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
+        retrofitService.postReport(getUserId(), getIdTour(), rating, edtFeedBack.getText().toString().trim(), getFullName(), getUrlAvt(), getCurrentDate()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void showCustomDialog(int position) {
         ViewGroup viewGroup = findViewById(android.R.id.content);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_show_information, viewGroup, false);
@@ -461,10 +493,10 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         final Runnable Update = new Runnable() {
             public void run() {
                 currentPage = viewPager.getCurrentItem() + 1;
-                if(currentPage ==locationList.get(position).getAvatar().size()){
-                    currentPage=0;
+                if (currentPage == locationList.get(position).getAvatar().size()) {
+                    currentPage = 0;
                     viewPager.setCurrentItem(currentPage, true);
-                }else {
+                } else {
                     viewPager.setCurrentItem(currentPage, true);
                 }
             }

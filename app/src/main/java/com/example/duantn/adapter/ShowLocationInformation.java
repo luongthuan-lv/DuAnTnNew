@@ -22,7 +22,7 @@ public class ShowLocationInformation extends RecyclerView.Adapter<ShowLocationIn
     private List<TourInfor> locationList;
     private Context context;
    public boolean isShimmer = true;
-    int shimmerNumber = 7;
+    int shimmerNumber = 3;
 
     public interface OnClickItemListener {
         void onClicked(int position,ImageView imageView);

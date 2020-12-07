@@ -20,4 +20,6 @@
     <string name="label_btn_Ok">дать согласие</string>
     <string name="label_btn_Cancel">Отмена</string>
     <string name="tv_titleTravelRoute">График поездки</string>
+    <string name="warning_rating">Пожалуйста, оцените и поделитесь с нами своим опытом</string>
+    <string name="thanks">Спасибо, что поделились своим опытом</string>
 </resources>

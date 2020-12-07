@@ -20,4 +20,6 @@
     <string name="label_btn_Ok">확인</string>
     <string name="label_btn_Cancel">취소</string>
     <string name="tv_titleTravelRoute">여행 일정</string>
+    <string name="warning_rating">평가하고 귀하의 경험을 알려주십시오.</string>
+    <string name="thanks">귀하의 경험을 알려 주셔서 감사합니다.</string>
 </resources>
