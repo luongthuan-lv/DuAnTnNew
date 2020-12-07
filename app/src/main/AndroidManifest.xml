@@ -18,7 +18,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name=".activities.LocationDeitailActivity"></activity>
+        <activity
+            android:name=".activities.LocationDeitailActivity"
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
