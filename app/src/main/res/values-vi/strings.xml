@@ -22,4 +22,6 @@
     <string name="tv_titleTravelRoute">Lịch trình chuyến đi</string>
     <string name="warning_rating">Vui lòng đánh giá và cho chúng tôi biết trải nghiệm của bạn</string>
     <string name="thanks">Cảm ơn bạn đã cho chúng tôi biết trải nghiệm của bạn</string>
+    <string name="tv_title_locationInfor">Thông tin địa điểm</string>
+    <string name="toast_backpress">Nhấn lại lần nữa để thoát</string>
 </resources>

@@ -22,4 +22,6 @@
     <string name="tv_titleTravelRoute">行程时间表</string>
     <string name="warning_rating">请评分并告诉我们您的经验</string>
     <string name="thanks">感谢您让我们知道您的经历</string>
+    <string name="tv_title_locationInfor">地点信息</string>
+    <string name="toast_backpress">再按一次退出</string>
 </resources>

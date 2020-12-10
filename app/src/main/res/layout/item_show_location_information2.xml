@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/colorBlack"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize_title_tour_introduce"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,13 +41,14 @@
             android:scaleType="centerCrop" />
 
         <TextView
+            android:lineSpacingExtra="10dp"
             android:background="@color/colorShimmer"
             android:id="@+id/tvContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10dp"
             android:ellipsize="end"
-            android:fontFamily="@font/duru_sans_regular"
+            android:fontFamily="@font/fs_nokio_medium"
             android:maxLines="6"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/textSize_content_tour_introduce" />
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/duru_sans_regular"
             android:textColor="@drawable/click_text_seemore"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 </com.facebook.shimmer.ShimmerFrameLayout>

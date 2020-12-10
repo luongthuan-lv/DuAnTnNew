@@ -22,4 +22,6 @@
     <string name="tv_titleTravelRoute">График поездки</string>
     <string name="warning_rating">Пожалуйста, оцените и поделитесь с нами своим опытом</string>
     <string name="thanks">Спасибо, что поделились своим опытом</string>
+    <string name="tv_title_locationInfor">Информация о местонахождении</string>
+    <string name="toast_backpress">Нажмите еще раз, чтобы выйти</string>
 </resources>

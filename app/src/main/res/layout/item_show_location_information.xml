@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:ellipsize="end"
-                android:fontFamily="@font/playfair_display_bold_italic"
+                android:fontFamily="@font/roboto_medium"
                 android:maxLines="1"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/ts_15"
@@ -51,7 +51,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:fontFamily="@font/duru_sans_regular"
+                android:fontFamily="@font/fs_nokio_medium"
                 android:id="@+id/tvInformation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

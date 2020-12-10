@@ -22,4 +22,6 @@
     <string name="tv_titleTravelRoute">Jadwal perjalanan</string>
     <string name="warning_rating">Beri nilai dan beri tahu kami pengalaman Anda</string>
     <string name="thanks">Terima kasih telah memberi tahu kami pengalaman Anda</string>
+    <string name="tv_title_locationInfor">Informasi lokasi</string>
+    <string name="toast_backpress">Tekan kembali untuk keluar</string>
 </resources>

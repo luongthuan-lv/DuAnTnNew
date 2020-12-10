@@ -22,4 +22,6 @@
     <string name="tv_titleTravelRoute">L\'horaire du voyage</string>
     <string name="warning_rating">Veuillez évaluer et nous faire part de votre expérience</string>
     <string name="thanks">Merci de nous avoir fait part de votre expérience</string>
+    <string name="tv_title_locationInfor">Information de Lieu</string>
+    <string name="toast_backpress">Appuyez à nouveau pour quitter</string>
 </resources>

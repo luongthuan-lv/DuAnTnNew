@@ -22,4 +22,6 @@
     <string name="tv_titleTravelRoute">Der Reiseplan</string>
     <string name="warning_rating">Bitte bewerten Sie und teilen Sie uns Ihre Erfahrungen mit</string>
     <string name="thanks">Vielen Dank, dass Sie uns Ihre Erfahrungen mitgeteilt haben</string>
+    <string name="tv_title_locationInfor">Standortinformationen</string>
+    <string name="toast_backpress">Zum Beenden erneut zurück drücken</string>
 </resources>

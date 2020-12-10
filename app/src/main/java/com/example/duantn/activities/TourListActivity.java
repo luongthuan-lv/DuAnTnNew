@@ -51,6 +51,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private ImageView imgAvatar;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
+    private long backPressedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,8 +164,15 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finishAffinity();
+
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finishAffinity();
+            return;
+        } else {
+            showToast(getResources().getString(R.string.toast_backpress));
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 
     private Filter filter = new Filter() {
@@ -210,5 +218,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         getFilter().filter(newText);
         return false;
     }
+
 }
 

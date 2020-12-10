@@ -419,9 +419,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 Log.e("TAG", String.valueOf(imageURL));
 
                             }
+                            dismissDialog();
                             Intent intent = new Intent(LoginActivity.this, TourListActivity.class);
                             startActivity(intent);
-                            dismissDialog();
                         }
                     });
             Bundle parameters = new Bundle();

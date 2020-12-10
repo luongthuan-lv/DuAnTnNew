@@ -52,4 +52,6 @@
     <string name="tv_titleTravelRoute">The trip schedule</string>
     <string name="warning_rating">Please rate and let us know your experience</string>
     <string name="thanks">Thank you for letting us know your experience</string>
+    <string name="tv_title_locationInfor">Location information</string>
+    <string name="toast_backpress">Press back again to exit</string>
 </resources>

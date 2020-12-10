@@ -63,19 +63,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Thông tin địa điểm"
+                    android:text="@string/tv_title_locationInfor"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/textSize_title_tour_introduce"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:lineSpacingExtra="10dp"
                     android:id="@+id/tvContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_05"
-                    android:fontFamily="@font/duru_sans_regular"
+                    android:fontFamily="@font/fs_nokio_medium"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/textSize_content_tour_introduce" />
+                    android:textSize="16sp" />
 
 
             </LinearLayout>
