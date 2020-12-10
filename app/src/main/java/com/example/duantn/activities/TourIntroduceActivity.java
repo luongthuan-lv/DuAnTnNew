@@ -224,7 +224,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         retrofitService.postReport(getUserId(), getVehicleId(), ratingFeedback, edtFeedBack.getText().toString().trim(), getFullName(), getUrlAvt(), getCurrentDate()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                retrofitService.getReport(getIdTour()).enqueue(new Callback<List<Feedback>>() {
+                retrofitService.getReport(getVehicleId()).enqueue(new Callback<List<Feedback>>() {
                     @Override
                     public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
                         if (response.body().size() > 0) {

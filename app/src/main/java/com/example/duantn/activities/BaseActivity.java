@@ -48,7 +48,6 @@ public class BaseActivity extends AppCompatActivity {
     private static String languageCode;
     private static String voiceName;
     private static String idLanguage;
-    private static String idTour;
     private static String vehicleId;
     private static String urlAvt,fullName,userId;
 
@@ -76,9 +75,6 @@ public class BaseActivity extends AppCompatActivity {
         BaseActivity.idLanguage = idLanguage;
     }
 
-    public static String getIdTour() {
-        return idTour;
-    }
 
     public static String getVehicleId() {
         return vehicleId;
@@ -88,9 +84,6 @@ public class BaseActivity extends AppCompatActivity {
         BaseActivity.vehicleId = vehicleId;
     }
 
-    public static void setIdTour(String idTour) {
-        BaseActivity.idTour = idTour;
-    }
 
     public static String getUrlAvt() {
         return urlAvt;
