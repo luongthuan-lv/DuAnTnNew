@@ -354,8 +354,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 locationList.get(position).setAudio(true);
                 slideShowInformation.notifyItemChanged(position);
                 mPresenter.startSpeak(locationList.get(position).getInformation());
-                initDialogLoading();
-                showDialogLoading();
             }
 
             @Override
