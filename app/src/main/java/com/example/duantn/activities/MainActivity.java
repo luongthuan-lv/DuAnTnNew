@@ -101,7 +101,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private MainContract.IPresenter mPresenter;
     private List<TourInfor> locationList;
     private boolean enableDialog = false;
-    private boolean isBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +126,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private void initView() {
         findViewById(R.id.btn_feedback).setOnClickListener(this);
         addColor();
+        findViewById(R.id.btnPre).setOnClickListener(MainActivity.this::onClick);
     }
 
     @Override
@@ -162,8 +162,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             @Override
             public void onMapLoaded() {
                 dismissDialog();
-                isBackPressed = true;
-                findViewById(R.id.btnPre).setOnClickListener(MainActivity.this::onClick);
             }
         });
         // onClickButtonMyLocation
@@ -244,16 +242,19 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 polylineOptions.width(10);
                 polylineOptions.addAll(decodePolyLine(response.body().getRoutes().get(0).getOverviewPolyline().getPoints()));
                 SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-                assert supportMapFragment != null;
-                supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
 
-                if (locationIndex < locationList.size() - 2) {
-                    locationIndex++;
-                    getMapDirection(locationIndex, locationIndex + 1);
-                } else if (locationIndex == locationList.size() - 2) {
-                    locationIndex++;
-                    getMapDirection(locationIndex, 0);
+                if (supportMapFragment!=null){
+                    supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+
+                    if (locationIndex < locationList.size() - 2) {
+                        locationIndex++;
+                        getMapDirection(locationIndex, locationIndex + 1);
+                    } else if (locationIndex == locationList.size() - 2) {
+                        locationIndex++;
+                        getMapDirection(locationIndex, 0);
+                    }
                 }
+
             }
 
             @Override
@@ -719,10 +720,4 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (isBackPressed) {
-            super.onBackPressed();
-        }
-    }
 }
