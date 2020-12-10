@@ -23,9 +23,12 @@ public class TourInfor {
     @SerializedName("avatar")
     @Expose
     private List<String> avatar = null;
-
+    @SerializedName("way")
+    @Expose
+    private String waypoints;
 
     private boolean audio=false;
+
     private boolean visited = false;
 
     public Location getLocation() {
@@ -80,5 +83,13 @@ public class TourInfor {
 
     public void setVisited(boolean visited) {
         this.visited = visited;
+    }
+
+    public String getWaypoints() {
+        return waypoints;
+    }
+
+    public void setWaypoints(String waypoints) {
+        this.waypoints = waypoints;
     }
 }

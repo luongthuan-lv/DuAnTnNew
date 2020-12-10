@@ -27,6 +27,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -227,34 +228,36 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
+//        Log.e("TAG", "1" + locationList.get(location1).getWaypoints() + "2");
         retrofitService.getMapDirection(getLatLng(location1), getLatLng(location2), "", api_key).enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
 
-                polylineOptions = new PolylineOptions();
-                if (colorIndex < colorsList.size()) {
-                    polylineOptions.color(colorsList.get(colorIndex).getColor());
-                    colorIndex++;
-                } else {
-                    colorIndex = 0;
-                    polylineOptions.color(colorsList.get(colorIndex).getColor());
-                }
-                polylineOptions.width(10);
-                polylineOptions.addAll(decodePolyLine(response.body().getRoutes().get(0).getOverviewPolyline().getPoints()));
-                SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+                if (response.body().getRoutes().size() > 0) {
+                    polylineOptions = new PolylineOptions();
+                    if (colorIndex < colorsList.size()) {
+                        polylineOptions.color(colorsList.get(colorIndex).getColor());
+                        colorIndex++;
+                    } else {
+                        colorIndex = 0;
+                        polylineOptions.color(colorsList.get(colorIndex).getColor());
+                    }
+                    polylineOptions.width(10);
+                    polylineOptions.addAll(decodePolyLine(response.body().getRoutes().get(0).getOverviewPolyline().getPoints()));
+                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
 
-                if (supportMapFragment!=null){
-                    supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+                    if (supportMapFragment != null) {
+                        supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
 
-                    if (locationIndex < locationList.size() - 2) {
-                        locationIndex++;
-                        getMapDirection(locationIndex, locationIndex + 1);
-                    } else if (locationIndex == locationList.size() - 2) {
-                        locationIndex++;
-                        getMapDirection(locationIndex, 0);
+                        if (locationIndex < locationList.size() - 2) {
+                            locationIndex++;
+                            getMapDirection(locationIndex, locationIndex + 1);
+                        } else if (locationIndex == locationList.size() - 2) {
+                            locationIndex++;
+                            getMapDirection(locationIndex, 0);
+                        }
                     }
                 }
-
             }
 
             @Override
