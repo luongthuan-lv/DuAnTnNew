@@ -208,6 +208,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                             feedbackList = new ArrayList<>();
                             feedbackList = response.body();
                             setFeedBack();
+                            showToast(getResources().getString(R.string.thanks));
+                            edtFeedBack.setText("");
                         }
                     }
 
@@ -238,7 +240,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                     if (ratingFeedback <= 0 || edtFeedBack.getText().toString().trim().equals("")) {
                         showToast(getResources().getString(R.string.warning_rating));
                     } else {
-                        showToast(getResources().getString(R.string.thanks));
                         postRetrofit();
                     }
                     break;

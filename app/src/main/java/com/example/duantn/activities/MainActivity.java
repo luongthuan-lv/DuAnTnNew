@@ -33,7 +33,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -42,7 +41,6 @@ import android.widget.Toast;
 
 import com.example.duantn.MainContract;
 import com.example.duantn.MainPresenter;
-import com.example.duantn.morder.Feedback;
 import com.example.duantn.morder.TourInfor;
 import com.example.duantn.network.RetrofitService;
 import com.example.duantn.R;
@@ -50,7 +48,6 @@ import com.example.duantn.adapter.AdapterSlideDialoginformation;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
 import com.example.duantn.api_map_direction.Example;
 import com.example.duantn.morder.Colors;
-import com.example.duantn.view.CustomImageButton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -67,7 +64,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -105,6 +101,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private MainContract.IPresenter mPresenter;
     private List<TourInfor> locationList;
     private boolean enableDialog = false;
+    private boolean isBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +162,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             @Override
             public void onMapLoaded() {
                 dismissDialog();
+                isBackPressed = true;
                 findViewById(R.id.btnPre).setOnClickListener(MainActivity.this::onClick);
             }
         });
@@ -723,7 +721,8 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (isBackPressed) {
+            super.onBackPressed();
+        }
     }
-
 }
