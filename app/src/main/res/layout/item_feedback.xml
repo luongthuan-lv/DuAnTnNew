@@ -36,9 +36,9 @@
             android:fontFamily="@font/duru_sans_regular"
             android:textColor="@color/colorBlack"
             android:textSize="14sp"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintEnd_toStartOf="@+id/tv_date"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_date"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5" />
@@ -56,39 +56,13 @@
             app:layout_constraintVertical_bias="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_marginBottom="@dimen/margin_10dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/img_star1"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
-
-        <ImageView
-            android:id="@+id/img_star2"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
-
-        <ImageView
-            android:id="@+id/img_star3"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
-
-        <ImageView
-            android:id="@+id/img_star4"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
-
-        <ImageView
-            android:id="@+id/img_star5"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
-
-    </LinearLayout>
+        android:isIndicator="true"
+        android:numStars="5" />
 
     <TextView
         android:id="@+id/tv_content"

@@ -2,8 +2,8 @@
 <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/shimmerFrameLayout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <FrameLayout
@@ -17,13 +17,13 @@
             android:paddingTop="@dimen/padding_img_tour">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:transitionName="@string/transitionName1"
                 android:id="@+id/img_tour"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:background="@color/colorShimmer"
                 android:scaleType="centerCrop"
+                android:transitionName="@string/transitionName1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -72,41 +72,14 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_title_tour"
                 app:layout_constraintVertical_bias="0.01">
 
-                <LinearLayout
+                <RatingBar
+                    android:isIndicator="true"
+                    android:visibility="gone"
+                    style = "?android:attr/ratingBarStyleSmall"
+                    android:id="@+id/ratingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/paddingH_rating"
-                    android:paddingTop="@dimen/paddingV_rating"
-                    android:paddingEnd="@dimen/paddingH_rating"
-                    android:paddingBottom="@dimen/paddingV_rating">
-
-                    <ImageView
-                        android:id="@+id/img_star1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <ImageView
-                        android:id="@+id/img_star2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <ImageView
-                        android:id="@+id/img_star3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <ImageView
-                        android:id="@+id/img_star4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <ImageView
-                        android:id="@+id/img_star5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
+                    android:numStars="5"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -126,9 +99,9 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:background="@color/colorShimmer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/colorShimmer"
                 app:layout_constraintStart_toEndOf="@+id/glV80"
                 app:layout_constraintTop_toTopOf="parent" />
 

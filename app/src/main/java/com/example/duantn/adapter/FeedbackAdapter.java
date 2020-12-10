@@ -1,10 +1,14 @@
 package com.example.duantn.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,13 +45,10 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         holder.tv_date.setText(feedbackList.get(position).getDate());
         holder.tv_username.setText(feedbackList.get(position).getUsername());
 
-        List<ImageView> imageViewList = Arrays.asList(new ImageView[]{holder.img_star1, holder.img_star2, holder.img_star3, holder.img_star4, holder.img_star5});
-        for (int i = 0; i < imageViewList.size(); i++) {
-            imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
-        }
-        for (int i = 0; i < feedbackList.get(position).getStar(); i++) {
-            imageViewList.get(i).setImageResource(R.drawable.selected_star);
-        }
+        LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        holder.ratingBar.setRating(feedbackList.get(position).getStar());
+
 
     }
 
@@ -66,7 +67,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
         private TextView tv_username,tv_date,tv_content;
         private ImageView imageView;
-        private ImageView img_star1,img_star2,img_star3,img_star4,img_star5;
+        private RatingBar ratingBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,11 +75,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
             tv_date = itemView.findViewById(R.id.tv_date);
             tv_username = itemView.findViewById(R.id.tv_username);
             imageView = itemView.findViewById(R.id.imageView);
-            img_star1 = itemView.findViewById(R.id.img_star1);
-            img_star2 = itemView.findViewById(R.id.img_star2);
-            img_star3 = itemView.findViewById(R.id.img_star3);
-            img_star4 = itemView.findViewById(R.id.img_star4);
-            img_star5 = itemView.findViewById(R.id.img_star5);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
 
         }
     }

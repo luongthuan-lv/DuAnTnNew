@@ -38,7 +38,7 @@ public interface RetrofitService {
     @FormUrlEncoded
     Call<String> postReport(@Field("user") String user,
                                     @Field("vehicle") String vehicle,
-                                    @Field("star") int star,
+                                    @Field("star") float star,
                                     @Field("report") String report,
                                     @Field("name") String name,
                                     @Field("avatar") String avatar,

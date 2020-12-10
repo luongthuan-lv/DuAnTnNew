@@ -16,7 +16,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,13 +86,11 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
     private ArrayList<LatLng> latLngs;
+    private RatingBar ratingBar;
     private ViewPager2 viewPager2;
     private AdapterSlideShowInformation slideShowInformation;
-    private List<ImageView> imageViewList;
-    private int rating;
     private int currentPage = 0;
     private Timer timer;
-    private String contentFeedback;
     private LatLng mCurrentLocation;
     private final String api_key = "AIzaSyCmxFS2arHibTbROQAfTkZAJRkEpz8LErU";
     private int locationIndex = 0;
@@ -308,16 +309,15 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     }
 
 
-    private void sendFeedback(EditText edt) {
-        if(isConnected(false)){
-            if(rating <= 0 || edt.getText().toString().trim().equals("")){
-                showToast(getResources().getString(R.string.warning_rating));
-            } else {
-                showToast(getResources().getString(R.string.thanks));
-                postRetrofit(edt);
-            }
+    private void sendFeedback(EditText edt, AlertDialog dialog) {
+        float rating;
+        rating = ratingBar.getRating();
+        if (rating <= 0 || edt.getText().toString().trim().equals("")) {
+            showToast(getResources().getString(R.string.warning_rating));
         } else {
-            showDialogNoInternet();
+            showToast(getResources().getString(R.string.thanks));
+            postRetrofit(edt, rating);
+            dialog.dismiss();
         }
 
     }
@@ -406,36 +406,16 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
         View alertLayout = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_rating, (LinearLayout) findViewById(R.id.layout_content));
 
-        ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
+
         final EditText edt_note;
         Button btn_submit;
-        img_star1 = alertLayout.findViewById(R.id.img_star1);
-        img_star2 = alertLayout.findViewById(R.id.img_star2);
-        img_star3 = alertLayout.findViewById(R.id.img_star3);
-        img_star4 = alertLayout.findViewById(R.id.img_star4);
-        img_star5 = alertLayout.findViewById(R.id.img_star5);
+        ratingBar = alertLayout.findViewById(R.id.ratingBar);
+        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         edt_note = alertLayout.findViewById(R.id.edt_note);
         btn_submit = alertLayout.findViewById(R.id.btn_submit);
         edt_note.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
-        for (int i = 0; i < imageViewList.size(); i++) {
-            imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
-        }
-        for (int i = 0; i < imageViewList.size(); i++) {
-            final int finalI = i;
-            imageViewList.get(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (int i = 0; i < imageViewList.size(); i++) {
-                        imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
-                    }
-                    for (int j = 0; j < finalI + 1; j++) {
-                        imageViewList.get(j).setImageResource(R.drawable.selected_star);
-                        rating = j + 1;
-                    }
-                }
-            });
-        }
+
         alert.setView(alertLayout);
         alert.setCancelable(true);
 
@@ -445,11 +425,10 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             @Override
             public void onClick(View v) {
                 if (isConnected(false)) {
-                    sendFeedback(edt_note);
+                    sendFeedback(edt_note, dialog);
                 } else {
                     showDialogNoInternet();
                 }
-                dialog.dismiss();
             }
         });
         dialog.show();
@@ -457,7 +436,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     }
 
 
-    private void postRetrofit(EditText edtFeedBack) {
+    private void postRetrofit(EditText edtFeedBack, float rating) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://tourintro.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())

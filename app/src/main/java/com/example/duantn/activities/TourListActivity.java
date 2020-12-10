@@ -114,7 +114,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     Bundle bundle = new Bundle();
                     bundle.putString("tour_name", tourList.get(position).getCateName());
                     bundle.putString("avatar", tourList.get(position).getAvatar());
-                    bundle.putInt("rating", 3);
+                    bundle.putFloat("rating", tourList.get(position).getStarCate());
                     bundle.putString("router", tourList.get(position).getRouter());
                     intent.putExtras(bundle);
                     startActivity(intent, options.toBundle());

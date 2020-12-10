@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +50,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
 
     private String tour_name, avatar, route;
-    private int rating, ratingFeedback;
+    private float rating, ratingFeedback;
+    private RatingBar ratingBar1,ratingBar2;
     private ImageView img_tour;
     private TextView textViewRoute;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -56,8 +60,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     public static List<TourInfor> locationList;
     private List<Feedback> feedbackList;
     private FeedbackAdapter feedbackAdapter;
-    private ImageView img_star1, img_star2, img_star3, img_star4, img_star5;
-    private ImageView imgf_star1, imgf_star2, imgf_star3, imgf_star4, imgf_star5;
     private EditText edtFeedBack;
     private Retrofit retrofit;
     private RetrofitService retrofitService;
@@ -90,7 +92,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         if (bundle != null) {
             tour_name = bundle.getString("tour_name");
             avatar = bundle.getString("avatar");
-            rating = bundle.getInt("rating", 0);
+            rating = bundle.getFloat("rating", 0);
             route = bundle.getString("router");
 
         }
@@ -99,48 +101,23 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private void initView() {
         img_tour = findViewById(R.id.img_tour);
         Glide.with(this).load(Url.urlImage + avatar).into(img_tour);
+
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(tour_name);
+
         textViewRoute = findViewById(R.id.textViewRoute);
         textViewRoute.setText(route);
 
-        img_star1 = findViewById(R.id.img_star1);
-        img_star2 = findViewById(R.id.img_star2);
-        img_star3 = findViewById(R.id.img_star3);
-        img_star4 = findViewById(R.id.img_star4);
-        img_star5 = findViewById(R.id.img_star5);
-        List<ImageView> imageViewList = Arrays.asList(new ImageView[]{img_star1, img_star2, img_star3, img_star4, img_star5});
-        for (int i = 0; i < imageViewList.size(); i++) {
-            imageViewList.get(i).setImageResource(R.drawable.no_selected_star);
-        }
-        for (int i = 0; i < rating; i++) {
-            imageViewList.get(i).setImageResource(R.drawable.selected_star);
-        }
+        ratingBar1 = findViewById(R.id.ratingBar1);
+        LayerDrawable stars = (LayerDrawable) ratingBar1.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        ratingBar1.setRating(rating);
 
-        imgf_star1 = findViewById(R.id.imgf_star1);
-        imgf_star2 = findViewById(R.id.imgf_star2);
-        imgf_star3 = findViewById(R.id.imgf_star3);
-        imgf_star4 = findViewById(R.id.imgf_star4);
-        imgf_star5 = findViewById(R.id.imgf_star5);
-        List<ImageView> imageViewList2 = Arrays.asList(new ImageView[]{imgf_star1, imgf_star2, imgf_star3, imgf_star4, imgf_star5});
-        for (int i = 0; i < imageViewList2.size(); i++) {
-            imageViewList2.get(i).setImageResource(R.drawable.no_selected_star);
-        }
-        for (int i = 0; i < imageViewList2.size(); i++) {
-            final int finalI = i;
-            imageViewList2.get(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (int i = 0; i < imageViewList2.size(); i++) {
-                        imageViewList2.get(i).setImageResource(R.drawable.no_selected_star);
-                    }
-                    for (int j = 0; j < finalI + 1; j++) {
-                        imageViewList2.get(j).setImageResource(R.drawable.selected_star);
-                        ratingFeedback = j + 1;
-                    }
-                }
-            });
-        }
+        ratingBar2 = findViewById(R.id.ratingBar2);
+        LayerDrawable stars2 = (LayerDrawable) ratingBar2.getProgressDrawable();
+        stars2.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+
         edtFeedBack = findViewById(R.id.edtFeedBack);
         findViewById(R.id.btnSendFeedback).setOnClickListener(this);
     }
@@ -257,6 +234,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                     createAlertDialog();
                     break;
                 case R.id.btnSendFeedback:
+                    ratingFeedback = ratingBar2.getRating();
                     if (ratingFeedback <= 0 || edtFeedBack.getText().toString().trim().equals("")) {
                         showToast(getResources().getString(R.string.warning_rating));
                     } else {

@@ -15,7 +15,7 @@ public class Feedback {
     private String date;
     @SerializedName("star")
     @Expose
-    private int star;
+    private float star;
     @SerializedName("report")
     @Expose
     private String report;
@@ -45,11 +45,11 @@ public class Feedback {
         this.date = date;
     }
 
-    public int getStar() {
+    public float getStar() {
         return star;
     }
 
-    public void setStar(int star) {
+    public void setStar(float star) {
         this.star = star;
     }
 

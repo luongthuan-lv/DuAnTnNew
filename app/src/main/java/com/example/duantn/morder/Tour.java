@@ -12,6 +12,9 @@ public class Tour {
     @SerializedName("avatar")
     @Expose
     private String avatar;
+    @SerializedName("starCate")
+    @Expose
+    private float starCate;
     @SerializedName("cate_name")
     @Expose
     private String cateName;
@@ -41,9 +44,18 @@ public class Tour {
         this.avatar = avatar;
     }
 
+    public float getStarCate() {
+        return starCate;
+    }
+
+    public void setStarCate(float starCate) {
+        this.starCate = starCate;
+    }
+
     public String getCateName() {
         return cateName;
     }
+
     public String getVehicleId() {
         return vehicleId;
     }

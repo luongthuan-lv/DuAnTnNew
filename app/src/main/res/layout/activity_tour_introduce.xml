@@ -8,9 +8,9 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -64,39 +64,12 @@
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/margin_10dp">
 
-                <LinearLayout
-                    android:layout_marginTop="@dimen/margin_10dp"
-                    android:layout_marginBottom="@dimen/margin_10dp"
+                <RatingBar
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:id="@+id/ratingBar1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/paddingV_rating">
-
-                    <ImageView
-                        android:id="@+id/img_star1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <ImageView
-                        android:id="@+id/img_star2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <ImageView
-                        android:id="@+id/img_star3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <ImageView
-                        android:id="@+id/img_star4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <ImageView
-                        android:id="@+id/img_star5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-                </LinearLayout>
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -141,71 +114,45 @@
                     android:orientation="vertical" />
 
                 <TextView
-                    android:layout_marginTop="@dimen/margin_10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/title_dialog_rating"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/textSize_title_tour_introduce" />
 
-                <LinearLayout
-                    android:layout_marginTop="@dimen/margin_10dp"
+                <RatingBar
+                    android:stepSize="0.5"
+                    android:numStars="5"
+                    android:id="@+id/ratingBar2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/paddingV_rating">
-
-                    <ImageView
-                        android:id="@+id/imgf_star1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <ImageView
-                        android:id="@+id/imgf_star2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <ImageView
-                        android:id="@+id/imgf_star3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <ImageView
-                        android:id="@+id/imgf_star4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-
-                    <ImageView
-                        android:id="@+id/imgf_star5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-                </LinearLayout>
+                    android:layout_height="wrap_content" />
 
                 <EditText
+                    android:id="@+id/edtFeedBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
                     android:layout_marginTop="@dimen/margin_10dp"
+                    android:background="@drawable/bg_edt_feedback"
                     android:gravity="start"
+                    android:hint="@string/hint_edt_comment"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:paddingLeft="@dimen/margin_10dp"
-                    android:textSize="@dimen/textSize_title_tour_introduce"
-                    android:hint="@string/hint_edt_comment"
-                    android:background="@drawable/bg_edt_feedback"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:id="@+id/edtFeedBack"/>
+                    android:textSize="@dimen/textSize_title_tour_introduce" />
 
 
                 <com.example.duantn.view.CustomButton
-                    android:layout_marginTop="@dimen/margin_10dp"
-                    android:textColor="#0477ba"
+                    android:id="@+id/btnSendFeedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btnSendFeedback"
-                    android:text="@string/label_btn_Submit"
+                    android:layout_marginTop="@dimen/margin_10dp"
                     android:background="@drawable/bg_btn_send_feedback"
+                    android:text="@string/label_btn_Submit"
                     android:textAllCaps="false"
-                    />
+                    android:textColor="#0477ba" />
+
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="80dp" />
@@ -215,7 +162,6 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.example.duantn.view.CustomButton
-        android:textColor="@color/colorWhite"
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -225,6 +171,7 @@
         android:fontFamily="@font/lato_regular"
         android:text="@string/label1_btn_get_started"
         android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent" />
 
