@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
 
-        retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
+        retrofitService.getTourInfor(getIdLanguage(), getVehicleId()).enqueue(new Callback<List<TourInfor>>() {
             @Override
             public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
                 if (response.body().size() != 0) {
@@ -340,6 +340,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             public void onClicked(int position) {
                 if (isConnected(false)) {
                     showCustomDialog(position);
+
                 } else showDialogNoInternet();
             }
 
@@ -353,6 +354,8 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 locationList.get(position).setAudio(true);
                 slideShowInformation.notifyItemChanged(position);
                 mPresenter.startSpeak(locationList.get(position).getInformation());
+                initDialogLoading();
+                showDialogLoading();
             }
 
             @Override
@@ -462,7 +465,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-        retrofitService.postReport(getUserId(), getIdTour(), rating, edtFeedBack.getText().toString().trim(), getFullName(), getUrlAvt(), getCurrentDate()).enqueue(new Callback<String>() {
+        retrofitService.postReport(getUserId(), getVehicleId(), rating, edtFeedBack.getText().toString().trim(), getFullName(), getUrlAvt(), getCurrentDate()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
@@ -745,4 +748,5 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }

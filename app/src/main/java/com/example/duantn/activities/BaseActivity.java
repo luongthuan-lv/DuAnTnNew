@@ -49,6 +49,7 @@ public class BaseActivity extends AppCompatActivity {
     private static String voiceName;
     private static String idLanguage;
     private static String idTour;
+    private static String vehicleId;
     private static String urlAvt,fullName,userId;
 
     public static String getLanguageCode() {
@@ -77,6 +78,14 @@ public class BaseActivity extends AppCompatActivity {
 
     public static String getIdTour() {
         return idTour;
+    }
+
+    public static String getVehicleId() {
+        return vehicleId;
+    }
+
+    public static void setVehicleId(String vehicleId) {
+        BaseActivity.vehicleId = vehicleId;
     }
 
     public static void setIdTour(String idTour) {

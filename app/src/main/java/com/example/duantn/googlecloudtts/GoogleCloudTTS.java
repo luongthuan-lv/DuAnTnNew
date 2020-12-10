@@ -3,6 +3,7 @@ package com.example.duantn.googlecloudtts;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import com.example.duantn.activities.BaseActivity;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -73,7 +74,7 @@ public class GoogleCloudTTS {
         }
     }
 
-    private Runnable runnableSend = new Runnable() {
+    public Runnable runnableSend = new Runnable() {
         @Override
         public void run() {
             Log.d(TAG, "Message: " + mVoiceMessage.toString());
@@ -122,7 +123,6 @@ public class GoogleCloudTTS {
     private void playAudio(String base64EncodedString) {
         try {
             stopAudio();
-
             String url = "data:audio/mp3;base64," + base64EncodedString;
             mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setDataSource(url);

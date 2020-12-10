@@ -13,6 +13,10 @@ public class TourInfor {
     @SerializedName("place")
     @Expose
     private String place;
+
+    @SerializedName("vehicle_id")
+    @Expose
+    private String vehicleId;
     @SerializedName("information")
     @Expose
     private String information;
@@ -51,7 +55,13 @@ public class TourInfor {
     public List<String> getAvatar() {
         return avatar;
     }
+    public String getVehicleId() {
+        return vehicleId;
+    }
 
+    public void setVehicleId(String vehicleId) {
+        this.vehicleId = vehicleId;
+    }
     public void setAvatar(List<String> avatar) {
         this.avatar = avatar;
     }

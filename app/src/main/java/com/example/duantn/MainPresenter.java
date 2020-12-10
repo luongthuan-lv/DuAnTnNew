@@ -110,6 +110,7 @@ public class MainPresenter implements MainContract.IPresenter, VoiceList.IVoiceL
         mSpeechManager.stopSpeak();
     }
 
+
     public void resumeSpeak() {
         mSpeechManager.resume();
     }

@@ -109,6 +109,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
             public void onClicked(int position, ShapeableImageView img_tour) {
                 if (isConnected(false)) {
                     setIdTour(tourList.get(position).getId());
+                    setVehicleId(tourList.get(position).getVehicleId());
                     Intent intent = new Intent(TourListActivity.this, TourIntroduceActivity.class);
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(TourListActivity.this, img_tour, ViewCompat.getTransitionName(img_tour));
                     Bundle bundle = new Bundle();

@@ -71,4 +71,7 @@ public class GoogleCloudTTSAdapter extends GoogleCloudTTS implements ISpeech, Go
             speechListener.onFailure(message, e);
         }
     }
+
+
+
 }

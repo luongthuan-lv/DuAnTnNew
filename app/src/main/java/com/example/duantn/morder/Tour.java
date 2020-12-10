@@ -15,6 +15,9 @@ public class Tour {
     @SerializedName("cate_name")
     @Expose
     private String cateName;
+    @SerializedName("vehicle_id")
+    @Expose
+    private String vehicleId;
     @SerializedName("router")
     @Expose
     private String router;
@@ -40,6 +43,13 @@ public class Tour {
 
     public String getCateName() {
         return cateName;
+    }
+    public String getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(String vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
     public void setCateName(String cateName) {

@@ -185,7 +185,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
     private void getRetrofit() {
 
-        retrofitService.getTourInfor(getIdLanguage(), getIdTour()).enqueue(new Callback<List<TourInfor>>() {
+        retrofitService.getTourInfor(getIdLanguage(), getVehicleId()).enqueue(new Callback<List<TourInfor>>() {
             @Override
             public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
                 if (response.body().size() > 0) {
@@ -203,7 +203,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             }
         });
 
-        retrofitService.getReport(getIdTour()).enqueue(new Callback<List<Feedback>>() {
+        retrofitService.getReport(getVehicleId()).enqueue(new Callback<List<Feedback>>() {
             @Override
             public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
                 if (response.body().size() > 0) {
@@ -221,7 +221,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     }
 
     private void postRetrofit() {
-        retrofitService.postReport(getUserId(), getIdTour(), ratingFeedback, edtFeedBack.getText().toString().trim(), getFullName(), getUrlAvt(), getCurrentDate()).enqueue(new Callback<String>() {
+        retrofitService.postReport(getUserId(), getVehicleId(), ratingFeedback, edtFeedBack.getText().toString().trim(), getFullName(), getUrlAvt(), getCurrentDate()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 retrofitService.getReport(getIdTour()).enqueue(new Callback<List<Feedback>>() {
