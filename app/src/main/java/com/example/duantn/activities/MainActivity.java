@@ -316,9 +316,9 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         if (rating <= 0 || edt.getText().toString().trim().equals("")) {
             showToast(getResources().getString(R.string.warning_rating));
         } else {
-            showToast(getResources().getString(R.string.thanks));
-            postRetrofit(edt, rating);
-            dialog.dismiss();
+            initDialogLoading();
+            showDialogLoading();
+            postRetrofit(edt, rating,dialog);
         }
 
     }
@@ -437,7 +437,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     }
 
 
-    private void postRetrofit(EditText edtFeedBack, float rating) {
+    private void postRetrofit(EditText edtFeedBack, float rating,AlertDialog dialog) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://tourintro.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -446,12 +446,16 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         retrofitService.postReport(getUserId(), getVehicleId(), rating, edtFeedBack.getText().toString().trim(), getFullName(), getUrlAvt(), getCurrentDate()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-
+                dismissDialog();
+                showToast(getResources().getString(R.string.thanks));
+                dialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                dismissDialog();
+                dialog.dismiss();
             }
         });
     }
