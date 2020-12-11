@@ -416,7 +416,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 setUrlAvt(String.valueOf(imageURL));
                                 setFullName(personName);
                                 setUserId(id);
-                                Log.e("TAG", String.valueOf(imageURL));
 
                             }
                             dismissDialog();
