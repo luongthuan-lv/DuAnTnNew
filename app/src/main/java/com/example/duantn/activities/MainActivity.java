@@ -557,7 +557,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                     mCurrentLocation = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                     getDistance(locationResult);
                     if (moveCamera) {
-                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 17));
+                        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 17));
                     }
                 }
             } else {
