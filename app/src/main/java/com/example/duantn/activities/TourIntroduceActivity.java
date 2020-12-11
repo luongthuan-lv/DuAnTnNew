@@ -213,6 +213,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                             setFeedBack();
                             showToast(getResources().getString(R.string.thanks));
                             edtFeedBack.setText("");
+                            dismissDialog();
                         }
                     }
 
@@ -226,6 +227,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(TourIntroduceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                dismissDialog();
             }
         });
     }
@@ -239,6 +241,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                     createAlertDialog();
                     break;
                 case R.id.btnSendFeedback:
+                    initDialogLoading();
+                    showDialogLoading();
                     ratingFeedback = ratingBar2.getRating();
                     if (ratingFeedback <= 0 || edtFeedBack.getText().toString().trim().equals("")) {
                         showToast(getResources().getString(R.string.warning_rating));
