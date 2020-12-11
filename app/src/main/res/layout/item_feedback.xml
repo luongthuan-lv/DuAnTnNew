@@ -26,8 +26,8 @@
             <ImageView
                 android:background="@color/colorShimmer"
                 android:id="@+id/imageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/height_40"
+                android:layout_height="@dimen/height_40"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
                 android:layout_marginLeft="@dimen/padding_05"
                 android:fontFamily="@font/duru_sans_regular"
                 android:textColor="@color/colorBlack"
-                android:textSize="14sp"
+                android:textSize="@dimen/ts_14"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_date"
                 app:layout_constraintHorizontal_bias="0"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/duru_sans_regular"
                 android:textColor="@color/bg_line"
-                android:textSize="14sp"
+                android:textSize="@dimen/ts_14"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -81,7 +81,7 @@
             android:layout_marginTop="@dimen/padding_05"
             android:fontFamily="@font/duru_sans_regular"
             android:textColor="@color/colorBlack"
-            android:textSize="14sp" />
+            android:textSize="@dimen/ts_14" />
 
     </LinearLayout>
 </com.facebook.shimmer.ShimmerFrameLayout>

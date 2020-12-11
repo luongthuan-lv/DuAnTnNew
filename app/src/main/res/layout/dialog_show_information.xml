@@ -9,7 +9,7 @@
         android:id="@+id/cvDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="30dp">
+        app:cardCornerRadius="@dimen/margin_30">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/none_width_height"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/glH40"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,8 +46,8 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:lineSpacingExtra="10dp"
-                android:textSize="16sp"
+                android:lineSpacingExtra="@dimen/margin_10dp"
+                android:textSize="@dimen/ts_16"
                 android:fontFamily="@font/fs_nokio_medium"
                 android:id="@+id/tvDialogContent"
                 android:layout_width="match_parent"

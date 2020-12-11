@@ -16,7 +16,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="@dimen/heightAppBarLayout"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
@@ -26,8 +26,8 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="@color/color_text_btn_warning"
-                app:expandedTitleMarginStart="15dp"
-                app:expandedTitleMarginTop="20dp"
+                app:expandedTitleMarginStart="@dimen/margin_15"
+                app:expandedTitleMarginTop="@dimen/margin_20dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <ImageView
@@ -43,8 +43,8 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
-                    app:contentInsetStart="0dp"
-                    app:contentInsetStartWithNavigation="0dp"
+                    app:contentInsetStart="@dimen/none_width_height"
+                    app:contentInsetStartWithNavigation="@dimen/none_width_height"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/Theme.AppCompat" />
 
@@ -103,7 +103,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/hint_edt_comment"
                     android:textColor="@color/colorBlack"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/margin_15"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -132,7 +132,7 @@
                 <EditText
                     android:id="@+id/edtFeedBack"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="@dimen/height_150"
                     android:layout_marginTop="@dimen/margin_10dp"
                     android:background="@drawable/bg_edt_feedback"
                     android:gravity="start"
@@ -155,7 +155,7 @@
 
                 <View
                     android:layout_width="wrap_content"
-                    android:layout_height="80dp" />
+                    android:layout_height="@dimen/height_80" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

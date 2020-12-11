@@ -22,13 +22,13 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/mbCvInformation"
             android:orientation="horizontal"
-            android:paddingHorizontal="40dp"
+            android:paddingHorizontal="@dimen/padding_H_40"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
             android:id="@+id/btn_feedback"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/height_50"
+            android:layout_height="@dimen/height_50"
             android:src="@drawable/ic_feedback"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,8 +40,8 @@
 
     <com.example.duantn.view.CustomImageButton
         android:id="@+id/btnPre"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/height_40"
+        android:layout_height="@dimen/height_40"
         android:layout_marginLeft="@dimen/margin_20dp"
         android:layout_marginTop="@dimen/margin_20dp"
         android:background="@drawable/bg_btn_pre"

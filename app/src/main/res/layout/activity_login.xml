@@ -8,8 +8,9 @@
     tools:context=".activities.LoginActivity">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/imgLogo"
+        android:layout_width="@dimen/height_100"
+        android:layout_height="@dimen/height_100"
         android:src="@drawable/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

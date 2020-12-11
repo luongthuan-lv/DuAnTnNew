@@ -36,12 +36,12 @@
             android:background="@color/colorShimmer"
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="@dimen/heightAppBarLayout"
             android:layout_marginTop="@dimen/margin_10dp"
             android:scaleType="centerCrop" />
 
         <TextView
-            android:lineSpacingExtra="10dp"
+            android:lineSpacingExtra="@dimen/margin_10dp"
             android:background="@color/colorShimmer"
             android:id="@+id/tvContent"
             android:layout_width="match_parent"

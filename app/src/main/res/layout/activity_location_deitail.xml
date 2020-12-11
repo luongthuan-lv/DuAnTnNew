@@ -11,7 +11,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="@dimen/heightAppBarLayout"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
@@ -21,8 +21,8 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 app:contentScrim="@color/color_text_btn_warning"
-                app:expandedTitleMarginStart="15dp"
-                app:expandedTitleMarginTop="20dp"
+                app:expandedTitleMarginStart="@dimen/mScollapsingToolbarLayout"
+                app:expandedTitleMarginTop="@dimen/mTCollapsingToolbarLayout"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -37,8 +37,8 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
-                    app:contentInsetStart="0dp"
-                    app:contentInsetStartWithNavigation="0dp"
+                    app:contentInsetStart="@dimen/none_width_height"
+                    app:contentInsetStartWithNavigation="@dimen/none_width_height"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/Theme.AppCompat" />
 
@@ -69,14 +69,14 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:lineSpacingExtra="10dp"
+                    android:lineSpacingExtra="@dimen/margin_10dp"
                     android:id="@+id/tvContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_05"
                     android:fontFamily="@font/fs_nokio_medium"
                     android:textColor="@color/colorBlack"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/ts_16" />
 
 
             </LinearLayout>
