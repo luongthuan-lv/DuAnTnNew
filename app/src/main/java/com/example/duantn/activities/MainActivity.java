@@ -206,8 +206,9 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                         OnGPS();
                     } else {
                         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-                        assert supportMapFragment != null;
-                        supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+                        if (supportMapFragment != null) {
+                            supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
+                        }
                     }
                     getMapDirection(locationIndex, locationIndex + 1);
                 }
@@ -245,17 +246,15 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                     polylineOptions.width(10);
                     polylineOptions.addAll(decodePolyLine(response.body().getRoutes().get(0).getOverviewPolyline().getPoints()));
                     SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-
                     if (supportMapFragment != null) {
                         supportMapFragment.getMapAsync((OnMapReadyCallback) MainActivity.this);
-
-                        if (locationIndex < locationList.size() - 2) {
-                            locationIndex++;
-                            getMapDirection(locationIndex, locationIndex + 1);
-                        } else if (locationIndex == locationList.size() - 2) {
-                            locationIndex++;
-                            getMapDirection(locationIndex, 0);
-                        }
+                    }
+                    if (locationIndex < locationList.size() - 2) {
+                        locationIndex++;
+                        getMapDirection(locationIndex, locationIndex + 1);
+                    } else if (locationIndex == locationList.size() - 2) {
+                        locationIndex++;
+                        getMapDirection(locationIndex, 0);
                     }
                 }
             }
