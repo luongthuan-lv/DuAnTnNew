@@ -82,7 +82,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
         setAdapter();
         setRecycleView();
-        setFeedBack();
         getRetrofit();
     }
 
@@ -142,6 +141,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             }
         });
         feedbackList = new ArrayList<>();
+        feedbackAdapter = new FeedbackAdapter(feedbackList, this);
     }
 
     private void setRecycleView() {
@@ -153,10 +153,12 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         rv2 = findViewById(R.id.rv2);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         rv2.setLayoutManager(linearLayoutManager2);
+        rv2.setAdapter(feedbackAdapter);
     }
 
     private void setFeedBack() {
         feedbackAdapter = new FeedbackAdapter(feedbackList, this);
+        feedbackAdapter.isShimmer = false;
         rv2.setAdapter(feedbackAdapter);
     }
 
@@ -185,6 +187,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
                 if (response.body().size() > 0) {
                     feedbackList.addAll(response.body());
+                    feedbackAdapter.isShimmer=false;
                     feedbackAdapter.notifyDataSetChanged();
                 }
             }
