@@ -71,6 +71,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private ImageView img_change_language;
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
+    private long backPressedTime;
 
 
     @Override
@@ -462,7 +463,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finishAffinity();
+
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finishAffinity();
+            return;
+        } else {
+            showToast(getResources().getString(R.string.toast_backpress));
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 }

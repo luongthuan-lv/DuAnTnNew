@@ -588,7 +588,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
         float results[] = new float[10];
         Location.distanceBetween(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLat()), Double.parseDouble(locationList.get(mLocationIndex).getLocation().getLon()), results);
-        if (results[0] < 500 && locationList.get(mLocationIndex).isVisited() == false) {
+        if (results[0] < 100 && locationList.get(mLocationIndex).isVisited() == false) {
             if (viewPager2.getVisibility() == View.GONE) {
                 viewPager2.setVisibility(View.VISIBLE);
             }
@@ -609,7 +609,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             locationList.get(mLocationIndex).setVisited(true);
         }
         if (enableDialog == false && mLocationIndex == locationList.size() - 1) {
-            if (results[0] > 1000 && locationList.get(mLocationIndex).isVisited() == true) {
+            if (results[0] > 500 && locationList.get(mLocationIndex).isVisited() == true) {
                 createDialogRating();
                 enableDialog = true;
             }

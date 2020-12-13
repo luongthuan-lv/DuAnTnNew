@@ -39,7 +39,6 @@ public class BaseActivity extends AppCompatActivity {
     private Dialog mProgressDialog;
     private AccountDAO accountDAO;
     private Account account;
-    private String currentDate;
 
     public String getCurrentDate() {
         return DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(Calendar.getInstance().getTime());
