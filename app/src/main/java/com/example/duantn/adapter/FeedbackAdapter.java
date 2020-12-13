@@ -27,13 +27,15 @@ import java.util.List;
 public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHolder> {
     private List<Feedback> feedbackList;
     private Context context;
+    private boolean seeMore;
 
     public boolean isShimmer = true;
     int shimmerNumber = 5;
 
-    public FeedbackAdapter(List<Feedback> feedbackList, Context context) {
+    public FeedbackAdapter(List<Feedback> feedbackList, Context context,boolean seeMore) {
         this.feedbackList = feedbackList;
         this.context = context;
+        this.seeMore = seeMore;
     }
 
     @NonNull
@@ -68,10 +70,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
             holder.shimmerFrameLayout.stopShimmer();
             holder.shimmerFrameLayout.setShimmer(null);
-
         }
-
-
     }
 
     @Override
@@ -81,13 +80,12 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-
-        return isShimmer ? shimmerNumber : feedbackList.size();
+        return isShimmer ? shimmerNumber : seeMore ? feedbackList.size() : feedbackList.size() < 3 ? feedbackList.size() : 3;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tv_username,tv_date,tv_content;
+        private TextView tv_username, tv_date, tv_content;
         private ImageView imageView;
         private RatingBar ratingBar;
         private ShimmerFrameLayout shimmerFrameLayout;

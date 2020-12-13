@@ -7,10 +7,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -21,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +33,6 @@ import com.example.duantn.network.Url;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,7 +47,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
     private String tour_name, avatar, route;
     private float rating, ratingFeedback;
-    private RatingBar ratingBar1,ratingBar2;
+    private RatingBar ratingBar1, ratingBar2;
     private ImageView img_tour;
     private TextView textViewRoute;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -63,6 +59,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private EditText edtFeedBack;
     private Retrofit retrofit;
     private RetrofitService retrofitService;
+    private boolean seeMore = false;
+    private TextView tvSeeMore;
 
 
     @Override
@@ -82,7 +80,8 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
         setAdapter();
         setRecycleView();
-        getRetrofit();
+        getLocationInforList();
+        getReportList();
     }
 
     private void getIntentExtras() {
@@ -119,8 +118,9 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
         edtFeedBack = findViewById(R.id.edtFeedBack);
         findViewById(R.id.btnSendFeedback).setOnClickListener(this);
+        tvSeeMore = findViewById(R.id.tvSeeMore);
+        tvSeeMore.setOnClickListener(this);
     }
-
 
     private void setAdapter() {
         locationList = new ArrayList<>();
@@ -141,7 +141,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
             }
         });
         feedbackList = new ArrayList<>();
-        feedbackAdapter = new FeedbackAdapter(feedbackList, this);
+        feedbackAdapter = new FeedbackAdapter(feedbackList, this, seeMore);
     }
 
     private void setRecycleView() {
@@ -156,14 +156,23 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         rv2.setAdapter(feedbackAdapter);
     }
 
-    private void setFeedBack() {
-        feedbackAdapter = new FeedbackAdapter(feedbackList, this);
+    private void setReportList() {
+        if (!seeMore) {
+            tvSeeMore.setText(getResources().getString(R.string.lblSeeMore));
+        } else {
+            tvSeeMore.setText(getResources().getString(R.string.lblHideLess));
+        }
+        if (feedbackList.size() <= 3) {
+            tvSeeMore.setVisibility(View.GONE);
+        } else {
+            tvSeeMore.setVisibility(View.VISIBLE);
+        }
+        feedbackAdapter = new FeedbackAdapter(feedbackList, this, seeMore);
         feedbackAdapter.isShimmer = false;
         rv2.setAdapter(feedbackAdapter);
     }
 
-    private void getRetrofit() {
-
+    private void getLocationInforList() {
         retrofitService.getTourInfor(getIdLanguage(), getVehicleId()).enqueue(new Callback<List<TourInfor>>() {
             @Override
             public void onResponse(Call<List<TourInfor>> call, Response<List<TourInfor>> response) {
@@ -181,14 +190,15 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                 Toast.makeText(TourIntroduceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    private void getReportList() {
         retrofitService.getReport(getVehicleId()).enqueue(new Callback<List<Feedback>>() {
             @Override
             public void onResponse(Call<List<Feedback>> call, Response<List<Feedback>> response) {
                 if (response.body().size() > 0) {
-                    feedbackList.addAll(response.body());
-                    feedbackAdapter.isShimmer=false;
-                    feedbackAdapter.notifyDataSetChanged();
+                    feedbackList = response.body();
+                    setReportList();
                 }
             }
 
@@ -197,7 +207,6 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                 Toast.makeText(TourIntroduceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void postRetrofit() {
@@ -210,7 +219,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                         if (response.body().size() > 0) {
                             feedbackList = new ArrayList<>();
                             feedbackList = response.body();
-                            setFeedBack();
+                            setReportList();
                             showToast(getResources().getString(R.string.thanks));
                             edtFeedBack.setText("");
                             dismissDialog();
@@ -235,6 +244,13 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        feedbackList = new ArrayList<>();
+        getReportList();
+    }
+
+    @Override
     public void onClick(View v) {
         if (isConnected(false)) {
             switch (v.getId()) {
@@ -242,13 +258,22 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                     createAlertDialog();
                     break;
                 case R.id.btnSendFeedback:
-                    initDialogLoading();
-                    showDialogLoading();
                     ratingFeedback = ratingBar2.getRating();
                     if (ratingFeedback <= 0 || edtFeedBack.getText().toString().trim().equals("")) {
                         showToast(getResources().getString(R.string.warning_rating));
                     } else {
+                        initDialogLoading();
+                        showDialogLoading();
                         postRetrofit();
+                    }
+                    break;
+                case R.id.tvSeeMore:
+                    if (seeMore) {
+                        seeMore = false;
+                        setReportList();
+                    } else {
+                        seeMore = true;
+                        setReportList();
                     }
                     break;
             }

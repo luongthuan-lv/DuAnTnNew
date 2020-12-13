@@ -103,7 +103,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/hint_edt_comment"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/margin_15"
+                    android:textSize="@dimen/textSize_title_tour_introduce"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -112,6 +112,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_05"
                     android:orientation="vertical" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/padding_05"
+                    android:id="@+id/tvSeeMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/duru_sans_regular"
+                    android:textColor="@drawable/click_text_seemore"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"

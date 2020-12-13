@@ -21,11 +21,12 @@ import java.util.List;
 public class ShowLocationInformation extends RecyclerView.Adapter<ShowLocationInformation.ViewHolder> {
     private List<TourInfor> locationList;
     private Context context;
-   public boolean isShimmer = true;
+    public boolean isShimmer = true;
     int shimmerNumber = 3;
 
     public interface OnClickItemListener {
-        void onClicked(int position,ImageView imageView);
+        void onClicked(int position, ImageView imageView);
+
         void onSwitched(boolean isChecked);
 
     }

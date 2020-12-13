@@ -24,4 +24,5 @@
     <string name="thanks">귀하의 경험을 알려 주셔서 감사합니다.</string>
     <string name="tv_title_locationInfor">위치 정보</string>
     <string name="toast_backpress">종료하려면 뒤로를 다시 누르세요.</string>
+    <string name="lblHideLess">덜 숨기기</string>
 </resources>

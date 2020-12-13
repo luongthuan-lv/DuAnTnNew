@@ -229,8 +229,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
-//        Log.e("TAG", "1" + locationList.get(location1).getWaypoints() + "2");
-        retrofitService.getMapDirection(getLatLng(location1), getLatLng(location2), "", api_key).enqueue(new Callback<Example>() {
+        retrofitService.getMapDirection(getLatLng(location1), getLatLng(location2), locationList.get(location1).getWaypoints(), api_key).enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
 
