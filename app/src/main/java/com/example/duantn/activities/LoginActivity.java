@@ -60,8 +60,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private LoginManager loginManager;
     private Button btn_facebook;
     private Button btn_google;
-    private LocationManager locationManager;
-    private MySqliteOpenHelper mySqliteOpenHelper;
     private LanguageDAO languageDAO;
     private List<KeyLanguage> keyLanguageList;
     private KeyLanguage keyLanguage;
