@@ -55,5 +55,6 @@
     <string name="thanks">Thank you for letting us know your experience</string>
     <string name="tv_title_locationInfor">Location information</string>
     <string name="toast_backpress">Press back again to exit</string>
-    <string name="lblHideLess">Hide less</string>
+    <string name="title_tv_copyright">Copyright by IntroTeam ©</string>
+    <string name="title_tv_hotline">Hotline</string>
 </resources>

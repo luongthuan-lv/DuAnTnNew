@@ -24,5 +24,6 @@
     <string name="thanks">Merci de nous avoir fait part de votre expérience</string>
     <string name="tv_title_locationInfor">Information de Lieu</string>
     <string name="toast_backpress">Appuyez à nouveau pour quitter</string>
-    <string name="lblHideLess">Cacher moins</string>
+    <string name="title_tv_copyright">Copyright d\'IntroTeam ©</string>
+    <string name="title_tv_hotline">Hotline</string>
 </resources>

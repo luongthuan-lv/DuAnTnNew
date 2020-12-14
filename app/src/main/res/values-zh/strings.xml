@@ -24,5 +24,6 @@
     <string name="thanks">感谢您让我们知道您的经历</string>
     <string name="tv_title_locationInfor">地点信息</string>
     <string name="toast_backpress">再按一次退出</string>
-    <string name="lblHideLess">隐藏较少</string>
+    <string name="title_tv_copyright">IntroTeam的版权 ©</string>
+    <string name="title_tv_hotline">热线</string>
 </resources>

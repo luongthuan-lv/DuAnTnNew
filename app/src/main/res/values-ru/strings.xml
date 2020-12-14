@@ -24,5 +24,6 @@
     <string name="thanks">Спасибо, что поделились своим опытом</string>
     <string name="tv_title_locationInfor">Информация о местонахождении</string>
     <string name="toast_backpress">Нажмите еще раз, чтобы выйти</string>
-    <string name="lblHideLess">Скрыть меньше</string>
+    <string name="title_tv_copyright">Авторские права IntroTeam ©</string>
+    <string name="title_tv_hotline">горячая линия</string>
 </resources>

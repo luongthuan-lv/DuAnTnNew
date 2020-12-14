@@ -24,5 +24,6 @@
     <string name="thanks">あなたの経験を教えてくれてありがとう</string>
     <string name="tv_title_locationInfor">位置情報</string>
     <string name="toast_backpress">もう一度押すと終了します</string>
-    <string name="lblHideLess">非表示を少なくする</string>
+    <string name="title_tv_copyright">IntroTeamの著作権 ©</string>
+    <string name="title_tv_hotline">ホットライン</string>
 </resources>

@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,6 +71,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 0;
     private long backPressedTime;
+    private TextView tv2;
 
 
     @Override
@@ -100,6 +102,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         img_change_language.setOnClickListener(this);
         findViewById(R.id.btn_google).setOnClickListener(this);
         findViewById(R.id.btn_facebook).setOnClickListener(this);
+        tv2 = findViewById(R.id.tv2);
+        tv2.setText(getResources().getString(R.string.title_tv_hotline) + ": 096.2345.267");
 
     }
 

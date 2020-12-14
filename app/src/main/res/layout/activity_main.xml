@@ -26,9 +26,10 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
+            android:layout_marginRight="5dp"
             android:id="@+id/btn_feedback"
-            android:layout_width="@dimen/height_50"
-            android:layout_height="@dimen/height_50"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/ic_feedback"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
