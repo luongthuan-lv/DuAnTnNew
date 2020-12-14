@@ -112,7 +112,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private MainContract.IPresenter mPresenter;
     private List<TourInfor> locationList;
     private boolean enableDialog = false;
-    private ProgressDialog progressDialog;
     private BroadcastReceiver hideLoading;
 
     @Override
@@ -136,7 +135,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         hideLoading = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                progressDialog.dismiss();
+                dismissDialog();
             }
         };
         registerReceiver(hideLoading, new IntentFilter("hideLoading"));
@@ -334,7 +333,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         if (rating <= 0 || edt.getText().toString().trim().equals("")) {
             showToast(getResources().getString(R.string.warning_rating));
         } else {
-            initDialogLoading();
             showDialogLoading();
             postRetrofit(edt, rating,dialog);
         }
@@ -374,8 +372,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 slideShowInformation.notifyItemChanged(position);
                 Spanned spanned = HtmlFormatter.formatHtml(new HtmlFormatterBuilder().setHtml(locationList.get(position).getInformation()));
                 mPresenter.startSpeak(spanned.toString());
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.show();
+                showDialogLoading();
             }
 
             @Override
@@ -630,6 +627,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 slideShowInformation.notifyItemChanged(mLocationIndex);
                 Spanned spanned = HtmlFormatter.formatHtml(new HtmlFormatterBuilder().setHtml(locationList.get(mLocationIndex).getInformation()));
                 mPresenter.startSpeak(spanned.toString());
+                showDialogLoading();
             }
 
             locationList.get(mLocationIndex).setVisited(true);
