@@ -24,12 +24,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.text.Html;
+import android.text.Layout;
 import android.text.Spanned;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -485,8 +487,11 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         TextView tvContent = dialogView.findViewById(R.id.tvDialogContent);
         TextView tvTitle = dialogView.findViewById(R.id.tv_Title);
         CardView cvDialog = dialogView.findViewById(R.id.cvDialog);
-
-        tvContent.setText(Html.fromHtml(locationList.get(position).getInformation()));
+        Spanned spanned = HtmlFormatter.formatHtml(new HtmlFormatterBuilder().setHtml(locationList.get(position).getInformation()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tvContent.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        }
+        tvContent.setText(spanned);
         tvContent.setMovementMethod(new ScrollingMovementMethod());
         tvTitle.setText(locationList.get(position).getPlace());
         final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);

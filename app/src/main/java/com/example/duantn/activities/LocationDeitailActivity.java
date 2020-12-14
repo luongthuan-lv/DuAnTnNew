@@ -6,9 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.Layout;
+import android.text.Spanned;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -16,6 +19,9 @@ import com.example.duantn.R;
 import com.example.duantn.adapter.AdapterSlideDialoginformation;
 import com.example.duantn.morder.TourInfor;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import org.sufficientlysecure.htmltextview.HtmlFormatter;
+import org.sufficientlysecure.htmltextview.HtmlFormatterBuilder;
 
 import java.util.List;
 import java.util.Objects;
@@ -60,7 +66,11 @@ public class LocationDeitailActivity extends AppCompatActivity {
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(locationList.get(position).getPlace());
         tvContent = findViewById(R.id.tvContent);
-        tvContent.setText(Html.fromHtml(locationList.get(position).getInformation()));
+        Spanned spanned = HtmlFormatter.formatHtml(new HtmlFormatterBuilder().setHtml(locationList.get(position).getInformation()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tvContent.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        }
+        tvContent.setText(spanned);
     }
 
     private void setAdapter() {

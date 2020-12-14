@@ -73,6 +73,7 @@
                 app:layout_constraintVertical_bias="0.01">
 
                 <RatingBar
+                    android:rating="5"
                     android:isIndicator="true"
                     android:visibility="gone"
                     style = "?android:attr/ratingBarStyleSmall"
