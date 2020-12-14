@@ -39,6 +39,7 @@ public class CommentListActivity extends BaseActivity {
     private void setAdapter(){
         feedbackAdapter = new FeedbackAdapter(feedbackList, this,seeMore);
     }
+
     private void setViewPager(){
         rv2 = findViewById(R.id.rv2);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
