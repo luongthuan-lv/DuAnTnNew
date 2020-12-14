@@ -49,7 +49,7 @@ public class MainPresenter implements MainContract.IPresenter, VoiceList.IVoiceL
     public void onCreate() {
         mSpeechManager = new SpeechManager();
 
-        mGoogleCloudTTSAdapter = new GoogleCloudTTSAdapter(mApiConfig);
+        mGoogleCloudTTSAdapter = new GoogleCloudTTSAdapter(mApiConfig,mView.getContext());
         mGoogleCloudTTSAdapter.addVoiceListener(this);
         loadGoogleCloudTTS();
 

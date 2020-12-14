@@ -26,6 +26,7 @@
     <string name="data" translatable="false">data</string>
     <string name="transitionName1" translatable="false">transition1</string>
     <string name="transitionName2" translatable="false">transition2</string>
+    <string name="transitionName3" translatable="false">transition3</string>
     <string name="facebook_app_id" translatable="false">383267972718761</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb383267972718761</string>
 

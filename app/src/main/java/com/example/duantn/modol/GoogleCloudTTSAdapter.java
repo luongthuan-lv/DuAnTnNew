@@ -1,6 +1,8 @@
 package com.example.duantn.modol;
 
 
+import android.content.Context;
+
 import com.example.duantn.googlecloudtts.GoogleCloudAPIConfig;
 import com.example.duantn.googlecloudtts.GoogleCloudTTS;
 
@@ -16,8 +18,8 @@ import java.util.List;
 public class GoogleCloudTTSAdapter extends GoogleCloudTTS implements ISpeech, GoogleCloudTTS.ISpeakListener {
     private List<ISpeechListener> mSpeechListeners = new ArrayList<>();
 
-    public GoogleCloudTTSAdapter(GoogleCloudAPIConfig apiConfig) {
-        super(apiConfig);
+    public GoogleCloudTTSAdapter(GoogleCloudAPIConfig apiConfig, Context context) {
+        super(context,apiConfig);
         addSpeakListener(this);
     }
 

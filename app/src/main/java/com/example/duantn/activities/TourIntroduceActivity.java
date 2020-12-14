@@ -54,13 +54,13 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     private ShowLocationInformation showLocationInformation;
     private RecyclerView rv1, rv2;
     public static List<TourInfor> locationList;
-    private List<Feedback> feedbackList;
+    public static List<Feedback> feedbackList;
     private FeedbackAdapter feedbackAdapter;
     private EditText edtFeedBack;
     private Retrofit retrofit;
     private RetrofitService retrofitService;
     private boolean seeMore = false;
-    private TextView tvSeeMore;
+    private TextView tvSeeMore, tv_title_cmt;
 
 
     @Override
@@ -120,6 +120,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         findViewById(R.id.btnSendFeedback).setOnClickListener(this);
         tvSeeMore = findViewById(R.id.tvSeeMore);
         tvSeeMore.setOnClickListener(this);
+        tv_title_cmt = findViewById(R.id.tv_title_cmt);
     }
 
     private void setAdapter() {
@@ -157,12 +158,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
     }
 
     private void setReportList() {
-        if (!seeMore) {
-            tvSeeMore.setText(getResources().getString(R.string.lblSeeMore));
-        } else {
-            tvSeeMore.setText(getResources().getString(R.string.lblHideLess));
-        }
-        if (feedbackList.size() <= 3) {
+        if (feedbackList.size() <= 5) {
             tvSeeMore.setVisibility(View.GONE);
         } else {
             tvSeeMore.setVisibility(View.VISIBLE);
@@ -268,13 +264,9 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
                     }
                     break;
                 case R.id.tvSeeMore:
-                    if (seeMore) {
-                        seeMore = false;
-                        setReportList();
-                    } else {
-                        seeMore = true;
-                        setReportList();
-                    }
+                    Intent intent = new Intent(TourIntroduceActivity.this, CommentListActivity.class);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(TourIntroduceActivity.this, tv_title_cmt, ViewCompat.getTransitionName(tv_title_cmt));
+                    startActivity(intent,options.toBundle());
                     break;
             }
         } else {

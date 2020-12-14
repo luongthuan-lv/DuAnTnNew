@@ -1,6 +1,8 @@
 package com.example.duantn.adapter;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,9 @@ import com.example.duantn.morder.TourInfor;
 import com.example.duantn.network.Url;
 import com.example.duantn.view.CustomImageButton;
 import com.google.android.material.imageview.ShapeableImageView;
+
+import org.sufficientlysecure.htmltextview.HtmlFormatter;
+import org.sufficientlysecure.htmltextview.HtmlFormatterBuilder;
 
 import java.util.List;
 
@@ -49,7 +54,8 @@ public class AdapterSlideShowInformation extends RecyclerView.Adapter<AdapterSli
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSlideShowInformation.ViewHolder holder, final int position) {
-        holder.tvInformation.setText(locationList.get(position).getInformation());
+        Spanned spanned = HtmlFormatter.formatHtml(new HtmlFormatterBuilder().setHtml(locationList.get(position).getInformation()));
+        holder.tvInformation.setText(spanned);
         holder.tvTitle.setText(locationList.get(position).getPlace());
         Glide.with(context).load(Url.urlImage+locationList.get(position).getAvatar().get(0)).into(holder.imgFirstly);
 

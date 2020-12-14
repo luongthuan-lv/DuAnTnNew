@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -59,7 +60,7 @@ public class LocationDeitailActivity extends AppCompatActivity {
         collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(locationList.get(position).getPlace());
         tvContent = findViewById(R.id.tvContent);
-        tvContent.setText(locationList.get(position).getInformation());
+        tvContent.setText(Html.fromHtml(locationList.get(position).getInformation()));
     }
 
     private void setAdapter() {

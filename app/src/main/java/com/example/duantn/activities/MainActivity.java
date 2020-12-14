@@ -11,9 +11,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -26,6 +29,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,6 +68,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.sufficientlysecure.htmltextview.HtmlFormatter;
+import org.sufficientlysecure.htmltextview.HtmlFormatterBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +110,8 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private MainContract.IPresenter mPresenter;
     private List<TourInfor> locationList;
     private boolean enableDialog = false;
+    private ProgressDialog progressDialog;
+    private BroadcastReceiver hideLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +131,13 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         setAdapter();
         setViewPager();
         getRetrofit();
+        hideLoading = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                progressDialog.dismiss();
+            }
+        };
+        registerReceiver(hideLoading, new IntentFilter("hideLoading"));
 
     }
 
@@ -353,7 +370,10 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             public void onClickEnableAudio(int position) {
                 locationList.get(position).setAudio(true);
                 slideShowInformation.notifyItemChanged(position);
-                mPresenter.startSpeak(locationList.get(position).getInformation());
+                Spanned spanned = HtmlFormatter.formatHtml(new HtmlFormatterBuilder().setHtml(locationList.get(position).getInformation()));
+                mPresenter.startSpeak(spanned.toString());
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.show();
             }
 
             @Override
@@ -466,7 +486,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         TextView tvTitle = dialogView.findViewById(R.id.tv_Title);
         CardView cvDialog = dialogView.findViewById(R.id.cvDialog);
 
-        tvContent.setText(locationList.get(position).getInformation());
+        tvContent.setText(Html.fromHtml(locationList.get(position).getInformation()));
         tvContent.setMovementMethod(new ScrollingMovementMethod());
         tvTitle.setText(locationList.get(position).getPlace());
         final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);
@@ -603,7 +623,8 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                 }
                 locationList.get(mLocationIndex).setAudio(true);
                 slideShowInformation.notifyItemChanged(mLocationIndex);
-                mPresenter.startSpeak(locationList.get(mLocationIndex).getInformation());
+                Spanned spanned = HtmlFormatter.formatHtml(new HtmlFormatterBuilder().setHtml(locationList.get(mLocationIndex).getInformation()));
+                mPresenter.startSpeak(spanned.toString());
             }
 
             locationList.get(mLocationIndex).setVisited(true);
@@ -643,6 +664,14 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
     private void stopLocationUpdate() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (hideLoading != null) {
+            unregisterReceiver(hideLoading);
+        }
     }
 
     @Override

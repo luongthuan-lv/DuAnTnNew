@@ -65,11 +65,11 @@
                 android:paddingHorizontal="@dimen/margin_10dp">
 
                 <RatingBar
-                    android:isIndicator="true"
-                    android:numStars="5"
                     android:id="@+id/ratingBar1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -97,6 +97,7 @@
                     android:orientation="vertical" />
 
                 <TextView
+                    android:id="@+id/tv_title_cmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_10dp"
@@ -104,7 +105,8 @@
                     android:text="@string/hint_edt_comment"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/textSize_title_tour_introduce"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:transitionName="@string/transitionName3" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv2"
@@ -114,14 +116,15 @@
                     android:orientation="vertical" />
 
                 <TextView
-                    android:textStyle="bold"
-                    android:layout_marginTop="@dimen/padding_05"
                     android:id="@+id/tvSeeMore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_05"
                     android:fontFamily="@font/duru_sans_regular"
+                    android:text="@string/lblSeeMore"
                     android:textColor="@drawable/click_text_seemore"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,11 +136,11 @@
                     android:textSize="@dimen/textSize_title_tour_introduce" />
 
                 <RatingBar
-                    android:stepSize="0.5"
-                    android:numStars="5"
                     android:id="@+id/ratingBar2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="0.5" />
 
                 <EditText
                     android:id="@+id/edtFeedBack"

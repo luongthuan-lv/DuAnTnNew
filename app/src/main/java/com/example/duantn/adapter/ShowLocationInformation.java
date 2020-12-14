@@ -1,6 +1,7 @@
 package com.example.duantn.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class ShowLocationInformation extends RecyclerView.Adapter<ShowLocationIn
             holder.imageView.setBackground(null);
 
             holder.tvContent.setBackground(null);
-            holder.tvContent.setText(locationList.get(position).getInformation());
+            holder.tvContent.setText(Html.fromHtml(locationList.get(position).getInformation()));
 
             holder.tv_Title.setText((position + 1) + ". " + locationList.get(position).getPlace());
             holder.tv_Title.setBackground(null);

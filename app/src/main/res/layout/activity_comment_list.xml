@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activities.CommentListActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:transitionName="@string/transitionName3"
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#176ecb"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
+
+        <androidx.appcompat.widget.Toolbar
+            app:title="@string/hint_edt_comment"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:contentInsetStart="@dimen/none_width_height"
+            app:contentInsetStartWithNavigation="@dimen/none_width_height"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/Theme.AppCompat" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_05"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/margin_10dp" />
+
+</LinearLayout>

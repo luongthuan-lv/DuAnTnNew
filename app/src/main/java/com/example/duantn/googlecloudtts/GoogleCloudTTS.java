@@ -1,5 +1,7 @@
 package com.example.duantn.googlecloudtts;
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.util.Log;
 
@@ -40,8 +42,10 @@ public class GoogleCloudTTS {
     private MediaPlayer mMediaPlayer;
 
     private int mVoiceLength = -1;
+    private Context mContext;
 
-    public GoogleCloudTTS(GoogleCloudAPIConfig apiConfig) {
+    public GoogleCloudTTS(Context context,GoogleCloudAPIConfig apiConfig) {
+        mContext = context;
         mApiConfig = apiConfig;
         mVoiceList = new VoiceList(mApiConfig);
     }
@@ -106,6 +110,8 @@ public class GoogleCloudTTS {
                             JsonObject jsonObject = jsonElement.getAsJsonObject();
 
                             if (jsonObject != null) {
+                                Intent intent = new Intent("hideLoading");
+                                mContext.sendBroadcast(intent);
                                 String json = jsonObject.get("audioContent").toString();
                                 json = json.replace("\"", "");
                                 playAudio(json);

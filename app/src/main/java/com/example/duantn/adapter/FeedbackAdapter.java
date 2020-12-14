@@ -80,7 +80,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return isShimmer ? shimmerNumber : seeMore ? feedbackList.size() : feedbackList.size() < 3 ? feedbackList.size() : 3;
+        return isShimmer ? shimmerNumber : seeMore ? feedbackList.size() : feedbackList.size() <= 5 ? feedbackList.size() : 5;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -5,15 +5,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -52,6 +51,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
     private long backPressedTime;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         initView();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-        tourList = new ArrayList<>();
         setAdapter();
         setViewPager2();
         getRetrofit();
@@ -76,6 +75,17 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         searchView.getLayoutParams().width = getSizeWithScale(245);
         searchView.getLayoutParams().height = getSizeWithScale(40);
         searchView.setOnQueryTextListener(this);
+        viewPager2 = findViewById(R.id.viewPager2);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setAdapter();
+                setViewPager2();
+                getRetrofit();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void getRetrofit() {
@@ -105,6 +115,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void setAdapter() {
+        tourList = new ArrayList<>();
         tourAdapter = new TourAdapter(tourList, this, new TourAdapter.OnClickItemListener() {
             @Override
             public void onClicked(int position, ShapeableImageView img_tour) {
@@ -130,7 +141,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void setViewPager2() {
-        viewPager2 = findViewById(R.id.viewPager2);
         viewPager2.setAdapter(tourAdapter);
         viewPager2.setClipToPadding(false);
         viewPager2.setClipChildren(false);
