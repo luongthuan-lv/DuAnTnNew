@@ -3,6 +3,7 @@ package com.example.duantn.morder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
 public class Feedback {
     @SerializedName("avatar")
     @Expose
@@ -60,4 +61,5 @@ public class Feedback {
     public void setReport(String report) {
         this.report = report;
     }
+
 }

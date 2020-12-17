@@ -104,7 +104,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.btn_facebook).setOnClickListener(this);
         tv2 = findViewById(R.id.tv2);
         tv2.setText(getResources().getString(R.string.title_tv_hotline) + ": 0866.654.199");
-
+        checkNN();
+        createAlertDialog();
     }
 
     private void setNgonngu() {
