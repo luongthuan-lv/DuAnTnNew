@@ -103,7 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.btn_google).setOnClickListener(this);
         findViewById(R.id.btn_facebook).setOnClickListener(this);
         tv2 = findViewById(R.id.tv2);
-        tv2.setText(getResources().getString(R.string.title_tv_hotline) + ": 096.2345.267");
+        tv2.setText(getResources().getString(R.string.title_tv_hotline) + ": 0866.654.199");
 
     }
 
@@ -375,7 +375,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.btn_google:
                 if (isConnected(false)) {
-                    initDialogLoading();
                     showDialogLoading();
                     signInGoogle();
                 } else {
@@ -384,7 +383,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.btn_facebook:
                 if (isConnected(false)) {
-                    initDialogLoading();
                     showDialogLoading();
                     printHashKey();
                     loginWithFacebook();
