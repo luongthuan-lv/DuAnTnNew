@@ -104,8 +104,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.btn_facebook).setOnClickListener(this);
         tv2 = findViewById(R.id.tv2);
         tv2.setText(getResources().getString(R.string.title_tv_hotline) + ": 0866.654.199");
-        checkNN();
-        createAlertDialog();
     }
 
     private void setNgonngu() {
@@ -159,7 +157,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         adapterLanguage = new AdapterLanguage(this, selectLanguageArrayList, position_selected_language, new AdapterLanguage.OnClickItemListener() {
             @Override
             public void onClicked(int position) {
-                clickLanguageItem(position, dialog);
+                clickLanguageItem(position);
+                dialog.dismiss();
             }
 
             @Override
@@ -172,43 +171,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         rvLanguage.setAdapter(adapterLanguage);
     }
 
-    private void clickLanguageItem(int position, AlertDialog dialog) {
+    private void clickLanguageItem(int position) {
         switch (position) {
             case 0:
                 changeLanguage("vi");
-                dialog.dismiss();
                 break;
             case 1:
                 changeLanguage("ja");
-                dialog.dismiss();
                 break;
             case 2:
                 changeLanguage("");
-                dialog.dismiss();
                 break;
             case 3:
                 changeLanguage("zh");
-                dialog.dismiss();
                 break;
             case 4:
                 changeLanguage("ko");
-                dialog.dismiss();
                 break;
             case 5:
                 changeLanguage("fr");
-                dialog.dismiss();
                 break;
             case 6:
                 changeLanguage("de");
-                dialog.dismiss();
                 break;
             case 7:
                 changeLanguage("in");
-                dialog.dismiss();
                 break;
             case 8:
                 changeLanguage("ru");
-                dialog.dismiss();
                 break;
         }
 
@@ -473,5 +463,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             showToast(getResources().getString(R.string.toast_backpress));
         }
         backPressedTime = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 }
