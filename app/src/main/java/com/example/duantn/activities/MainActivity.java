@@ -2,6 +2,7 @@ package com.example.duantn.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -36,6 +38,7 @@ import android.text.Spanned;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -70,12 +73,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.sufficientlysecure.htmltextview.HtmlFormatter;
 import org.sufficientlysecure.htmltextview.HtmlFormatterBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -119,7 +124,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initDialogLoading();
-        showDialogLoading();
+//        showDialogLoading();
         getIntentExtras();
         initView();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -334,7 +339,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             showToast(getResources().getString(R.string.warning_rating));
         } else {
             showDialogLoading();
-            postRetrofit(edt, rating,dialog);
+            postRetrofit(edt, rating, dialog);
         }
 
     }
@@ -455,7 +460,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     }
 
 
-    private void postRetrofit(EditText edtFeedBack, float rating,AlertDialog dialog) {
+    private void postRetrofit(EditText edtFeedBack, float rating, AlertDialog dialog) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://tourintro.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -482,15 +487,14 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         ViewGroup viewGroup = findViewById(android.R.id.content);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_show_information, viewGroup, false);
         TextView tvContent = dialogView.findViewById(R.id.tvDialogContent);
-        TextView tvTitle = dialogView.findViewById(R.id.tv_Title);
+        CollapsingToolbarLayout collapsingToolbarLayout = dialogView.findViewById(R.id.collapsingToolbarLayout);
         CardView cvDialog = dialogView.findViewById(R.id.cvDialog);
+        collapsingToolbarLayout.setTitle(locationList.get(position).getPlace());
         Spanned spanned = HtmlFormatter.formatHtml(new HtmlFormatterBuilder().setHtml(locationList.get(position).getInformation()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tvContent.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
         }
         tvContent.setText(spanned);
-        tvContent.setMovementMethod(new ScrollingMovementMethod());
-        tvTitle.setText(locationList.get(position).getPlace());
         final ViewPager2 viewPager = dialogView.findViewById(R.id.viewPager);
         AdapterSlideDialoginformation adapterSlideDialoginformation = new AdapterSlideDialoginformation(locationList.get(position).getAvatar(), this);
         viewPager.setAdapter(adapterSlideDialoginformation);
@@ -756,5 +760,4 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             showDialogNoInternet();
         }
     }
-
 }

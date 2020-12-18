@@ -12,7 +12,7 @@
     <dimen name="none_width_height">0dp</dimen>
     <dimen name="radius_rating">10dp</dimen>
     <dimen name="mbCvInformation">15dp</dimen>
-    <dimen name="paddingHViewPager">60dp</dimen>
+    <dimen name="paddingHViewPager">50dp</dimen>
     <dimen name="textSize_label_btl_login">14sp</dimen>
     <dimen name="textSize_title_rating">17sp</dimen>
     <dimen name="paddingH_title_rating">30dp</dimen>
