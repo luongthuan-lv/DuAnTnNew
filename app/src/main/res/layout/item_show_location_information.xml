@@ -51,7 +51,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:fontFamily="@font/fs_nokio_medium"
+                android:fontFamily="@font/lora"
                 android:id="@+id/tvInformation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

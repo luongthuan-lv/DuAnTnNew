@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_05"
-                    android:fontFamily="@font/fs_nokio_medium"
+                    android:fontFamily="@font/lora"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/ts_16" />
 

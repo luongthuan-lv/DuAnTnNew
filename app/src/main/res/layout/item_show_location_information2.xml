@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10dp"
             android:ellipsize="end"
-            android:fontFamily="@font/fs_nokio_medium"
+            android:fontFamily="@font/lora"
             android:maxLines="6"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/textSize_content_tour_introduce" />

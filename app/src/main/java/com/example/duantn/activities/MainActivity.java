@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
             @Override
             public void onFailure(Call<List<TourInfor>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                getRetrofit();
             }
         });
 
@@ -633,7 +633,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
             locationList.get(mLocationIndex).setVisited(true);
         }
         if (enableDialog == false && mLocationIndex == locationList.size() - 1) {
-            if (results[0] > 500 && locationList.get(mLocationIndex).isVisited() == true) {
+            if (results[0] > 200 && locationList.get(mLocationIndex).isVisited() == true) {
                 createDialogRating();
                 enableDialog = true;
             }

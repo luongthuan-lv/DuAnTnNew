@@ -98,12 +98,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         btn_google.setText(getResources().getString(R.string.label_btn_sign_in_with_google));
         btn_facebook.setText(getResources().getString(R.string.label_btn_login_in_with_Facebook));
 
-
         img_change_language.setOnClickListener(this);
         findViewById(R.id.btn_google).setOnClickListener(this);
         findViewById(R.id.btn_facebook).setOnClickListener(this);
         tv2 = findViewById(R.id.tv2);
         tv2.setText(getResources().getString(R.string.title_tv_hotline) + ": 0866.654.199");
+
     }
 
     private void setNgonngu() {

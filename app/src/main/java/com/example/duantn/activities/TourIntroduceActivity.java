@@ -183,7 +183,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<List<TourInfor>> call, Throwable t) {
-                Toast.makeText(TourIntroduceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                getLocationInforList();
             }
         });
     }
@@ -200,7 +200,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<List<Feedback>> call, Throwable t) {
-                Toast.makeText(TourIntroduceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                getReportList();
             }
         });
     }

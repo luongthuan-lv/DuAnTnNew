@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -52,6 +53,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
     private static final int REQUEST_CODE = 101;
     private long backPressedTime;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean hasData = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,6 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         setAdapter();
         setViewPager2();
         getRetrofit();
-
 
     }
 
@@ -80,9 +81,11 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                setAdapter();
-                setViewPager2();
-                getRetrofit();
+                if(hasData){
+                    setAdapter();
+                    setViewPager2();
+                    getRetrofit();
+                }
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -103,12 +106,13 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
                     tourList2 = new ArrayList<>(tourList);
                     tourAdapter.isShimmer = false;
                     tourAdapter.notifyDataSetChanged();
+                    hasData = true;
                 }
             }
 
             @Override
             public void onFailure(Call<List<Tour>> call, Throwable t) {
-                Toast.makeText(TourListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                getRetrofit();
             }
         });
 

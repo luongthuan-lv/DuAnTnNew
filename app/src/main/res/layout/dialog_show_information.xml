@@ -48,7 +48,7 @@
             <TextView
                 android:lineSpacingExtra="@dimen/margin_10dp"
                 android:textSize="@dimen/ts_16"
-                android:fontFamily="@font/fs_nokio_medium"
+                android:fontFamily="@font/lora"
                 android:id="@+id/tvDialogContent"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/none_width_height"
