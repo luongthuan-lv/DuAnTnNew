@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initDialogLoading();
-//        showDialogLoading();
+        showDialogLoading();
         getIntentExtras();
         initView();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
