@@ -44,6 +44,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -119,6 +120,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private List<TourInfor> locationList;
     private boolean enableDialog = false;
     private BroadcastReceiver hideLoading;
+    private ImageView imgPre,imgFeedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,9 +151,11 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     }
 
     private void initView() {
-        findViewById(R.id.btn_feedback).setOnClickListener(this);
         addColor();
-        findViewById(R.id.btnPre).setOnClickListener(MainActivity.this::onClick);
+        imgPre = findViewById(R.id.btnPre);
+        imgFeedback = findViewById(R.id.btn_feedback);
+        imgPre.setOnClickListener(this);
+        imgFeedback.setOnClickListener(this);
     }
 
     @Override
@@ -179,6 +183,17 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                     viewPager2.setVisibility(View.GONE);
                 } else {
                     viewPager2.setVisibility(View.VISIBLE);
+                }
+                if (imgPre.getVisibility() == View.VISIBLE) {
+                    imgPre.setVisibility(View.GONE);
+                } else {
+                    imgPre.setVisibility(View.VISIBLE);
+                }
+
+                if (imgFeedback.getVisibility() == View.VISIBLE) {
+                    imgFeedback.setVisibility(View.GONE);
+                } else {
+                    imgFeedback.setVisibility(View.VISIBLE);
                 }
             }
         });
