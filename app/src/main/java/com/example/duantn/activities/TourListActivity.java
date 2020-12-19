@@ -27,6 +27,7 @@ import com.example.duantn.R;
 import com.example.duantn.adapter.TourAdapter;
 import com.example.duantn.morder.Tour;
 import com.example.duantn.network.RetrofitService;
+import com.example.duantn.network.Url;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -93,7 +94,7 @@ public class TourListActivity extends BaseActivity implements View.OnClickListen
 
     private void getRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://tourintro.herokuapp.com/")
+                .baseUrl(Url.server)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);

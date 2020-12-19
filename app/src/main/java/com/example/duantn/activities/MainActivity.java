@@ -59,6 +59,7 @@ import com.example.duantn.adapter.AdapterSlideDialoginformation;
 import com.example.duantn.adapter.AdapterSlideShowInformation;
 import com.example.duantn.api_map_direction.Example;
 import com.example.duantn.morder.Colors;
+import com.example.duantn.network.Url;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -213,7 +214,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
     private void getRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://tourintro.herokuapp.com/")
+                .baseUrl(Url.server)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);
@@ -462,7 +463,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
     private void postRetrofit(EditText edtFeedBack, float rating, AlertDialog dialog) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://tourintro.herokuapp.com/")
+                .baseUrl(Url.server)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitService retrofitService = retrofit.create(RetrofitService.class);

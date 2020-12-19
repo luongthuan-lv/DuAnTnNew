@@ -73,7 +73,7 @@ public class TourIntroduceActivity extends BaseActivity implements View.OnClickL
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://tourintro.herokuapp.com/")
+                .baseUrl(Url.server)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitService = retrofit.create(RetrofitService.class);
