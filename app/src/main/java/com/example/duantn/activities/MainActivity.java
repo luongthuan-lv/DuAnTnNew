@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
     private List<TourInfor> locationList;
     private boolean enableDialog = false;
     private BroadcastReceiver hideLoading;
-    private ImageView imgPre,imgFeedback;
+    private ImageView imgPre, imgFeedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,7 +199,6 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
         googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-                dismissDialog();
             }
         });
         // onClickButtonMyLocation
@@ -291,6 +290,7 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
                     } else if (locationIndex == locationList.size() - 2) {
                         locationIndex++;
                         getMapDirection(locationIndex, 0);
+                        dismissDialog();
                     }
                 }
             }
@@ -689,6 +689,9 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
     @Override
     protected void onDestroy() {
+        if (enableAudio) {
+            mPresenter.stopSpeak();
+        }
         super.onDestroy();
         if (hideLoading != null) {
             unregisterReceiver(hideLoading);
@@ -697,11 +700,11 @@ public class MainActivity extends BaseActivity implements MainContract.IView, Vi
 
     @Override
     protected void onStop() {
-        super.onStop();
         stopLocationUpdate();
         if (enableAudio) {
             mPresenter.pauseSpeak();
         }
+        super.onStop();
     }
 
     @Override
