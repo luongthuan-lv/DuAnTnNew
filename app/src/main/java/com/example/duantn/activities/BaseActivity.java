@@ -247,6 +247,7 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                finish();
             }
         });
         dialog.show();

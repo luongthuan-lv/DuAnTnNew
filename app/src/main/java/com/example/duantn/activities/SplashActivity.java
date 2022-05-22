@@ -43,16 +43,16 @@ public class SplashActivity extends BaseActivity {
         user_id = accountList.get(0).getId();
         name = accountList.get(0).getName();
         if (isConnected(false)) {
-            if (accountList.get(0).getId().equals("")) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        nextActivity(LoginActivity.class);
-                        finish();
-                    }
-                }, 2000);
-            } else {
+//            if (accountList.get(0).getId().equals("")) {
+//                Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        nextActivity(LoginActivity.class);
+//                        finish();
+//                    }
+//                }, 2000);
+//            } else {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -65,7 +65,7 @@ public class SplashActivity extends BaseActivity {
                         finish();
                     }
                 }, 2000);
-            }
+            //}
         } else {
             showDialogNoInternet();
         }
